@@ -1,0 +1,22 @@
+.DS_Store
+Thumbs.db
+
+# agent 工作目录，不进知识库版本历史
+.workbuddy/
+
+# 观察者/编辑器本地状态
+.obsidian/workspace*.json
+.obsidian/cache
+.vscode/
+.idea/
+
+# 大文件不入版本库（文件本身保留在磁盘上）
+raw/files/**/*.zip
+raw/files/**/*.mp4
+raw/files/**/*.dmg
+raw/files/**/*.pcap
+
+# 临时文件
+*.tmp
+*.swp
+*~
