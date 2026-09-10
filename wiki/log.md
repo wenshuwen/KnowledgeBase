@@ -22,3 +22,15 @@
 索引已同步；标签体系新增 `knowledge-management`。
 脱敏检查：无需脱敏（内容不涉及项目名、域名、业务数据、凭据）。
 产出：本库首批页面，规模 0 → 4 页。
+
+## [2026-09-10] schema | 面试助手渲染契约 v0.2
+新增第 8 节：`publish` + `interview{cat,kind,level,q}` 字段、cat 十二类枚举、kind 与站点渲染组件映射、面试内容目录归属规则（8.5）。
+新增视图标签 `interview`；6 个模板追加两个字段；新建 `meta/templates/interview-block.md`。
+新增目录 `raw/interview/`（每日抓取流水）、`raw/legacy/`（旧库原料）、`wiki/75-面试助手/`（索引与专题）。
+
+## [2026-09-10] ingest | 旧库原料导入 + 面试助手入口页
+旧 Obsidian 库（`~/WorkBuddy/知识库/`）导入 `raw/legacy/`：67 篇，1.4M，含 Linux 11 篇、AI 与测试 9 篇、安全测试 8 篇、工具 7 篇、数据库 5 篇、测试理论 5 篇、知识地图 2 篇。
+排除项：`.obsidian/`、`.workbuddy/`、`copilot/skills/`（插件技能非知识）、vault 元文件（首页/README/总目录/流水账）。
+新建 [[面试助手题库索引]] 作为站点入口页。
+脱敏检查：旧库内容为通用技术知识，未发现项目名与凭据。
+规模 4 → 5 页。

@@ -8,6 +8,13 @@ sources: [raw/clippings/{{文件名}}.md]
 tags: []
 confidence: medium
 status: active
+
+publish: true                        # false 则不进站点构建（过滤只在构建脚本里做）
+interview:                           # 整块缺失 = 该页不上站；填写则进面试助手
+  cat: {{分类，见 WIKI-SCHEMA 8.2}}
+  kind: {{question|knowledge|skill|pitfall}}
+  level: {{初级|中级|高级}}
+  q: {{仅 kind=question 需要，题干}}
 ---
 
 # 精读：{{标题}}

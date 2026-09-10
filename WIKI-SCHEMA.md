@@ -3,7 +3,7 @@
 > 本文件是知识库的**唯一规范来源（Schema 层）**。任何 agent 在读写本知识库前必须先读它。
 > 本文件由「人 + LLM」共同演进：结构变了就改这里，不要在各处零散地打补丁。
 >
-> 最后更新：2026-09-10 ｜ 版本：v0.1
+> 最后更新：2026-09-10 ｜ 版本：v0.2
 
 ---
 
@@ -37,6 +37,8 @@ KnowledgeBase/
 │   ├── notes/                # 用户手写 / 口述要点原始记录
 │   ├── files/                # docx、pdf、日志、报告等原始文件
 │   ├── clippings/            # 网页剪藏（markdown）
+│   ├── interview/            # 每日抓取的面试素材流水（自动写入，见第 9 节）
+│   ├── legacy/               # 旧 Obsidian 库导入（67 篇，逐批编译进 wiki）
 │   └── assets/               # 图片等附件（图片一律落盘，不留外链）
 ├── wiki/                     # wiki 层（LLM 维护）
 │   ├── index.md              # 总目录：分层索引入口
@@ -49,6 +51,7 @@ KnowledgeBase/
 │   ├── 50-AI测试/
 │   ├── 60-环境与工具/
 │   ├── 70-项目复盘/          # 长文页，并从中抽出实体页
+│   ├── 75-面试助手/          # 面试助手索引页与专题页（见第 9 节）
 │   ├── 80-技术选型/          # 决策记录（为什么选 A 不选 B）
 │   └── 90-实体/              # 工具 / 框架 / 概念 / 人物实体页
 └── meta/
@@ -125,6 +128,9 @@ status: active                       # active | draft | superseded
 ### 元标签
 `knowledge-management`（关于知识库自身建设、方法论、规范的内容）
 
+### 视图标签
+`interview`（进入面试助手站点渲染的内容，见第 9 节）
+
 ### 技术栈标签
 `python` `playwright` `jmeter` `locust` `pytest` `allure` `jenkins` `docker` `k8s` `sql` `linux` `git` `ci-cd`
 
@@ -197,7 +203,50 @@ status: active                       # active | draft | superseded
 
 ---
 
-## 8. 演进约定
+## 8. 面试助手渲染契约（站点数据源）
+
+面试助手站点位于 `~/WorkBuddy/2026-09-02-22-53-01/interview-assistant/`，它**直接读 wiki 页面的 frontmatter 渲染**。
+因此 frontmatter 在这里是**契约而不是注释**——改字段等于改站点，必须走 schema 变更流程。
+
+### 8.1 新增字段
+
+```yaml
+publish: true                       # 是否进站点构建。默认 true；false 则构建期丢弃
+interview:                          # 面试视图元数据（可选）。整块缺失 = 该页不上站
+  cat: performance-testing          # 站点分类，取值见 8.2
+  kind: question                    # question | knowledge | skill | pitfall
+  level: 高级                       # 初级 | 中级 | 高级
+  q: 压测时 TPS 上不去，你会怎么排查？   # 仅 kind=question 需要
+```
+
+### 8.2 cat 枚举（对齐现有 12 类轮换）
+
+`theory` `api-testing` `performance-testing` `automation-testing` `ai-testing` `ai-agent-testing` `python` `ai-tools` `env-setup` `database-linux` `scenario` `cicd`
+
+### 8.3 kind 与站点渲染组件的映射
+
+| kind | 站点组件 | 正文承载什么 |
+|---|---|---|
+| `question` | 题库卡片（题干 + 答案折叠） | 答案与展开 |
+| `knowledge` | 知识点卡片 | 概念解释 |
+| `skill` | 技能卡片 | 工程能力与实践 |
+| `pitfall` | 坑点卡片 | 坑 + 破解方法 |
+
+### 8.4 硬性要求
+
+1. **`publish: false` 的过滤只能在构建脚本里执行。** 前端过滤意味着内容已下载到浏览器，等同于已公开，开关形同虚设。
+2. 新增或修改 `publish` / `interview` 字段视为 schema 变更：需同步更新构建脚本与站点渲染层，并单独提交（`schema:` 前缀）。
+3. 站点拉取 `kb.json` 失败时必须**静默降级**（隐藏入口），不得弹错、不得影响主功能。
+
+### 8.5 面试内容的目录归属
+
+**内容页归档到各自领域目录**（`30-性能测试/`、`50-AI测试/`…），**不集中堆进 `75-面试助手/`**。
+
+理由：一道性能题放在 `30-性能测试/` 才能与同领域的指标口径页、调优页连成网；集中到面试目录会切断这些链接，图谱价值腰斩。`75-面试助手/` 只放**索引页与专题页**（如题库索引、高频专题），站点靠 `interview` 标签筛选。
+
+---
+
+## 9. 演进约定
 
 - 领域目录不够用时**新增编号**，不要重构已有编号
 - 标签体系扩容前先看第 4 节，能复用就复用
@@ -206,3 +255,4 @@ status: active                       # active | draft | superseded
 ### 变更记录
 - 2026-09-10 v0.1 初版建立（基于 16 题需求澄清结论）
 - 2026-09-10 v0.1.1 新增元标签 `knowledge-management`；明确对话回填场景可跳过 ingest 的二次确认闸门
+- 2026-09-10 **v0.2** 新增第 8 节「面试助手渲染契约」：`publish` + `interview{cat,kind,level,q}` 字段、cat 枚举、kind 与站点组件映射、目录归属规则；新增视图标签 `interview`；新增目录 `raw/interview`、`raw/legacy`、`wiki/75-面试助手`
