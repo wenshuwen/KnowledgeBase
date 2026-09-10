@@ -47,3 +47,10 @@
 `~/WorkBuddy/2026-09-02-22-53-01/interview-assistant/build_kb.py` 跑通：wiki/ → kb.json。
 已验证：publish:false 构建期过滤（正文完全不出现在产物中）、非法 cat 拦截并入待修清单、重复构建版本号一致（内容哈希）。
 产物版本 kb-2026.09.10-66a190c7，4 条上站。
+
+## [2026-09-10] schema | 站点上线 + 自动化串联
+- 面试助手改造后重新部署到线上，链接未变：https://eeb7d1439d2842308f03504430561fbc.app.workbuddy.link
+- 线上校验：index.html 200900 字节与本地一致；kb.json 版本 kb-2026.09.10-66a190c7，4 条内容；新增代码 6 处全部命中
+- 项目目录 `/Users/tigerwen/WorkBuddy/2026-09-02-22-53-01/` 纳入版本控制（元数据外置于 `.git-interview-assistant`，因该目录禁止 git 就地写 config）
+- 每日自动化「测试工程师面试助手 · 每日复习 + 知识库同步」改为每晚 20:00 执行三段：抓取素材落 `raw/interview/` → 精选 1–2 页单源精读编译进 wiki → 重建 kb.json → 提交两个仓库 → 重新部署
+- skill `test-knowledge-wiki` 补入「站点产物联动」与「渲染契约字段速查」两节
