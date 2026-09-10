@@ -122,6 +122,9 @@ status: active                       # active | draft | superseded
 ### 类型标签
 `retrospective` `root-cause` `pitfall` `best-practice` `tooling` `framework` `metric` `checklist`
 
+### 元标签
+`knowledge-management`（关于知识库自身建设、方法论、规范的内容）
+
 ### 技术栈标签
 `python` `playwright` `jmeter` `locust` `pytest` `allure` `jenkins` `docker` `k8s` `sql` `linux` `git` `ci-cd`
 
@@ -140,6 +143,7 @@ status: active                       # active | draft | superseded
 
 **步骤（严格按序）**：
 1. **读源**：读取原料，先向用户复述 3–5 条关键要点，确认理解无误
+   > 例外：**对话回填**场景中，若原料就是双方共同经历的这次会话（用户说"归档刚才这段"），要点不存在歧义，可跳过二次确认直接编译——确认闸门是为外部来源的误读风险设的，不是形式主义
 2. **落盘**：原料归位到 `raw/` 对应子目录（不可变）
 3. **建页**：按 type 选模板，写入 `wiki/` 对应领域目录
 4. **抽实体**：长文页（复盘/文章）中出现的工具、概念、指标，若尚无独立页则抽成 `entity` / `concept` 页
@@ -201,3 +205,4 @@ status: active                       # active | draft | superseded
 
 ### 变更记录
 - 2026-09-10 v0.1 初版建立（基于 16 题需求澄清结论）
+- 2026-09-10 v0.1.1 新增元标签 `knowledge-management`；明确对话回填场景可跳过 ingest 的二次确认闸门
