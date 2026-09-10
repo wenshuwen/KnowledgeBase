@@ -34,3 +34,16 @@
 新建 [[面试助手题库索引]] 作为站点入口页。
 脱敏检查：旧库内容为通用技术知识，未发现项目名与凭据。
 规模 4 → 5 页。
+
+## [2026-09-10] ingest | 首批面试内容编译（性能方向）
+按单源精读从 `raw/legacy/` 编译 3 页，形成互相成网的小集群：
+- [[性能瓶颈的分层模型]]（concept / performance-testing / knowledge）—— 七层模型与健康阈值
+- [[性能瓶颈定位的分层排查路径]]（concept / performance-testing / question）—— 四步排查顺序 + 优化五方向
+- [[Redis缓存的五类经典问题]]（concept / database-linux / knowledge）—— 五类问题对照 + 测试用例落点
+三页均挂到 [[面试助手题库索引]]，出链密度 2–3 条，无孤页。
+规模 5 → 8 页。
+
+## [2026-09-10] schema | 构建脚本 build_kb.py 上线
+`~/WorkBuddy/2026-09-02-22-53-01/interview-assistant/build_kb.py` 跑通：wiki/ → kb.json。
+已验证：publish:false 构建期过滤（正文完全不出现在产物中）、非法 cat 拦截并入待修清单、重复构建版本号一致（内容哈希）。
+产物版本 kb-2026.09.10-66a190c7，4 条上站。
