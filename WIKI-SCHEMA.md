@@ -178,6 +178,7 @@ status: active                       # active | draft | superseded
 
 ### 元标签
 `knowledge-management`（关于知识库自身建设、方法论、规范的内容）
+`index`（索引页 / 导航页）
 
 ### 视图标签
 `interview`（进入面试助手站点渲染的内容，见第 9 节）
@@ -270,9 +271,11 @@ interview:                          # 面试视图元数据（可选）。整块
   q: 压测时 TPS 上不去，你会怎么排查？   # 仅 kind=question 需要
 ```
 
-### 8.2 cat 枚举（对齐现有 12 类轮换）
+### 8.2 cat 枚举（站点一级分类）
 
-`theory` `api-testing` `performance-testing` `automation-testing` `ai-testing` `ai-agent-testing` `python` `ai-tools` `env-setup` `database-linux` `scenario` `cicd`
+`theory` `api-testing` `performance-testing` `automation-testing` `security-testing` `ai-testing` `ai-agent-testing` `python` `ai-tools` `env-setup` `database-linux` `scenario` `cicd`
+
+> 前 12 类与每日复习轮换一致；`security-testing` 是知识库新增（站点已内置「安全测试」标签样式，无需改站点结构）。
 
 ### 8.3 kind 与站点渲染组件的映射
 
@@ -308,3 +311,4 @@ interview:                          # 面试视图元数据（可选）。整块
 - 2026-09-10 v0.1.1 新增元标签 `knowledge-management`；明确对话回填场景可跳过 ingest 的二次确认闸门
 - 2026-09-10 **v0.2** 新增第 8 节「面试助手渲染契约」：`publish` + `interview{cat,kind,level,q}` 字段、cat 枚举、kind 与站点组件映射、目录归属规则；新增视图标签 `interview`；新增目录 `raw/interview`、`raw/legacy`、`wiki/75-面试助手`
 - 2026-09-10 **v0.3** 补齐归档分类规则（原缺失，全靠类比判断）：新增「归档分类判定表」（内容特征 → 目标目录）、「跨域内容的仲裁规则」5 条、「旧库原料的编译去向」对照表；新增领域目录 `45-安全测试`，使已声明的 `security-testing` 标签有明确落点
+- 2026-09-10 **v0.3.1** `cat` 枚举补入 `security-testing`（站点已内置该分类样式，仅需补映射）；标签体系补声明 `index`；同步更新 `wiki/index.md` 的标签横向索引（按脚本核对实际分布，14 个在用标签，未超 30 上限）
