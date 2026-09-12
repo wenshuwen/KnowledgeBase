@@ -1,0 +1,29 @@
+{
+ "version": "2026-09-12",
+ "updatedAt": "2026-09-12",
+ "latest": "2026-09-12",
+ "days": [
+  {
+   "date": "2026-09-12",
+   "file": "2026-09-12.json",
+   "groupCount": 3,
+   "counts": {
+    "questions": 75,
+    "knowledge": 38,
+    "skills": 16,
+    "pitfalls": 17,
+    "exam": 42,
+    "github": 40
+   }
+  }
+ ],
+ "dayCount": 1,
+ "totalCounts": {
+  "questions": 75,
+  "knowledge": 38,
+  "skills": 16,
+  "pitfalls": 17,
+  "exam": 42,
+  "github": 40
+ }
+}

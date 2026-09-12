@@ -21,6 +21,7 @@ site/__pycache__/
 site/tests/__pycache__/
 site/tests/.pytest_cache/
 site/tests/.tmp/
+site/tests/.tmp_archive/
 *.pyc
 
 # 临时文件
