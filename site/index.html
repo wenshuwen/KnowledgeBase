@@ -2498,7 +2498,11 @@ const archive = (function(){
 let ARCHIVES = [];   // [{version, archivedAt, data}]
 function loadArchives(){
   archive.all().then(list=>{
-    ARCHIVES = (list||[]).filter(p=>p && p.data && Array.isArray(p.data.questions) && p.data.questions.length);
+    ARCHIVES = (list||[])
+      .filter(p=>p && p.data && Array.isArray(p.data.questions) && p.data.questions.length)
+      // 归档包同样是外部数据：老版本可能存在某个数组缺失，统一补齐后再交给检索层，
+      // 避免 searchAll 里的 .forEach 因为 undefined 整块中断
+      .map(p=>({ version:p.version, archivedAt:p.archivedAt, data:normalizePack(p.data) }));
     try{ renderReview($("#reviewSearch") ? $("#reviewSearch").value : ""); }catch(e){}
   }).catch(()=>{});
 }
@@ -2532,6 +2536,20 @@ async function fetchCloudPack(){
 }
 
 /* ---------- 应用新内容包：归档旧版 → 替换 → 全量重渲染 ---------- */
+/* 五类数组逐一兜底。`d.skills || []` 这种写法挡不住「字段存在但值是对象/字符串」的情况，
+   一旦非数组流进渲染层的 .map / .filter 就会整块抛异常。
+   这里统一收口成数组，缺项的后果降级为「该模块显示空状态」，而不是整页报错。 */
+function normalizePack(d){
+  const arr = v => Array.isArray(v) ? v : [];
+  return {
+    questions: arr(d && d.questions),
+    knowledge: arr(d && d.knowledge),
+    skills:    arr(d && d.skills),
+    pitfalls:  arr(d && d.pitfalls),
+    exam:      arr(d && d.exam)
+  };
+}
+
 function applyPack(pack){
   const d = pack.data;
   if(CONTENT_VERSION && CONTENT_VERSION !== pack.version){
@@ -2541,13 +2559,7 @@ function applyPack(pack){
       data: CONTENT
     });
   }
-  CONTENT = {
-    questions: d.questions || [],
-    knowledge: d.knowledge || [],
-    skills: d.skills || [],
-    pitfalls: d.pitfalls || [],
-    exam: d.exam || []
-  };
+  CONTENT = normalizePack(d);
   CONTENT_VERSION = pack.version || "未知版本";
   // 全量重渲染各模块（与「刷新内容」共用 renderAll）
   safe(()=>{ renderChips("qChips", [...new Set(CONTENT.questions.map(q=>q.cat))], "全部"); });
@@ -2683,17 +2695,38 @@ function checkCloudUpdate(silent){
   });
 }
 
-const CAT_LABEL = {
-  theory:"测试理论", api:"接口测试", perf:"性能测试", auto:"自动化测试",
-  ai:"AI 测试 / Agent", db:"数据库 / Linux", scene:"场景题", devops:"CI/CD / DevOps",
-  sec:"安全测试", soft:"软技能",
-  python:"Python 基础", env:"测试环境", llm:"大模型测试", agent:"Agent 测试", aitools:"AI 测试工具"
+/* =====================================================================
+ *  站点分类字典 —— 分类的「唯一来源」
+ *  label = 标签文案，cls = 标签配色类名（对应样式表里的 .tag.xxx）
+ *
+ *  新增一个分类只需要改这一个对象；CAT_LABEL / CAT_CLASS 由它派生，
+ *  不再手写第二份。注意 build_kb.py 里的 CAT_LABELS 是同一份数据的
+ *  Python 副本（构建脚本跨语言无法共享），两边不一致时构建会告警
+ *  「分类字典不一致 N 处」—— 那就是漏改了这一处。
+ * ===================================================================== */
+const CAT_DICT = {
+  theory:  { label:"测试理论",        cls:"theory" },
+  api:     { label:"接口测试",        cls:"api"    },
+  perf:    { label:"性能测试",        cls:"perf"   },
+  auto:    { label:"自动化测试",      cls:"auto"   },
+  ai:      { label:"AI 测试 / Agent", cls:"ai"     },
+  db:      { label:"数据库 / Linux",  cls:"db"     },
+  scene:   { label:"场景题",          cls:"scene"  },
+  devops:  { label:"CI/CD / DevOps",  cls:"auto"   },
+  sec:     { label:"安全测试",        cls:"pit"    },
+  soft:    { label:"软技能",          cls:"skill"  },
+  python:  { label:"Python 基础",     cls:"auto"   },
+  env:     { label:"测试环境",        cls:"skill"  },
+  llm:     { label:"大模型测试",      cls:"ai"     },
+  agent:   { label:"Agent 测试",      cls:"ai"     },
+  aitools: { label:"AI 测试工具",     cls:"ai"     }
 };
-const CAT_CLASS = {
-  theory:"theory", api:"api", perf:"perf", auto:"auto", ai:"ai", db:"db",
-  scene:"scene", devops:"auto", sec:"pit", soft:"skill",
-  python:"auto", env:"skill", llm:"ai", agent:"ai", aitools:"ai"
-};
+const CAT_LABEL = {};
+const CAT_CLASS = {};
+Object.keys(CAT_DICT).forEach(function(k){
+  CAT_LABEL[k] = CAT_DICT[k].label;
+  CAT_CLASS[k] = CAT_DICT[k].cls;
+});
 const catTag = (cat, label) => `<span class="tag ${CAT_CLASS[cat]||'skill'}">${label||CAT_LABEL[cat]||cat}</span>`;
 
 /* ---------- 日期 & 轮换 ---------- */
@@ -2707,8 +2740,12 @@ function todayStr(){
   const wd = ["日","一","二","三","四","五","六"][d.getDay()];
   return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${wd}`;
 }
+/* 轮换取一条。空数组返回 null —— 绝不能返回 undefined 之后再取 `.q`：
+   那样一个分类没内容就会让「今日速览」整块抛异常变空白，而且被 safe() 吞掉，
+   用户只看到空白、看不到任何原因。 */
 function pickRotate(arr, offset){
-  const n = arr.length;
+  const n = (arr && arr.length) || 0;
+  if(!n) return null;
   return arr[((offset % n) + n) % n];
 }
 function getRefreshOffset(){
@@ -2716,7 +2753,7 @@ function getRefreshOffset(){
 }
 /* 按偏移轮转列表：刷新后新的条目排到前面 */
 function rotateList(arr, k){
-  const n = arr.length;
+  const n = (arr && arr.length) || 0;
   if(!n) return [];
   const r = ((k % n) + n) % n;
   return arr.slice(r).concat(arr.slice(0, r));
@@ -2736,21 +2773,40 @@ function getDailySet(){
   return {q,k,s,p, base, off};
 }
 
+/* 统一的空状态卡片。原先只有「知识库」页有空提示，
+   题库 / 知识点 / 技能 / 坑点筛选到空分类时是一整页空白 —— 用户会以为页面坏了。 */
+function emptyBlock(icon, msg){
+  return `<div class="card"><div class="empty"><div class="big">${icon||"📭"}</div><div>${esc(msg||"暂无内容")}</div></div></div>`;
+}
+
 /* =====================================================================
  *  渲染
  * ===================================================================== */
 function renderDaily(){
   const set = getDailySet();
-  $("#heroTitle").textContent = "今日重点：" + set.q.q;
-  $("#heroSub").textContent = "围绕「" + (CAT_LABEL[set.q.cat]||set.q.cat) + "」展开复习，再刷一道题、记一个技能、避一个坑。";
+  const catName = c => (CAT_LABEL[c] || c || "");
+  const blocks = [];
+
+  // 英雄区：有面试题时围绕它做今日重点，否则给一句可操作的空状态说明
+  if(set.q){
+    $("#heroTitle").textContent = "今日重点：" + set.q.q;
+    $("#heroSub").textContent = "围绕「" + catName(set.q.cat) + "」展开复习，再刷一道题、记一个技能、避一个坑。";
+  } else {
+    $("#heroTitle").textContent = "今日速览";
+    $("#heroSub").textContent = "当前内容包里没有可展示的条目，点右上角「联网更新」拉取最新内容。";
+  }
+
   const heroMeta = $("#heroMeta");
   heroMeta.innerHTML = [
-    `<span class="pill">🧠 ${CAT_LABEL[set.q.cat]||''}</span>`,
+    set.q ? `<span class="pill">🧠 ${catName(set.q.cat)}</span>` : "",
     `<span class="pill">📚 ${CONTENT.questions.length} 道面试题</span>`,
     `<span class="pill">✍️ ${CONTENT.exam.length} 道选择题</span>`,
     `<span class="pill" title="点击右上角「联网更新」可检查云端新内容">☁️ 内容版本 ${esc(CONTENT_VERSION)}</span>`
   ].join("");
-  $("#dailyContent").innerHTML = `
+
+  // 四类内容各自独立成块：缺哪一类就跳过哪一块，不让整页陪葬
+  if(set.q){
+    blocks.push(`
     <div class="daily-block">
       <div class="block-label"><span class="dot"></span>今日面试题</div>
       <div class="card">
@@ -2758,14 +2814,20 @@ function renderDaily(){
         <div class="q-title">${esc(set.q.q)}</div>
         <div class="q-answer">${set.q.a}</div>
       </div>
-    </div>
+    </div>`);
+  }
+  if(set.k){
+    blocks.push(`
     <div class="daily-block">
       <div class="block-label"><span class="dot" style="background:#10b981"></span>今日知识点</div>
       <div class="card">
         <div class="card-header">${catTag(set.k.cat)}<span class="kp-title" style="margin:0">${esc(set.k.t)}</span></div>
         <div class="kp-body">${set.k.body}</div>
       </div>
-    </div>
+    </div>`);
+  }
+  if(set.s){
+    blocks.push(`
     <div class="daily-block">
       <div class="block-label"><span class="dot" style="background:#f59e0b"></span>今日技能</div>
       <div class="card" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer" data-skill-idx="${CONTENT.skills.indexOf(set.s)}" title="点击查看技能详情">
@@ -2773,11 +2835,14 @@ function renderDaily(){
         <div style="flex:1">
           <div class="skill-name">${esc(set.s.t)}</div>
           <div class="skill-desc">${esc(set.s.d)}</div>
-          <div class="skill-tools">${set.s.tools.map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
+          <div class="skill-tools">${(set.s.tools||[]).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
           <div class="skill-more">查看详情 →</div>
         </div>
       </div>
-    </div>
+    </div>`);
+  }
+  if(set.p){
+    blocks.push(`
     <div class="daily-block">
       <div class="block-label"><span class="dot" style="background:#ef4444"></span>今日避坑</div>
       <div class="card">
@@ -2785,8 +2850,12 @@ function renderDaily(){
         <div class="pit-desc">${esc(set.p.d)}</div>
         <div class="pit-tip"><b>破解：</b>${esc(set.p.tip)}</div>
       </div>
-    </div>
-  `;
+    </div>`);
+  }
+
+  $("#dailyContent").innerHTML = blocks.length
+    ? blocks.join("")
+    : emptyBlock("📭", "内容包为空，点右上角「联网更新」拉取最新内容");
 }
 
 function renderChips(containerId, cats, allLabel){
@@ -2802,6 +2871,11 @@ function renderChips(containerId, cats, allLabel){
 function renderQuestions(filter){
   const pool = rotateList(CONTENT.questions, getRefreshOffset());
   const list = pool.filter(q=>filter==="all"||q.cat===filter);
+  if(!list.length){
+    $("#qList").innerHTML = emptyBlock(CONTENT.questions.length ? "🔍" : "📭",
+      CONTENT.questions.length ? "该分类下暂无面试题，换个标签试试" : "题库为空，点右上角「联网更新」拉取内容");
+    return;
+  }
   $("#qList").innerHTML = list.map(q=>`
     <div class="card">
       <div class="card-header">${catTag(q.cat)}</div>
@@ -2814,6 +2888,11 @@ function renderQuestions(filter){
 function renderKnowledge(filter){
   const pool = rotateList(CONTENT.knowledge, getRefreshOffset()*2);
   const list = pool.filter(k=>filter==="all"||k.cat===filter);
+  if(!list.length){
+    $("#kList").innerHTML = emptyBlock(CONTENT.knowledge.length ? "🔍" : "📭",
+      CONTENT.knowledge.length ? "该分类下暂无知识点，换个标签试试" : "知识点为空，点右上角「联网更新」拉取内容");
+    return;
+  }
   $("#kList").innerHTML = list.map(k=>`
     <div class="card">
       <div class="card-header">${catTag(k.cat)}<span class="kp-title" style="margin:0">${esc(k.t)}</span></div>
@@ -2825,11 +2904,15 @@ function renderKnowledge(filter){
 function renderSkills(){
   /* 轮转排列，但保留原始索引供详情弹窗定位 */
   const pool = rotateList(CONTENT.skills.map((s,i)=>({s:s,i:i})), getRefreshOffset()*3);
+  if(!pool.length){
+    $("#skillList").innerHTML = emptyBlock("📭", "技能为空，点右上角「联网更新」拉取内容");
+    return;
+  }
   $("#skillList").innerHTML = pool.map(it=>`
     <div class="card skill-card" data-skill-idx="${it.i}">
       <div class="skill-top"><div class="skill-emoji">${it.s.e}</div><div class="skill-name">${esc(it.s.t)}</div></div>
       <div class="skill-desc">${esc(it.s.d)}</div>
-      <div class="skill-tools">${it.s.tools.map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
+      <div class="skill-tools">${(it.s.tools||[]).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
       <div class="skill-more">查看详情 →</div>
     </div>
   `).join("");
@@ -2880,6 +2963,10 @@ function openSkillDetail(idx){
 
 function renderPitfalls(){
   const pool = rotateList(CONTENT.pitfalls, getRefreshOffset()*4);
+  if(!pool.length){
+    $("#pitList").innerHTML = emptyBlock("📭", "坑点为空，点右上角「联网更新」拉取内容");
+    return;
+  }
   $("#pitList").innerHTML = pool.map((p,i)=>`
     <div class="card">
       <div class="card-header"><span class="pit-num">${i+1}</span><span class="pit-title">${esc(p.t)}</span></div>
@@ -3107,12 +3194,17 @@ function isNotifOn(){ return store.get(LS.notif, "0")==="1"; }
 
 function buildReminderBody(){
   const set = getDailySet();
-  const items = [
-    {ico:"q", e:"❓", t:set.q.q, b:(CAT_LABEL[set.q.cat]||"")+" · 点击去题库看详解"},
-    {ico:"k", e:"📖", t:set.k.t, b:"知识点 · 点击去知识点模块"},
-    {ico:"s", e:"🛠️", t:set.s.t, b:set.s.d},
-    {ico:"p", e:"⚠️", t:set.p.t, b:set.p.tip}
-  ];
+  const items = [];
+  if(set.q) items.push({ico:"q", e:"❓", t:set.q.q, b:(CAT_LABEL[set.q.cat]||"")+" · 点击去题库看详解"});
+  if(set.k) items.push({ico:"k", e:"📖", t:set.k.t, b:"知识点 · 点击去知识点模块"});
+  if(set.s) items.push({ico:"s", e:"🛠️", t:set.s.t, b:set.s.d});
+  if(set.p) items.push({ico:"p", e:"⚠️", t:set.p.t, b:set.p.tip});
+  if(!items.length){
+    return `<div class="reminder-item"><div class="reminder-ico q">📭</div><div>
+      <div class="r-title">暂无复习内容</div>
+      <div class="r-body">点右上角「联网更新」拉取最新内容包</div>
+    </div></div>`;
+  }
   return items.map(it=>`
     <div class="reminder-item">
       <div class="reminder-ico ${it.ico}">${it.e}</div>
@@ -3128,7 +3220,10 @@ function showReminder(){
   $("#reminderMask").classList.add("show");
   store.set(LS.lastDate, todayStr());
   if(isNotifOn() && "Notification" in window && Notification.permission==="granted"){
-    try{ new Notification("⏰ 测试面试复习提醒", { body:"今日重点：" + getDailySet().q.q }); }catch(e){}
+    try{
+      const today = getDailySet().q;
+      new Notification("⏰ 测试面试复习提醒", { body: today ? ("今日重点：" + today.q) : "今日暂无复习内容" });
+    }catch(e){}
   }
 }
 function checkReminder(){
@@ -3190,9 +3285,30 @@ function safe(fn){
   try{ fn(); }catch(e){ if(window.console && console.warn) console.warn("IA step failed:", e); }
 }
 
+/* 轻量防抖：把连续触发的操作合并成最后一次执行。
+   搜索框每敲一个字符就会全量重算 + 全量重渲染，
+   归档满 5 版时检索面能到上千条，且每条都要跑多次正则去标签 —— 不防抖会明显卡输入。 */
+function debounce(fn, wait){
+  let timer = null;
+  return function(){
+    const self = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function(){ fn.apply(self, args); }, wait);
+  };
+}
+
 // 去掉 HTML 标签得到纯文本，用于检索
+// 结果按原文缓存：同一条内容在一次会话里会被反复检索（每次输入都重扫全部版本），
+// 而去标签是两次正则替换，是检索里最贵的一步。缓存后重复扫描几乎零成本。
+const stripCache = new Map();
 function stripHtml(html){
-  return String(html||"").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  const key = String(html || "");
+  const hit = stripCache.get(key);
+  if(hit !== undefined) return hit;
+  const out = key.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  // 上限保护：内容包 + 5 个归档版本，量级有限，但避免异常场景下无界增长
+  if(stripCache.size < 4000) stripCache.set(key, out);
+  return out;
 }
 
 // 全文检索：跨 面试题 / 知识点 / 技能 / 坑点 / 选择题（当前版本 + 历史归档版本）
@@ -3216,21 +3332,26 @@ function searchAll(kw){
 
 // 记录每日学习足迹（按日期去重，保留最近 30 天）
 function recordTodayHistory(){
+  const set = getDailySet();
+  // 四类都取不到（内容包为空）时不记 —— 记一条全是空字段的足迹没有意义
+  if(!set.q && !set.k && !set.s && !set.p) return;
   let list = [];
   try{ list = JSON.parse(store.get(LS.history, "[]")) || []; }catch(e){ list = []; }
   const date = todayStr();
   if(list.some(it=>it.date===date)) return;
-  const set = getDailySet();
   list.push({
     date,
-    q:{ cat:set.q.cat, t:set.q.q },
-    k:{ cat:set.k.cat, t:set.k.t },
-    s:{ t:set.s.t },
-    p:{ t:set.p.t }
+    q: set.q ? { cat:set.q.cat, t:set.q.q } : null,
+    k: set.k ? { cat:set.k.cat, t:set.k.t } : null,
+    s: set.s ? { t:set.s.t } : null,
+    p: set.p ? { t:set.p.t } : null
   });
   if(list.length>30) list = list.slice(-30);
   store.set(LS.history, JSON.stringify(list));
 }
+
+/* 足迹行取值：历史记录里某一类可能缺失（旧数据或内容包缺项），统一兜底成「—」 */
+const histField = (obj, field) => (obj && obj[field]) ? obj[field] : "—";
 
 // 历史版本标签（检索结果中来自归档版本的内容会带上）
 const vTag = it => (it && it.__v) ? `<span class="tag hist-tag" title="来自已归档的历史内容版本">📦 ${esc(it.__v)}</span>` : "";
@@ -3251,10 +3372,10 @@ function renderReview(kw){
         list.slice().reverse().map(h=>`
           <div class="card" style="margin-bottom:12px">
             <div class="history-date">📅 ${esc(h.date)}</div>
-            <div class="history-row">❓ ${esc(h.q.t)}</div>
-            <div class="history-row">📖 ${esc(h.k.t)}</div>
-            <div class="history-row">🛠️ ${esc(h.s.t)}</div>
-            <div class="history-row">⚠️ ${esc(h.p.t)}</div>
+            <div class="history-row">❓ ${esc(histField(h.q,"t"))}</div>
+            <div class="history-row">📖 ${esc(histField(h.k,"t"))}</div>
+            <div class="history-row">🛠️ ${esc(histField(h.s,"t"))}</div>
+            <div class="history-row">⚠️ ${esc(histField(h.p,"t"))}</div>
           </div>
         `).join("");
     }
@@ -3343,10 +3464,10 @@ function init(){
   // 启动时静默加载本地知识库产物（失败则入口保持隐藏，不影响任何主功能）
   safe(()=>{ loadKb(); });
 
-  // 知识回顾：搜索框实时检索
+  // 知识回顾：搜索框实时检索（防抖 180ms，输入过程中不阻塞）
   const searchInput = $("#reviewSearch");
   if(searchInput){
-    searchInput.addEventListener("input", function(){ renderReview(this.value); });
+    searchInput.addEventListener("input", debounce(function(){ renderReview(this.value); }, 180));
   }
   const clearBtn = $("#btnClearSearch");
   if(clearBtn){

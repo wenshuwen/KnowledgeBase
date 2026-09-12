@@ -3,22 +3,29 @@
 """把本地知识库编译成面试助手站点可消费的 kb.json。
 
 设计要点（对应 WIKI-SCHEMA.md 第 8 节渲染契约）：
-  1. publish: false 的页面必须在本脚本内过滤 —— 前端过滤等同于已公开；
+  1. publish 为「未发布」的页面必须在本脚本内过滤 —— 前端过滤等同于已公开。
+     判定走 is_unpublished()：宽松识别（`"false"` / `0` 也算未发布）+ 显式告警，
+     不能靠 `is False` 这种严格同一性判定 —— 写成字符串就会静默放行；
   2. 缺少 interview 块的页面静默跳过（不上站，不算错误）；
   3. interview 块存在但字段非法 → 记入待修清单并跳过，不中断整体构建；
   4. 输出内容哈希进版本号，避免无实质变更时也触发站点更新；内容未变时跳过写入；
-  5. 每次构建都检查全库链接网络：死链与孤页必须报出来 ——
+  5. 每次构建都检查全库链接网络，报三类问题 ——
+     死链（目标不存在）、点进去为空（目标存在但不上站）、孤页：
      它们不会让构建失败，只会在线上表现为「点进去什么都没有」，不主动报就发现不了；
   6. 代码片段内的 `[[ ]]` 视为示例写法，不参与链接替换；代码内容交给 markdown 正常转义。
      **绝不能用"占位符替换后再还原"的做法** —— 那样 markdown 失去转义机会，
      还原时会把示例里的原始 HTML（img/script）直接注入页面并在浏览器中真实执行；
-  7. 产物里出现 script/img 等标签即视为构建失败 —— 本渲染器不会产出这些标签。
+  7. 产物里出现 script/img 等标签即视为构建失败，且**拒绝写入产物**（判定先于写入）。
+     先写再判等于 fail-open：产物已经更新，检测结果只剩一个退出码；
+  8. 分类字典在 Python 与前端各有一份，构建时比对并在不一致时告警（建议修，不阻断）。
 
 用法：
     python build_kb.py              # 正常构建，写入 kb.json
     python build_kb.py --dry-run    # 只校验与统计，不写文件
     python build_kb.py --force      # 内容未变时也强制重写产物
     python build_kb.py -v           # 输出每个页面的处理详情
+
+环境变量：KB_ROOT 可覆盖知识库根目录（默认 /Users/tigerwen/WorkBuddy/KnowledgeBase）。
 
 退出码：0 正常；1 构建异常、存在死链，或产物混入未转义 HTML。
 """
@@ -30,6 +37,7 @@ import hashlib
 import html
 import json
 import logging
+import os
 import re
 import sys
 from dataclasses import asdict, dataclass, field
@@ -44,9 +52,12 @@ import yaml
 # 配置
 # --------------------------------------------------------------------------- #
 
-KB_ROOT: Final[Path] = Path("/Users/tigerwen/WorkBuddy/KnowledgeBase")
+KB_ROOT: Final[Path] = Path(
+    os.environ.get("KB_ROOT", "/Users/tigerwen/WorkBuddy/KnowledgeBase")
+)
 WIKI_DIR: Final[Path] = KB_ROOT / "wiki"
 OUTPUT_PATH: Final[Path] = Path(__file__).resolve().parent / "kb.json"
+SITE_INDEX: Final[Path] = Path(__file__).resolve().parent / "index.html"
 
 #: 站点一级分类枚举，与 WIKI-SCHEMA 8.2 保持一致
 CAT_LABELS: Final[dict[str, str]] = {
@@ -75,11 +86,13 @@ FRONTMATTER_RE: Final[re.Pattern[str]] = re.compile(
     r"\A---[ \t]*\r?\n(.*?)\r?\n---[ \t]*\r?\n?", re.DOTALL
 )
 H1_RE: Final[re.Pattern[str]] = re.compile(r"\A\s*#\s+.+?\r?\n", re.DOTALL)
-WIKILINK_RE: Final[re.Pattern[str]] = re.compile(r"\[\[([^\]|]+?)(?:\|([^\]]+?))?\]\]")
 IMAGE_RE: Final[re.Pattern[str]] = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 
-CODE_FENCE_RE: Final[re.Pattern[str]] = re.compile(r"```.*?```", re.DOTALL)
-CODE_SPAN_RE: Final[re.Pattern[str]] = re.compile(r"`[^`\n]*`")
+#: publish 的「未发布」判定可接受的字面量。
+#: YAML 里 `publish: false` 解析成布尔 False，但写成 `"false"` / `0` / `'0'` 会解析成
+#: 字符串或数字 —— 这些「看起来像 false」的写法必须一律按未发布处理。
+#: 方向不能反：这是隐私开关，宁可漏上站也不能漏过滤。
+FALSE_TOKENS: Final[frozenset[str]] = frozenset({"false", "no", "off", "0", "null", "none", ""})
 
 #: 渲染产物里绝不允许出现的标签 —— 出现即说明正文里的原始 HTML 没有被转义
 UNSAFE_TAGS: Final[tuple[str, ...]] = (
@@ -196,6 +209,42 @@ def split_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     return meta, text[match.end():]
 
 
+def is_unpublished(meta: dict[str, Any]) -> tuple[bool, str | None]:
+    """判定 frontmatter 的 publish 是否表示「未发布」。
+
+    返回 (是否未发布, 告警信息)。
+
+    为什么不能直接写 `meta.get("publish", True) is False`：
+    YAML 里只有 `false` / `False` / `no` 会解析成布尔 False；写成
+    `publish: "false"`（带引号）、`publish: 0` 会解析成字符串 / 数字，
+    严格同一性判定会直接放行 —— 页面就静默上站了。
+    publish 是隐私开关（schema 8.4：前端过滤等同已公开），
+    所以这里采用「宽松识别 + 显式告警」，可疑写法一律按未发布处理。
+    """
+    if "publish" not in meta:
+        return False, None
+
+    raw = meta["publish"]
+    if raw is False:
+        return True, None
+    if raw is True:
+        return False, None
+
+    if isinstance(raw, str):
+        # 连引号一起去掉：`publish: "false"` 在 YAML 里已经变成不带引号的 false，
+        # 但若用户写成 `publish: '"false"'`，拿到的就是带引号的字符串 ——
+        # 对隐私开关来说，这类"看起来像假值"的写法一律按未发布处理更安全。
+        token = raw.strip().strip("\"'").strip().lower()
+        if token in FALSE_TOKENS:
+            return True, f"publish 取值异常 {raw!r}（字符串），已按未发布处理；建议写成布尔 false"
+        return False, None
+
+    if isinstance(raw, int) and not isinstance(raw, bool) and raw == 0:
+        return True, f"publish 取值异常 {raw!r}（数字 0），已按未发布处理；建议写成布尔 false"
+
+    return False, None
+
+
 def render_body(markdown_text: str, title: str) -> str:
     """markdown → HTML，并做站点侧需要的两处规整。
 
@@ -250,8 +299,11 @@ def load_page(path: Path, verbose: bool = False) -> tuple[KbPage | None, str | N
     if path.name in SKIP_FILENAMES:
         return None, None
 
-    # 未发布：必须在构建期过滤
-    if meta.get("publish", True) is False:
+    # 未发布：必须在构建期过滤（判定见 is_unpublished）
+    unpublished, warn = is_unpublished(meta)
+    if warn:
+        log.warning("%s：%s", rel, warn)
+    if unpublished:
         if verbose:
             log.debug("跳过（publish=false）：%s", rel)
         return None, "UNPUBLISHED"
@@ -359,31 +411,54 @@ class GraphCheck:
     total_pages: int = 0
     broken: list[str] = field(default_factory=list)
     orphans: list[str] = field(default_factory=list)
+    #: 上站页面 → 库内存在但不上站的页面。这类链接在构建期查不出「不存在」，
+    #: 到了站点上却会渲染成可点的胶囊、点下去提示「尚未编译进知识库」。
+    unreachable: list[str] = field(default_factory=list)
+
+
+def scan_page_meta(path: Path) -> tuple[dict[str, Any], str] | None:
+    """读取单页的 frontmatter 与正文；失败返回 None。"""
+    try:
+        meta, body = split_frontmatter(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError) as exc:
+        log.warning("图谱检查跳过 %s：%s", path.name, exc)
+        return None
+    return meta, body
 
 
 def check_graph() -> GraphCheck:
-    """独立遍历 wiki/，检查死链与孤页。
+    """独立遍历 wiki/，检查死链、孤页与「点进去为空」的链接。
 
     为什么独立于 scan_wiki：死链要对着**全部页面**判定，
     而未发布 / 无 interview 块的页面同样可能被链接，不能只看上站页面。
 
-    这两项必须每次构建都跑 —— 它们不会让构建失败，
-    只会在线上表现为「点进去什么都没有」，不主动报就永远发现不了。
+    三类问题必须每次构建都跑 —— 它们都不会让构建失败，
+    只会在线上表现为「点进去什么都没有」，不主动报就永远发现不了：
+      · 死链       目标文件根本不存在            → 计为错误（退出码 1）
+      · 点进去为空 目标存在但不上站（未发布 / 无 interview 块）→ 仅告警
+      · 孤页       没有任何入链                  → 仅告警
     """
     result = GraphCheck()
 
     names: set[str] = set()
+    on_site: dict[str, bool] = {}
     edges: list[tuple[str, str]] = []
 
     for path in sorted(WIKI_DIR.rglob("*.md")):
         if path.name in SKIP_FILENAMES:
             continue
         names.add(path.stem)
-        try:
-            _, body = split_frontmatter(path.read_text(encoding="utf-8"))
-        except (OSError, UnicodeDecodeError) as exc:
-            log.warning("图谱检查跳过 %s：%s", path.name, exc)
+
+        loaded = scan_page_meta(path)
+        if loaded is None:
             continue
+        meta, body = loaded
+
+        # 只有「未标记未发布 + 有 interview 块」的页面才会出现在站点上
+        unpublished, _ = is_unpublished(meta)
+        interview = meta.get("interview")
+        on_site[path.stem] = (not unpublished) and isinstance(interview, dict) and bool(interview)
+
         rel = str(path.relative_to(WIKI_DIR))
         for link in extract_links(body):
             edges.append((rel, link))
@@ -392,13 +467,69 @@ def check_graph() -> GraphCheck:
 
     inbound: dict[str, int] = {n: 0 for n in names}
     for src, link in edges:
-        if link in names:
-            inbound[link] += 1
-        else:
+        if link not in names:
             result.broken.append(f"{src} → [[{link}]]")
+            continue
+        inbound[link] += 1
+        # 源页面在站上、目标页面不在站上 —— 站点上会渲染成一个点不通的胶囊
+        if on_site.get(Path(src).stem, False) and not on_site.get(link, False):
+            reason = "该页未上站（无 interview 块或 publish=false）"
+            result.unreachable.append(f"{src} → [[{link}]]（{reason}）")
 
     result.orphans = sorted(n for n, c in inbound.items() if c == 0)
     return result
+
+
+def check_cat_mirror() -> list[str]:
+    """校验分类的完整映射链，返回不一致项。
+
+    一个分类从 wiki 走到站点标签要过四道关，任何一道漏了都不会报错，
+    只会让标签「变成原始英文键」或「掉成兜底配色」—— 很难自己发现：
+
+        ① build_kb.py CAT_LABELS   合法 cat 白名单（不在里面 → 整页被判非法跳过）
+        ② index.html KB_CAT_MAP    长键 → 短键（wiki 用 performance-testing，站点样式用 perf）
+        ③ index.html CAT_DICT      短键 → 文案 + 配色类名
+        ④ index.html <style>       .tag.<类名> 真实存在
+
+    前端是单文件、没有可 import 的模块，这里用正则读取字面量做静态比对 ——
+    不引入构建链路，也不需要运行浏览器，够用且稳定。
+    """
+    if not SITE_INDEX.exists():
+        return ["未找到 site/index.html，跳过分类一致性检查"]
+    try:
+        html_text = SITE_INDEX.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        return [f"读取 site/index.html 失败，跳过分类一致性检查：{exc}"]
+
+    def dict_body(name: str) -> str | None:
+        m = re.search(rf"const {name}\s*=\s*\{{(.*?)\n\}};", html_text, re.DOTALL)
+        return m.group(1) if m else None
+
+    kb_map_raw = dict_body("KB_CAT_MAP")
+    cat_dict_raw = dict_body("CAT_DICT")
+    if kb_map_raw is None or cat_dict_raw is None:
+        return ["未在 site/index.html 中定位到 KB_CAT_MAP / CAT_DICT（可能被改名），无法比对"]
+
+    # 只取「键: 值」两侧都是裸字符串的行，避免误抓对象字面量里的 label / cls
+    kb_map = dict(re.findall(r'"([A-Za-z0-9_-]+)"\s*:\s*"([A-Za-z0-9_-]+)"', kb_map_raw))
+    site_cats = set(re.findall(r'^\s*"?([A-Za-z0-9_-]+)"?\s*:\s*\{', cat_dict_raw, re.MULTILINE))
+    css_classes = set(re.findall(r"\.tag\.([A-Za-z0-9_-]+)\s*\{", html_text))
+
+    build_cats = set(CAT_LABELS)
+    problems: list[str] = []
+
+    for cat in sorted(build_cats - set(kb_map)):
+        problems.append(f"①→② 断链：{cat} 在构建脚本白名单里，但站点 KB_CAT_MAP 没有映射（卡片会显示原始英文键）")
+    for cat in sorted(set(kb_map) - build_cats):
+        problems.append(f"②→① 多余：KB_CAT_MAP 有 {cat}，但构建脚本 CAT_LABELS 没有（wiki 里写了会被判非法）")
+    for long_key, short_key in sorted(kb_map.items()):
+        if short_key not in site_cats:
+            problems.append(f"②→③ 断链：{long_key} 映射到 {short_key}，但 CAT_DICT 没有该短键（标签掉成兜底样式）")
+    used_cls = set(re.findall(r'cls\s*:\s*"([A-Za-z0-9_-]+)"', cat_dict_raw))
+    for cls in sorted(used_cls - css_classes):
+        problems.append(f"③→④ 断链：CAT_DICT 用了配色类 {cls}，但样式表里没有 .tag.{cls}（标签无背景色）")
+
+    return problems
 
 
 # --------------------------------------------------------------------------- #
@@ -469,8 +600,13 @@ def should_skip_write(payload: dict[str, Any], force: bool = False) -> bool:
     return bool(existing.get("contentHash")) and existing.get("contentHash") == payload.get("contentHash")
 
 
-def report(result: BuildResult, graph: GraphCheck, status: str) -> None:
-    """打印构建报告。"""
+def report(result: BuildResult, graph: GraphCheck, status: str,
+           cat_problems: list[str] | None = None) -> None:
+    """打印构建报告。
+
+    「必须修」与「建议修」在措辞上必须区分清楚：
+    前者会让构建拒绝写产物并返回非零退出码，后者只是提示，不影响产物。
+    """
     log.info("—" * 46)
     log.info("扫描 %d 个文件", result.scanned)
     log.info("可上站 %d 个", len(result.pages))
@@ -485,8 +621,8 @@ def report(result: BuildResult, graph: GraphCheck, status: str) -> None:
         log.info("待修 0 个")
 
     if result.unsafe:
-        log.error("未转义 HTML %d 处（**必须修**，会在浏览器里真实执行/发起请求）：",
-                  len(result.unsafe))
+        log.error("未转义 HTML %d 处（**必须修**，会在浏览器里真实执行/发起请求；"
+                  "本次将拒绝写入产物）：", len(result.unsafe))
         for u in result.unsafe:
             log.error("  · %s", u)
     else:
@@ -500,6 +636,14 @@ def report(result: BuildResult, graph: GraphCheck, status: str) -> None:
     else:
         log.info("死链 0 条")
 
+    if graph.unreachable:
+        log.warning("点进去为空 %d 条（目标页存在但不上站，站点上是个点不通的胶囊）：",
+                    len(graph.unreachable))
+        for u in graph.unreachable:
+            log.warning("  · %s", u)
+    else:
+        log.info("点进去为空 0 条")
+
     if graph.orphans:
         rate = len(graph.orphans) / graph.total_pages * 100 if graph.total_pages else 0
         log.warning("孤页 %d 个（无任何入链，占 %.1f%%，健康目标 <5%%）：",
@@ -508,6 +652,14 @@ def report(result: BuildResult, graph: GraphCheck, status: str) -> None:
             log.warning("  · %s", o)
     else:
         log.info("孤页 0 个")
+
+    if cat_problems:
+        log.warning("分类字典不一致 %d 处（构建脚本 CAT_LABELS ↔ 站点 CAT_DICT）：",
+                    len(cat_problems))
+        for c in cat_problems:
+            log.warning("  · %s", c)
+    else:
+        log.info("分类字典一致")
 
     if not result.pages:
         log.warning("没有任何页面可上站。请检查 wiki/ 下的页面是否填了 interview 块。")
@@ -531,10 +683,17 @@ def main(argv: list[str] | None = None) -> int:
         result = scan_wiki(verbose=args.verbose)
         payload = build_payload(result)
         graph = check_graph()
+        cat_problems = check_cat_mirror()
 
+        # 先判定、后写入 —— 顺序不能反。
+        # 未转义 HTML 意味着正文里的原始标签会在浏览器里真实执行/发起请求，
+        # 这种情况必须**拒绝落盘**，让上一版安全产物留在原地；
+        # 若先写再判，产物已经更新，检测结果就只剩一个退出码，等于 fail-open。
         status = "dry-run，未写入文件"
         if not args.dry_run:
-            if should_skip_write(payload, force=args.force):
+            if result.unsafe:
+                status = "⚠ 检测到未转义 HTML，已拒绝写入，产物保持上一版不变"
+            elif should_skip_write(payload, force=args.force):
                 status = "内容未变（%s），跳过写入" % payload["version"]
             else:
                 OUTPUT_PATH.write_text(
@@ -543,8 +702,11 @@ def main(argv: list[str] | None = None) -> int:
                 )
                 status = "已写入：%s" % OUTPUT_PATH
 
-        report(result, graph=graph, status=status)
+        report(result, graph=graph, status=status, cat_problems=cat_problems)
         log.info("版本：%s", payload["version"])
+        # 退出码只由「必须修」的问题决定：死链、未转义 HTML。
+        # 「点进去为空」「孤页」「分类字典不一致」属建议修，只告警、不阻断 ——
+        # 否则自动化任务会因为内容侧的小瑕疵整体失败。
         return 1 if (graph.broken or result.unsafe) else 0
     except Exception as exc:  # noqa: BLE001
         log.exception("构建失败：%s", exc)
