@@ -1,0 +1,476 @@
+{
+ "contentHash": "4ab8eef3",
+ "version": "kb-2026.09.12-4ab8eef3",
+ "updatedAt": "2026-09-12",
+ "generatedAt": "2026-09-12T19:11:17",
+ "summary": "知识库共 17 条，覆盖 6 个分类",
+ "stats": {
+  "total": 17,
+  "byCat": {
+   "theory": 1,
+   "api-testing": 5,
+   "performance-testing": 2,
+   "automation-testing": 1,
+   "security-testing": 7,
+   "database-linux": 1
+  },
+  "byKind": {
+   "knowledge": 13,
+   "skill": 2,
+   "question": 2
+  }
+ },
+ "cats": [
+  {
+   "cat": "theory",
+   "label": "测试理论",
+   "count": 1
+  },
+  {
+   "cat": "api-testing",
+   "label": "接口测试",
+   "count": 5
+  },
+  {
+   "cat": "performance-testing",
+   "label": "性能测试",
+   "count": 2
+  },
+  {
+   "cat": "automation-testing",
+   "label": "自动化测试",
+   "count": 1
+  },
+  {
+   "cat": "security-testing",
+   "label": "安全测试",
+   "count": 7
+  },
+  {
+   "cat": "database-linux",
+   "label": "数据库/Linux",
+   "count": 1
+  }
+ ],
+ "data": {
+  "items": [
+   {
+    "id": "wiki/75-面试助手/面试助手题库索引",
+    "title": "面试助手题库索引",
+    "cat": "theory",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "面试助手",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "interview",
+     "index"
+    ],
+    "links": [
+     "llm-wiki 编译式知识库",
+     "知识库搭建记录"
+    ],
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>待接入自动化</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"知识库搭建记录\">知识库搭建记录</span></li>\n<li><span class=\"wl\" data-page=\"llm-wiki 编译式知识库\">llm-wiki 编译式知识库</span></li>\n</ul>",
+    "source_path": "wiki/75-面试助手/面试助手题库索引.md"
+   },
+   {
+    "id": "wiki/40-接口测试/HTTP与HTTPS的核心差异",
+    "title": "HTTP与HTTPS的核心差异",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "interview",
+     "test-theory"
+    ],
+    "links": [
+     "HTTP协议要点与状态码",
+     "接口测试知识地图",
+     "接口鉴权机制-Token与Cookie与Session",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"http-https\">HTTP 与 HTTPS 的核心差异</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>HTTPS <strong>不是新协议</strong>，而是把 HTTP 跑在 SSL/TLS 之上，补上了四件 HTTP 做不到的事：加密、身份认证、完整性、防重放。</p>\n<h2 id=\"_2\">差异对照</h2>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>HTTP</th>\n<th>HTTPS</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>安全性</td>\n<td>明文，可窃听篡改</td>\n<td>加密，防窃听防篡改</td>\n</tr>\n<tr>\n<td>协议基础</td>\n<td>直接基于 TCP</td>\n<td>HTTP + SSL/TLS</td>\n</tr>\n<tr>\n<td>默认端口</td>\n<td>80</td>\n<td>443</td>\n</tr>\n<tr>\n<td>证书</td>\n<td>不需要</td>\n<td>需要 CA 签发的数字证书</td>\n</tr>\n<tr>\n<td>性能</td>\n<td>无加解密开销</td>\n<td>略慢，但 HTTP/2、3 已把差距压得很小</td>\n</tr>\n<tr>\n<td>浏览器标识</td>\n<td>可能被标\"不安全\"</td>\n<td>标\"安全\"，SEO 有加权</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"https\">HTTPS 补上的四件事</h2>\n<ol>\n<li><strong>数据加密</strong> —— 机密性，第三方拿不到明文</li>\n<li><strong>身份认证</strong> —— 数字证书验证服务器身份，防中间人攻击与钓鱼站</li>\n<li><strong>数据完整性</strong> —— 传输中不被篡改</li>\n<li><strong>防重放</strong> —— 通过时间戳与随机数机制，防止旧请求被重复使用</li>\n</ol>\n<p>实现上用的是<strong>混合加密</strong>：非对称加密负责安全地协商出会话密钥，对称加密负责后续的数据传输（因为对称加密快得多）。</p>\n<h2 id=\"_3\">测试视角的落点</h2>\n<p>这几个点最容易在面试里被追问：</p>\n<ul>\n<li><strong>抓包工具为什么能看 HTTPS？</strong> 因为它在本机装了根证书做中间人——<strong>这恰好说明\"客户端信任了根证书就能解密\"</strong>，也说明证书校验一旦被跳过，加密就形同虚设。测试时要专门验证 App/客户端<strong>是否校验证书</strong>（不校验证书 = 可被抓包 = 可被中间人）。</li>\n<li><strong>证书过期、自签名、域名不匹配</strong> 这三种情况的客户端行为要各测一条——很多客户端只报错不中断，属于真实风险。</li>\n<li><strong>端口与重定向</strong>：HTTP 80 到 HTTPS 443 的跳转是否强制、跳转过程中是否泄漏参数。</li>\n</ul>\n<h2 id=\"_4\">与其他概念的关系</h2>\n<p>HTTPS 解决的是<strong>传输层安全</strong>，它<strong>不解决</strong>应用层的身份问题——登录之后服务端怎么认你，是 <span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span> 的事。两者常被混为一谈，面试里区分开是加分项。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/HTTP与HTTPS的核心差异.md"
+   },
+   {
+    "id": "wiki/40-接口测试/HTTP协议要点与状态码",
+    "title": "HTTP协议要点与状态码",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "interview",
+     "test-theory"
+    ],
+    "links": [
+     "CRLF注入测试",
+     "HTTP与HTTPS的核心差异",
+     "SSRF服务端请求伪造测试",
+     "接口测试知识地图",
+     "接口鉴权机制-Token与Cookie与Session",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"http\">HTTP 协议要点与状态码</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>HTTP 是<strong>请求-响应模型 + 无状态</strong>的应用层协议。无状态这一条，直接衍生出了后面所有身份认证机制——理解这点，Cookie/Session/Token 的存在就有了解释。</p>\n<h2 id=\"_2\">四个核心特点</h2>\n<table>\n<thead>\n<tr>\n<th>特点</th>\n<th>对测试的意义</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>请求-响应模型</strong></td>\n<td>通信永远由客户端主动发起，服务端被动响应。安全测试里\"服务端为什么会主动发请求\"就变得可疑（<span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span> 的立足点）</td>\n</tr>\n<tr>\n<td><strong>无状态</strong></td>\n<td>服务端不记上一次请求。所以必须靠 Cookie / Session / Token 来\"记住\"身份（见 <span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span>）</td>\n</tr>\n<tr>\n<td><strong>支持任意数据格式</strong></td>\n<td>不限于 HTML，JSON/图片/视频都用同一套协议，断言方式要跟着变</td>\n</tr>\n<tr>\n<td><strong>明文传输</strong></td>\n<td>传统 HTTP 不加密，内容可被窃听篡改 → 有了 HTTPS（见 <span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span>）</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">版本演进：都在解决同一个问题</h2>\n<table>\n<thead>\n<tr>\n<th>版本</th>\n<th>改进</th>\n<th>解决的是什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>HTTP/1.1</td>\n<td>默认长连接（Keep-Alive）</td>\n<td>省掉每次重连的开销，但同连接内请求仍需排队（队头阻塞）</td>\n</tr>\n<tr>\n<td>HTTP/2</td>\n<td>二进制分帧、多路复用、头部压缩</td>\n<td>同一连接并行发多个请求，互不干扰</td>\n</tr>\n<tr>\n<td>HTTP/3</td>\n<td>基于 UDP 的 QUIC</td>\n<td>彻底解决底层队头阻塞，弱网表现更好</td>\n</tr>\n</tbody>\n</table>\n<p><strong>测试视角</strong>：升级到 HTTP/2 或 3 后，<strong>连接复用相关的用例必须重测</strong>——按连接数做的限流、按请求计数做的统计，行为都会变。</p>\n<h2 id=\"_4\">状态码：分组记忆，别背清单</h2>\n<table>\n<thead>\n<tr>\n<th>段</th>\n<th>含义</th>\n<th>测试关注点</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>1xx</strong></td>\n<td>信息性</td>\n<td><code>100 Continue</code>、<code>101 Switching Protocols</code>（升级 WebSocket）——接口测试少见，出现往往是协议升级</td>\n</tr>\n<tr>\n<td><strong>2xx</strong></td>\n<td>成功</td>\n<td><code>200</code> 通用、<code>201</code> 已创建、<code>202</code> 已接受（<strong>异步任务</strong>，别当成已完成）、<code>204</code> 无内容、<code>206</code> 范围请求（断点续传）</td>\n</tr>\n<tr>\n<td><strong>3xx</strong></td>\n<td>重定向</td>\n<td><code>301</code> 永久、<code>302</code> 临时——<strong>重定向是安全测试的重点</strong>（<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span> 可以伪造 <code>Location</code> 头）</td>\n</tr>\n<tr>\n<td><strong>4xx</strong></td>\n<td>客户端错误</td>\n<td><code>400</code> 参数错、<code>401</code> 未认证、<code>403</code> 无权限、<code>404</code> 不存在——<strong>401 与 403 的区别是权限用例的判定依据</strong></td>\n</tr>\n<tr>\n<td><strong>5xx</strong></td>\n<td>服务端错误</td>\n<td><code>500</code> 内部错误、<code>502</code> 网关错误、<code>503</code> 不可用、<code>504</code> 超时——<strong>压测时 5xx 比例是重要指标</strong></td>\n</tr>\n</tbody>\n</table>\n<p>两个容易混的点：</p>\n<ul>\n<li><strong><code>202 Accepted</code> ≠ 处理成功</strong>，只表示\"收到了\"。用例必须再查最终结果，否则会误判为通过。</li>\n<li><strong><code>401</code> 是\"你是谁\"的问题，<code>403</code> 是\"你能不能\"的问题。</strong> 越权测试里期望看到 403，如果返回 401 说明鉴权链路有别的毛病。</li>\n</ul>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/HTTP协议要点与状态码.md"
+   },
+   {
+    "id": "wiki/40-接口测试/Mock接口桩的设计模式",
+    "title": "Mock接口桩的设计模式",
+    "cat": "api-testing",
+    "kind": "skill",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "interview",
+     "tooling",
+     "pitfall"
+    ],
+    "links": [
+     "HTTP协议要点与状态码",
+     "接口测试知识地图",
+     "接口鉴权机制-Token与Cookie与Session",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"mock\">Mock 接口桩的设计模式</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>自研 Mock 桩的价值不在\"能返回假数据\"，而在<strong>能按需制造你想测的那种响应</strong>。五种响应模式覆盖了接口测试绝大多数的依赖替代需求。</p>\n<h2 id=\"_2\">五种响应模式</h2>\n<table>\n<thead>\n<tr>\n<th>模式</th>\n<th>动态依据</th>\n<th>适用场景</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>请求参数匹配</strong></td>\n<td>URL 参数</td>\n<td>按不同 ID 返回不同数据（正常/异常路径）</td>\n</tr>\n<tr>\n<td><strong>请求体解析</strong></td>\n<td>POST 内容</td>\n<td>按业务类型分支返回（如普通订单 vs VIP 订单）</td>\n</tr>\n<tr>\n<td><strong>场景模拟</strong></td>\n<td>请求里的 <code>scenario</code> 字段</td>\n<td><strong>测异常处理逻辑</strong>：超时、错误码、余额不足</td>\n</tr>\n<tr>\n<td><strong>通用 Mock</strong></td>\n<td>请求体指定 <code>status_code</code> / <code>delay</code> / <code>response</code></td>\n<td>不改代码就能构造任意响应，最灵活</td>\n</tr>\n<tr>\n<td><strong>规则引擎</strong></td>\n<td>预定义规则表</td>\n<td>多条件匹配的复杂业务场景</td>\n</tr>\n</tbody>\n</table>\n<p><strong>第三种和第四种是测试视角下最有价值的</strong>——它们把\"制造异常\"从\"改代码\"变成了\"改请求\"，异常用例的编写成本直接降一个量级。</p>\n<h2 id=\"flask\">实现要点（Flask 方案）</h2>\n<p>一个最小可用的桩用 Flask 就够了：路由接收请求 → 根据参数/请求体/scenario 字段分支 → 返回不同 JSON。50 行以内能覆盖前三种模式。</p>\n<p><strong>代码不重复贴在这里</strong>——完整实现（含五种模式的代码与调用示例）在 <code>raw/legacy/笔记/03-工具与安装/Mock接口桩.md</code>。</p>\n<h2 id=\"_3\">什么时候该换专业工具</h2>\n<table>\n<thead>\n<tr>\n<th>需求</th>\n<th>该用什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>录制回放、契约测试</td>\n<td>WireMock、Mountebank、mitmproxy</td>\n</tr>\n<tr>\n<td>简单接口桩、异常场景构造</td>\n<td>自研 Flask 方案足够</td>\n</tr>\n</tbody>\n</table>\n<p><strong>判断标准</strong>：当\"维护桩本身\"开始比\"写用例\"更耗时，就该换工具了。</p>\n<h2 id=\"mock_1\">最容易犯的错：把\"Mock 通过\"当成\"接口没问题\"</h2>\n<p>这是接口测试里最典型的假阳性来源：</p>\n<ul>\n<li><strong>契约偏离</strong>：Mock 返回的字段名/类型和真实服务不一致，用例全绿，上线后立刻挂</li>\n<li><strong>行为偏离</strong>：Mock 不校验权限、不做参数边界检查，掩盖了真实的鉴权缺陷（比如 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span> 在 Mock 环境下根本测不出来）</li>\n<li><strong>状态偏离</strong>：Mock 无状态，测不出并发、幂等、事务回滚这类问题</li>\n</ul>\n<p><strong>破解方式</strong>：Mock 只用于<strong>隔离被测接口的外部依赖</strong>，被测接口自身的逻辑必须跑真实实现；关键链路（鉴权、支付、状态流转）不允许全程 Mock 通过就算完。</p>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/Mock接口桩的设计模式.md"
+   },
+   {
+    "id": "wiki/40-接口测试/接口测试知识地图",
+    "title": "接口测试知识地图",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "interview",
+     "checklist"
+    ],
+    "links": [
+     "HTTP与HTTPS的核心差异",
+     "HTTP协议要点与状态码",
+     "Mock接口桩的设计模式",
+     "Web安全测试地图",
+     "性能瓶颈定位的分层排查路径",
+     "接口鉴权机制-Token与Cookie与Session",
+     "自动化测试分层架构与Fixture作用域",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>接口测试的面试题几乎都落在四个问题上：<strong>协议怎么走、身份怎么验、依赖怎么替、异常怎么造</strong>。这四个问题对应四块知识，其余都是细节。</p>\n<h2 id=\"_2\">四块知识</h2>\n<table>\n<thead>\n<tr>\n<th>块</th>\n<th>回答的问题</th>\n<th>页面</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>协议</strong></td>\n<td>请求怎么发出去、状态码怎么判读</td>\n<td><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></td>\n</tr>\n<tr>\n<td><strong>传输安全</strong></td>\n<td>同样是请求，HTTPS 多做了什么</td>\n<td><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></td>\n</tr>\n<tr>\n<td><strong>身份</strong></td>\n<td>服务端凭什么相信这次请求是你</td>\n<td><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></td>\n</tr>\n<tr>\n<td><strong>依赖替代</strong></td>\n<td>下游没好、数据造不出来时怎么继续测</td>\n<td><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三条贯穿接口测试的判断</h2>\n<p><strong>一、状态码只是线索，不是结论。</strong> 404 可能是真的没有，也可能是鉴权失败被伪装成 404；200 也不代表拿到了正确的数据——<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span> 的核心判据就是\"状态码 200 但内容其实是别人的\"。</p>\n<p><strong>二、鉴权方式决定测试重点。</strong> Cookie 体系下必测 CSRF 与 HttpOnly；Token 体系下必测签名篡改与过期策略。<strong>不清楚被测系统用哪种鉴权，用例设计就是盲的。</strong></p>\n<p><strong>三、Mock 的目的是隔离，不是省事。</strong> 用 Mock 跳过依赖能让用例跑起来，但<strong>\"Mock 通过\"不等于\"接口没问题\"</strong>——契约一旦偏离真实实现，Mock 会掩盖故障。</p>\n<h2 id=\"_4\">与其他领域的关系</h2>\n<ul>\n<li>接口的<strong>安全性</strong>（注入、越权、SSRF）见 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li>接口的<strong>性能</strong>（压测、拐点定位）见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li>接口<strong>自动化</strong>（pytest + requests 分层）见 <span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n</ul>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/接口测试知识地图.md"
+   },
+   {
+    "id": "wiki/40-接口测试/接口鉴权机制-Token与Cookie与Session",
+    "title": "接口鉴权机制-Token与Cookie与Session",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "interview",
+     "checklist"
+    ],
+    "links": [
+     "CSRF跨站请求伪造测试",
+     "HTTP与HTTPS的核心差异",
+     "HTTP协议要点与状态码",
+     "Web安全测试地图",
+     "接口测试知识地图",
+     "自动化测试分层架构与Fixture作用域",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"token-cookie-session\">接口鉴权机制：Token / Cookie / Session</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>HTTP 是无状态的，服务端要靠这三样东西\"记住\"你是谁。<strong>它们的区别不在实现细节，而在状态存在谁那边</strong>——这个根本差异决定了扩展性、注销难度和安全风险。</p>\n<h2 id=\"_2\">三种机制</h2>\n<table>\n<thead>\n<tr>\n<th>机制</th>\n<th>状态存在哪</th>\n<th>本质</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Cookie</strong></td>\n<td>客户端（浏览器）</td>\n<td>服务端发下来、浏览器每次自动带上的一小段文本，容量约 4KB、明文可篡改</td>\n</tr>\n<tr>\n<td><strong>Session</strong></td>\n<td>服务端（内存/Redis/DB）</td>\n<td>真正的状态在服务端，客户端只拿一个 SessionID 当\"暗号\"</td>\n</tr>\n<tr>\n<td><strong>Token（JWT）</strong></td>\n<td>客户端，但服务端不存</td>\n<td>自包含的签名凭证，服务端只验签名即可，<strong>无需查库</strong></td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">核心对比</h2>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>Cookie</th>\n<th>Session</th>\n<th>Token (JWT)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>状态类型</td>\n<td>客户端状态</td>\n<td>服务端状态</td>\n<td><strong>无状态</strong></td>\n</tr>\n<tr>\n<td>安全性</td>\n<td>低（明文易篡改/劫持）</td>\n<td>中（敏感数据在服务端）</td>\n<td>高（签名防篡改）</td>\n</tr>\n<tr>\n<td>XSS 防护</td>\n<td>需 <code>HttpOnly</code></td>\n<td>天然防护</td>\n<td>需谨慎存储</td>\n</tr>\n<tr>\n<td>CSRF 防护</td>\n<td>需 <code>SameSite</code> + 双重 Cookie</td>\n<td>需 CSRF Token</td>\n<td><strong>不使用 Cookie，天然免疫</strong></td>\n</tr>\n<tr>\n<td>扩展性</td>\n<td>差</td>\n<td>差（集群需共享存储）</td>\n<td><strong>好（无状态，天然分布式）</strong></td>\n</tr>\n<tr>\n<td>注销</td>\n<td>删 Cookie</td>\n<td>删 Session</td>\n<td><strong>难——需黑名单或短过期</strong></td>\n</tr>\n<tr>\n<td>传输方式</td>\n<td>浏览器自动携带</td>\n<td>自动携带 SessionID</td>\n<td>前端<strong>手动</strong>放进 <code>Authorization</code> 头</td>\n</tr>\n<tr>\n<td>跨域 / 移动端</td>\n<td>受同源策略限制 / ❌</td>\n<td>同左</td>\n<td>极佳 / ✅</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">三个必须纠正的认知</h2>\n<p><strong>一、\"Session 在服务端所以安全\"是错的。</strong> Session 只是存储方式，它依然要靠 SessionID 标识用户，而这个 ID <strong>通常还是通过 Cookie 传递的</strong>——所以 Session 架构同样面临 CSRF 风险，标准解法是额外的 CSRF Token。</p>\n<p><strong>二、Token 的 payload 是 Base64 编码，不是加密。</strong> 任何人都能解开看内容。<strong>所以绝不能把密码等敏感信息放进 Token。</strong> 签名只保证\"没被改过\"，不保证\"看不见\"。</p>\n<p><strong>三、Token 一旦签发难以主动作废。</strong> 这是它最大的工程代价——用户登出、密码修改、账号封禁都需要额外机制（黑名单、短过期 + 刷新令牌轮换）才能及时生效。面试里能主动说出这个 trade-off 是加分项。</p>\n<h2 id=\"_5\">测试视角的落点</h2>\n<p><strong>先确认被测系统用哪种鉴权，再设计用例</strong>——鉴权方式决定了必测项完全不同：</p>\n<ul>\n<li><strong>Cookie 体系</strong> → 必测 CSRF（见 <span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>）、<code>HttpOnly</code> 与 <code>SameSite</code> 是否设置、Cookie 劫持</li>\n<li><strong>Session 体系</strong> → 必测会话超时、集群间 Session 是否共享、登出后 SessionID 是否真正失效</li>\n<li><strong>Token 体系</strong> → 必测<strong>签名篡改</strong>（改 payload 后签名是否失效）、算法混淆（<code>alg: none</code>）、过期策略、刷新令牌竞态</li>\n<li><strong>通用</strong> → 无凭证访问、改他人凭证、凭证在最外层被剥离后接口是否仍然放行</li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/接口鉴权机制-Token与Cookie与Session.md"
+   },
+   {
+    "id": "wiki/30-性能测试/性能瓶颈定位的分层排查路径",
+    "title": "性能瓶颈定位的分层排查路径",
+    "cat": "performance-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "线上反馈\"系统变慢了\"，你会按什么顺序排查？",
+    "domain": "性能测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "performance-testing",
+     "interview",
+     "root-cause",
+     "checklist"
+    ],
+    "links": [
+     "Redis缓存的五类经典问题",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">回答思路先摆出来</h2>\n<p><strong>先分层，再定序，最后才动手。</strong> 面试里最容易失分的答法是\"先看 CPU\"——因为 CPU 是表面上最好看的指标，但它经常只是受害者而不是元凶。正确的起点是 I/O，因为它最容易制造假象。</p>\n<h2 id=\"_2\">四步排查顺序</h2>\n<pre><code>收到&quot;系统慢了&quot;\n   ↓\n① 磁盘 I/O —— iostat -x 1\n   %util &gt; 80% 或 wa &gt; 10% ？ → 是：直接解决磁盘问题，结束\n   ↓ 否\n② 内存 —— free -h / vmstat\n   有 Swap 活动 / 内存不足？ → 是：解决内存问题，结束\n   ↓ 否\n③ CPU —— top\n   us 高 → 查 SQL 与算法热点\n   sy 高 → 查锁竞争与连接数\n   wa 高 → 回到第 ① 步（说明漏判了 I/O）\n   ↓ 否\n④ 网络 —— 带宽 / 重传 / 建连时间\n   打满或延迟高 → 优化拓扑、升级带宽、检查连接池\n</code></pre>\n<p><strong>为什么这个顺序</strong>：I/O 和内存的问题会以 CPU 指标的形式表现出来（<code>wa</code>、<code>sy</code> 偏高）。先排掉它们，后面的判断才干净。</p>\n<h2 id=\"_3\">每层的动作清单</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>第一步命令</th>\n<th>看什么</th>\n<th>常见误判</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>磁盘</td>\n<td><code>iostat -x 1</code></td>\n<td><code>%util</code>、<code>await</code></td>\n<td>把 <code>wa</code> 高当成 CPU 问题</td>\n</tr>\n<tr>\n<td>内存</td>\n<td><code>free -h</code>、<code>vmstat 1</code></td>\n<td>Swap 活动、<code>si/so</code></td>\n<td>忽略 GC 停顿，只看使用率</td>\n</tr>\n<tr>\n<td>CPU</td>\n<td><code>top</code>、<code>top -Hp PID</code></td>\n<td><code>us</code>/<code>sy</code>/<code>wa</code> 三者比例</td>\n<td>只用总利用率下结论</td>\n</tr>\n<tr>\n<td>网络</td>\n<td><code>mtr</code>、<code>tcpdump</code></td>\n<td>重传率、建连时间</td>\n<td>忘了检查连接池是否耗尽</td>\n</tr>\n<tr>\n<td>数据库</td>\n<td><code>EXPLAIN</code>、慢查询日志</td>\n<td><code>type</code>、<code>key</code></td>\n<td>索引失效（函数操作列、隐式类型转换、前导模糊匹配）</td>\n</tr>\n<tr>\n<td>应用</td>\n<td><code>jstack</code></td>\n<td>线程池队列、阻塞点</td>\n<td>只调线程池大小，不查阻塞源</td>\n</tr>\n<tr>\n<td>中间件</td>\n<td>Kafka Lag、<code>kubectl top pod</code></td>\n<td>Lag、CPU Throttling</td>\n<td>忽略容器 Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">优化策略：五个方向，按代价从低到高</h2>\n<table>\n<thead>\n<tr>\n<th>方向</th>\n<th>核心思路</th>\n<th>适用场景</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>减少需求</td>\n<td>缓存热点、减少重复计算、合并请求</td>\n<td>读多写少</td>\n</tr>\n<tr>\n<td>改善分布</td>\n<td>负载均衡、读写分离、分库分表</td>\n<td>单点过载</td>\n</tr>\n<tr>\n<td>减少同步</td>\n<td>异步化、消息队列解耦、无锁设计</td>\n<td>高并发竞争</td>\n</tr>\n<tr>\n<td>优化代码</td>\n<td>算法优化、批量处理、消除 N+1 查询</td>\n<td>应用层瓶颈</td>\n</tr>\n<tr>\n<td>增加资源</td>\n<td>扩容 CPU/内存、换 SSD</td>\n<td>确实的硬瓶颈</td>\n</tr>\n</tbody>\n</table>\n<p><strong>先测后优</strong>：没有基准测试的优化都是瞎猜。先压出瓶颈点，再针对性优化——反过来做，改了一堆地方却不知道哪个起了作用。</p>\n<h2 id=\"_5\">一个容易漏掉的环节</h2>\n<p><strong>先确认压测机自己不是瓶颈。</strong> 判断方法：线程/并发翻倍后 TPS 不成比例增长，且服务端资源水位不高——那大概率是压测机先到极限。解法是分布式压测，或先跑一次压测机空载基准。</p>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"Redis缓存的五类经典问题\">Redis缓存的五类经典问题</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/30-性能测试/性能瓶颈定位的分层排查路径.md"
+   },
+   {
+    "id": "wiki/30-性能测试/性能瓶颈的分层模型",
+    "title": "性能瓶颈的分层模型",
+    "cat": "performance-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "性能测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "performance-testing",
+     "interview",
+     "metric"
+    ],
+    "links": [
+     "性能瓶颈定位的分层排查路径",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>系统变慢从来不是\"整体慢\"，而是<strong>某一层先到拐点</strong>。把所有可能的瓶颈按调用链拆成七层，每层配一组可量化的健康阈值，排查才有落点。</p>\n<h2 id=\"_2\">七层与各自的风险阈值</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>关键指标</th>\n<th>风险阈值</th>\n<th>典型根因</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>CPU</strong></td>\n<td>利用率 / 上下文切换 / 运行队列</td>\n<td>us &gt; 85%；cs &gt; 3 万/s；r &gt; 核心数×2</td>\n<td>线程竞争、死循环、算法低效</td>\n</tr>\n<tr>\n<td><strong>内存</strong></td>\n<td>使用率 / Full GC 频次 / STW</td>\n<td>使用率 &gt; 95%；Full GC &gt; 5 次/分；STW &gt; 100ms</td>\n<td>内存泄漏、JVM 参数不当</td>\n</tr>\n<tr>\n<td><strong>磁盘 I/O</strong></td>\n<td>%util / await</td>\n<td>%util &gt; 90%；await &gt; 20ms</td>\n<td>同步 I/O 过多、日志过密</td>\n</tr>\n<tr>\n<td><strong>网络</strong></td>\n<td>TCP 重传率 / 带宽 / 建连时间</td>\n<td>重传 &gt; 2%；connecting &gt; 50ms</td>\n<td>拥塞丢包、带宽饱和、连接池耗尽</td>\n</tr>\n<tr>\n<td><strong>数据库</strong></td>\n<td>慢查询占比 / 连接池 / 锁等待</td>\n<td>慢查询 &gt; 5%；连接池 &gt; 80%；锁等待 &gt; 1s</td>\n<td>缺索引、事务过长、连接复用不足</td>\n</tr>\n<tr>\n<td><strong>应用/JVM</strong></td>\n<td>线程池队列 / TPS 波动 / 超时率</td>\n<td>队列持续增长；TPS 波动 &gt; 30%；超时率 &gt; 1%</td>\n<td>远程调用阻塞、慢 SQL、无降级</td>\n</tr>\n<tr>\n<td><strong>中间件</strong></td>\n<td>MQ Lag / 容器 Throttling</td>\n<td>Lag &gt; 分区数×1000；出现 CPU Throttling</td>\n<td>消费能力不足、CPU Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">为什么\"分层\"比\"凭经验猜\"更靠谱</h2>\n<p>单看一个指标几乎必错。三个坑：</p>\n<ol>\n<li><strong>指标之间会互相伪装。</strong> CPU 的 <code>wa</code>（I/O 等待）高，根因其实在磁盘；<code>sy</code>（系统态）高，根因常在锁与连接。只看 CPU 利用率会一路查到错误的层。</li>\n<li><strong>健康值必须用同类系统对比。</strong> \"CPU 60% 算不算高\"没有绝对答案，要看这台机器的基线。没有基线的阈值是装饰品。</li>\n<li><strong>拐点比绝对值重要。</strong> 真正要找的是\"再加一点压力，指标突然不成比例恶化\"的那个点——而不是某个静态数字。</li>\n</ol>\n<h2 id=\"_4\">与测试设计的关系</h2>\n<p>分层模型直接决定性能测试的<strong>监控埋点清单</strong>：哪一层没监控，那一层出问题时就只能靠猜。所以设计压测场景时，先按这七层列出观测项，再决定压什么。</p>\n<p>具体排查顺序和实操动作见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/30-性能测试/性能瓶颈的分层模型.md"
+   },
+   {
+    "id": "wiki/20-自动化测试/自动化测试分层架构与Fixture作用域",
+    "title": "自动化测试分层架构与Fixture作用域",
+    "cat": "automation-testing",
+    "kind": "skill",
+    "level": "高级",
+    "question": "",
+    "domain": "自动化测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "automation-testing",
+     "interview",
+     "framework",
+     "best-practice"
+    ],
+    "links": [
+     "Mock接口桩的设计模式",
+     "接口鉴权机制-Token与Cookie与Session",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"fixture\">自动化测试分层架构与 Fixture 作用域</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>框架设计的两个核心决策：<strong>代码怎么分层</strong>（改动影响面）和 <strong>fixture 作用域怎么定</strong>（性能与隔离的平衡）。这两件事定了，框架就定了。</p>\n<h2 id=\"_2\">技术栈组合</h2>\n<ul>\n<li><strong>Web 自动化</strong>：Pytest + Playwright + Excel（数据驱动）+ Allure（报告）+ PO 模式 + 关键字驱动</li>\n<li><strong>API 自动化</strong>：Pytest + Requests + YAML/Excel（数据驱动）+ Allure</li>\n</ul>\n<h2 id=\"_3\">四层架构</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>职责</th>\n<th>关键约束</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Base 层</strong></td>\n<td>封装底层驱动方法（点击、输入、发请求）</td>\n<td>只做原子操作，不含业务</td>\n</tr>\n<tr>\n<td><strong>Page / API 层</strong></td>\n<td>对应具体页面元素或接口定义</td>\n<td>元素定位、接口路径只在这里出现</td>\n</tr>\n<tr>\n<td><strong>Case 层</strong></td>\n<td>纯业务逻辑的测试用例</td>\n<td><strong>不含任何实现细节</strong>——这是分层是否成功的判据</td>\n</tr>\n<tr>\n<td><strong>Data 层</strong></td>\n<td>测试数据与代码分离（YAML/JSON/Excel）</td>\n<td>同一用例换数据即可复用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>PO 模式的本质是依赖注入</strong>：把 Playwright 的 Page 对象注入到页面对象里，让页面对象持有操作入口。这样 Case 层只调业务方法，不碰定位器——UI 改版时只改 Page 层。</p>\n<h2 id=\"fixture_1\">Fixture 作用域：性能与隔离的平衡点</h2>\n<p>这是最容易被写错、也最能体现设计水平的一处：</p>\n<table>\n<thead>\n<tr>\n<th>Fixture</th>\n<th>作用域</th>\n<th>为什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Browser</strong></td>\n<td><code>session</code></td>\n<td>启动 Chromium/Firefox 进程要<strong>几秒</strong>。几百个用例只启动 1 次</td>\n</tr>\n<tr>\n<td><strong>Page</strong></td>\n<td><code>function</code></td>\n<td>新建无痕上下文 + 页面只要<strong>毫秒级</strong>。每个用例一个全新、无 Cookie、无缓存的页面</td>\n</tr>\n</tbody>\n</table>\n<p><strong>收益</strong>：性能上省掉几百次进程启动，隔离上保证 A 用例的登录状态绝不会污染 B 用例。</p>\n<p><strong>反过来做会怎样</strong>：把 Browser 设成 function，测试套件慢到不可接受；把 Page 设成 session，用例之间互相污染，偶发失败（flaky）开始出现且极难定位。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<ul>\n<li><strong>判断分层是否合格</strong>：随便改一个页面的元素定位，如果只改了一个文件就够，分层是对的</li>\n<li><strong>判断 fixture 是否合理</strong>：跑一次全量，如果耗时集中在 setup 阶段，多半是重资源 fixture 的作用域写小了</li>\n<li><strong>数据驱动的边界</strong>：适合参数组合多的接口用例；不适合流程强依赖、步骤间有状态传递的场景</li>\n</ul>\n<h2 id=\"_5\">与其他领域的关系</h2>\n<ul>\n<li>API 自动化里最麻烦的一块是<strong>鉴权态的处理</strong>（登录一次拿到 Token，在多个用例间复用还是每次重登），见 <span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li>依赖没就绪时需要桩服务，见 <span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/20-自动化测试/自动化测试分层架构与Fixture作用域.md"
+   },
+   {
+    "id": "wiki/45-安全测试/CRLF注入测试",
+    "title": "CRLF注入测试",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "pitfall"
+    ],
+    "links": [
+     "SSRF服务端请求伪造测试",
+     "Web安全测试地图",
+     "XSS跨站脚本测试",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"crlf\">CRLF 注入测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>用户输入被拼进 HTTP 响应头且未过滤时，注入 <code>\\r\\n</code> 就能<strong>伪造出额外的头，甚至凭空造出第二个响应体</strong>——进而变成响应拆分、缓存投毒、XSS 或请求走私。</p>\n<p>这是最容易被忽略的一类注入，因为它不发生在页面上，而发生在<strong>协议层的头部</strong>。</p>\n<h2 id=\"_2\">触发条件</h2>\n<p>任何\"用户输入被写进 HTTP 响应头\"的场景：</p>\n<ul>\n<li><code>Location</code>（重定向目标）</li>\n<li><code>Set-Cookie</code></li>\n<li>自定义 Header</li>\n<li>任何把参数值回显到头里的逻辑</li>\n</ul>\n<h2 id=\"_3\">注入形式（第一道门槛就是编码）</h2>\n<table>\n<thead>\n<tr>\n<th>形式</th>\n<th>写法</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>URL 编码</td>\n<td><code>%0d%0a</code></td>\n</tr>\n<tr>\n<td>Unicode</td>\n<td><code>\\u000d\\u000a</code></td>\n</tr>\n<tr>\n<td>双重 URL 编码</td>\n<td><code>%250d%250a</code></td>\n</tr>\n</tbody>\n</table>\n<p><strong>只试一种编码是不够的</strong>——服务端可能只过滤了一次解码，双重编码能绕过。</p>\n<h2 id=\"_4\">三种利用形态</h2>\n<p><strong>1. Open Redirect</strong></p>\n<pre><code>/redirect?lang=en%0d%0aLocation:%20https://evil.com\n</code></pre>\n<p>若响应里出现两个 <code>Location</code> 头、或最终跳到了 evil.com，即存在漏洞。</p>\n<p><strong>2. 借 CRLF 实现 XSS</strong></p>\n<pre><code>/redirect?lang=en%0d%0aContent-Type:%20text/html%0d%0a%0d%0a&lt;script&gt;alert(1)&lt;/script&gt;\n</code></pre>\n<p>注入一个空行（<code>%0d%0a%0d%0a</code>）就<strong>结束了头部、开启响应体</strong>，后面的内容被浏览器当 HTML 执行。这条链路值得记住：<strong>CRLF 可以用来绕过 XSS 的所有输出编码防护</strong>，因为它根本不经过页面输出逻辑。</p>\n<p><strong>3. 请求走私</strong></p>\n<p>当 <code>Header</code> 名称或值由用户控制时，在 token 里注入 <code>test\\r\\nUser-Agent: injected\\r\\n\\r\\nGET /smuggled HTTP/1.1\\r\\nHost: example.com</code>，服务端可能把<strong>一个请求解析成两个</strong>，第二个是攻击者构造的。后续可导致 SSRF、缓存污染或绕过安全控制。</p>\n<h2 id=\"_5\">修复方向</h2>\n<p>对用户输入做严格白名单校验；<strong>禁止把用户输入直接写进 HTTP 头</strong>；用框架内置的安全重定向方法；对 <code>\\r\\n</code> 过滤或编码。</p>\n<h2 id=\"_6\">与其他漏洞的关系</h2>\n<p>CRLF 和 <span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span> 常在同一处出现（服务端取 URL 后回显），而它又是 <span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span> 的一条绕过路径。<strong>测 SSRF 入口时顺手试 CRLF，成本极低。</strong></p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/CRLF注入测试.md"
+   },
+   {
+    "id": "wiki/45-安全测试/CSRF跨站请求伪造测试",
+    "title": "CSRF跨站请求伪造测试",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "pitfall"
+    ],
+    "links": [
+     "Web安全测试地图",
+     "XSS跨站脚本测试",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"csrf\">CSRF 跨站请求伪造测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者<strong>不需要知道你的密码</strong>，只要让你用已登录的浏览器去访问一个恶意页面，浏览器会自动带上 Cookie，请求就以你的身份发出去了。</p>\n<p>和 <span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span> 的关系：XSS 是\"偷到你的身份\"，CSRF 是\"借用你的身份\"。<strong>修复 XSS 能顺带堵住一部分 CSRF，但 CSRF 有自己的防线。</strong></p>\n<h2 id=\"_2\">测试步骤</h2>\n<ol>\n<li>登录目标站，抓取敏感操作（改邮箱、改密码、转账）的正常请求</li>\n<li><strong>检查请求里有没有有效的 Anti-CSRF Token</strong></li>\n<li>构造恶意页面并自动提交：</li>\n</ol>\n<pre><code class=\"language-html\">&lt;form action=&quot;https://target.com/api/user/email&quot; method=&quot;POST&quot;&gt;\n    &lt;input type=&quot;hidden&quot; name=&quot;new_email&quot; value=&quot;hacker@evil.com&quot;/&gt;\n&lt;/form&gt;\n&lt;script&gt;document.forms[0].submit();&lt;/script&gt;\n</code></pre>\n<ol start=\"4\">\n<li>用已登录的浏览器打开该页面</li>\n<li>若操作成功执行且无 Token 校验失败提示 → 存在 CSRF</li>\n</ol>\n<h2 id=\"_3\">关键检测点</h2>\n<ul>\n<li>敏感操作<strong>是否验证 CSRF Token</strong>（有些接口只在前端传、后端不校验）</li>\n<li>Token 是否与 Session 绑定、<strong>是否一次性</strong>（复用的 Token 价值大减）</li>\n<li><code>Referer</code> / <code>Origin</code> 头校验是否可被绕过</li>\n<li><strong>GET 请求是否执行了状态变更</strong>——这是最严重的一种。<code>&lt;img src=\"https://bank.com/change_password?new_pass=attacker123\"&gt;</code> 一行就能改密码</li>\n</ul>\n<h2 id=\"_4\">修复方向</h2>\n<p>Synchronizer Token Pattern（服务端生成、与会话绑定、一次性）；校验 <code>Referer</code>/<code>Origin</code>；敏感操作二次确认；Cookie 设 <code>SameSite=Strict/Lax</code>。</p>\n<p><strong>SameSite 是现代浏览器性价比最高的一道默认防线</strong>，但它不是万能的——老旧浏览器不生效，跨站顶级导航场景仍会放行。</p>\n<h2 id=\"_5\">测试视角的落点</h2>\n<p>CSRF 的用例设计要点是<strong>区分请求方法</strong>：把所有\"会改变状态\"的接口列出来，检查其中有没有用 GET 的。这是纯规则检查，不需要复杂构造——但漏掉就是漏掉。</p>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/CSRF跨站请求伪造测试.md"
+   },
+   {
+    "id": "wiki/45-安全测试/SQL注入测试",
+    "title": "SQL注入测试",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "pitfall"
+    ],
+    "links": [
+     "Web安全测试地图",
+     "XSS跨站脚本测试",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"sql\">SQL 注入测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>用户输入被拼进 SQL 语句且未参数化时，特殊字符能改变 SQL 语义。测试的核心动作是<strong>判断输入有没有被当成代码执行</strong>——而不是背 payload。</p>\n<h2 id=\"_2\">测试手法，由浅入深</h2>\n<table>\n<thead>\n<tr>\n<th>手法</th>\n<th>输入</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>错误探测</strong></td>\n<td><code>'</code> 或 <code>\"</code></td>\n<td>是否返回数据库错误信息（有报错 = 有回显 = 好定位）</td>\n</tr>\n<tr>\n<td><strong>布尔盲注</strong></td>\n<td><code>' AND '1'='1</code> vs <code>' AND '1'='2</code></td>\n<td>两次响应是否不同（无报错时靠差异判断）</td>\n</tr>\n<tr>\n<td><strong>时间盲注</strong></td>\n<td><code>' AND SLEEP(5)--</code></td>\n<td>响应是否延迟 5 秒（完全无回显时的兜底）</td>\n</tr>\n<tr>\n<td><strong>联合查询</strong></td>\n<td><code>' UNION SELECT NULL,NULL,NULL--</code></td>\n<td>逐步确定列数后提取数据</td>\n</tr>\n<tr>\n<td><strong>注释截断</strong></td>\n<td><code>admin' --</code>（<code>--</code> 后必须有空格）</td>\n<td>密码条件被注释掉，无需密码登录</td>\n</tr>\n</tbody>\n</table>\n<p><strong>注释截断是最经典的验证</strong>：原语句 <code>WHERE username='$u' AND password='$p'</code>，输入 <code>admin' --</code> 后变成 <code>WHERE username='admin' -- ' AND password='...'</code>，密码条件整段失效。</p>\n<h2 id=\"_3\">输入点不止表单</h2>\n<p>容易被漏掉的注入位置：</p>\n<ul>\n<li><strong>HTTP Header</strong>：<code>User-Agent</code>、<code>Referer</code>、<code>X-Forwarded-For</code></li>\n<li><strong>排序与分页</strong>：<code>ORDER BY</code> 后面的字段名无法参数化，常被忽略</li>\n<li><strong>LIMIT 子句</strong></li>\n<li><strong>JSON / XML 解析入口</strong></li>\n</ul>\n<p><strong>只测表单输入框是新手最常见的漏测。</strong></p>\n<h2 id=\"_4\">修复方向</h2>\n<p>参数化查询（预编译语句）是唯一根本解法——把 SQL 结构与数据分离。最小权限原则和 WAF 都只是辅助防线：WAF 可以被编码绕过，权限收窄只能限制危害范围。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/SQL注入测试.md"
+   },
+   {
+    "id": "wiki/45-安全测试/SSRF服务端请求伪造测试",
+    "title": "SSRF服务端请求伪造测试",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "root-cause"
+    ],
+    "links": [
+     "CRLF注入测试",
+     "Web安全测试地图",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"ssrf\">SSRF 服务端请求伪造测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>服务端提供\"从指定 URL 取资源\"的功能却不校验目标地址，攻击者就能<strong>让服务器替他发请求</strong>——而服务器在内网里，能碰到攻击者碰不到的东西。</p>\n<p>SSRF 的危害等级比多数 Web 漏洞高，因为它把攻击面从\"公网可达\"扩展到了\"整个内网 + 云元数据\"。</p>\n<h2 id=\"_2\">高危功能点（测试入口清单）</h2>\n<ul>\n<li>URL 预览 / 链接分享解析</li>\n<li>图片抓取 / 头像上传 / <strong>PDF 生成</strong>（很隐蔽，本质是服务端去取图片）</li>\n<li>Webhook 回调地址配置</li>\n<li>XML/JSON 外部实体引用（XXE）</li>\n<li>导入远程资源（RSS、CSV、模板）</li>\n<li>SSO / OAuth 回调验证</li>\n<li>云服务元数据接口调用</li>\n</ul>\n<p><strong>找 SSRF 入口的通用方法</strong>：搜代码/接口里所有\"用户填了个地址，服务端去访问\"的地方。</p>\n<h2 id=\"payload\">逐级探测 payload</h2>\n<table>\n<thead>\n<tr>\n<th>级</th>\n<th>Payload</th>\n<th>目的</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td><code>http://127.0.0.1:80/</code></td>\n<td>探测本地回环</td>\n</tr>\n<tr>\n<td>2</td>\n<td><code>http://169.254.169.254/latest/meta-data/</code></td>\n<td><strong>云元数据服务</strong>（AWS/阿里云）</td>\n</tr>\n<tr>\n<td>3</td>\n<td><code>http://192.168.1.1:8080/admin</code></td>\n<td>探测内网 Web 后台</td>\n</tr>\n<tr>\n<td>4</td>\n<td><code>file:///etc/passwd</code></td>\n<td>伪协议读本地文件</td>\n</tr>\n<tr>\n<td>5</td>\n<td><code>http://internal-redis:6379/</code></td>\n<td>探测内部服务端口</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">危害等级差异很大</h2>\n<table>\n<thead>\n<tr>\n<th>利用方向</th>\n<th>危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>内网端口扫描</td>\n<td>中（只是信息收集）</td>\n</tr>\n<tr>\n<td>读取本地文件</td>\n<td>高（敏感文件泄露）</td>\n</tr>\n<tr>\n<td><strong>攻击内网服务</strong>（Gopher 协议打 Redis）</td>\n<td><strong>极高，可实现 RCE</strong></td>\n</tr>\n<tr>\n<td><strong>窃取云元数据</strong>（<code>/iam/security-credentials/</code>）</td>\n<td><strong>极高，可接管云账号</strong></td>\n</tr>\n</tbody>\n</table>\n<p>面试里如果只答\"能探测内网\"，深度是不够的——<strong>能打通云元数据直接接管账号</strong>才是 SSRF 被列为高危的原因。</p>\n<h2 id=\"_4\">修复方向</h2>\n<p>白名单（推荐，只允许预批准的域名/IP）优于黑名单（易绕过）；<strong>限制伪协议</strong>只留 <code>http</code>/<code>https</code>；服务端禁止重定向（防跳转绕过）+ 设超时；<strong>统一访问入口</strong>——不让用户传完整 URL，改成传资源 ID 由服务端映射到固定路径，这是最彻底的解法。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/SSRF服务端请求伪造测试.md"
+   },
+   {
+    "id": "wiki/45-安全测试/Web安全测试地图",
+    "title": "Web安全测试地图",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "checklist"
+    ],
+    "links": [
+     "CRLF注入测试",
+     "CSRF跨站请求伪造测试",
+     "SQL注入测试",
+     "SSRF服务端请求伪造测试",
+     "XSS跨站脚本测试",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"web\">Web 安全测试地图</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>安全测试的坑位不是按\"漏洞名字\"记的，而是按<strong>攻击者从哪里进入系统</strong>分成三类：往输入里塞东西、借用你的身份、骗服务器去请求。记住入口，比记住 payload 有用得多。</p>\n<h2 id=\"_2\">三类入口</h2>\n<table>\n<thead>\n<tr>\n<th>类别</th>\n<th>攻击者利用什么</th>\n<th>代表漏洞</th>\n<th>测试的共性动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>输入注入类</strong></td>\n<td>用户输入未经处理就被拼进解释器（SQL、HTML、HTTP 头）</td>\n<td><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span>、<span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span>、<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></td>\n<td>找全用户可控输入点 → 塞特殊字符 → 看输出位置 → 按输出上下文调整 payload</td>\n</tr>\n<tr>\n<td><strong>身份与会话类</strong></td>\n<td>系统信任了客户端传来的身份或凭证</td>\n<td><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>、<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n<td>准备两个账号 → 篡改身份标识 → 重放 → <strong>比对响应体内容而非状态码</strong></td>\n</tr>\n<tr>\n<td><strong>服务端请求类</strong></td>\n<td>服务端代替攻击者发起请求</td>\n<td><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n<td>找\"从 URL 取资源\"的功能点 → 逐级探测回环/内网/云元数据</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三个跨类别的通用原则</h2>\n<p><strong>一、前端控制不是安全措施。</strong> 隐藏按钮、前端校验、UUID 难猜——都只是 UX 或增加难度，不构成防护。判断标准永远是\"直接构造请求会怎样\"。</p>\n<p><strong>二、状态码不等于判定结果。</strong> 越权测试里返回 200 不代表成功越权，必须对比响应体内容是否真的是别人的数据；SSRF 里超时也不代表不可达，可能是被防火墙静默丢弃。<strong>判定依据要落在内容上。</strong></p>\n<p><strong>三、找到一个，就扩大范围。</strong> 越权漏洞往往成群出现——发现一个说明整个权限模型可能有系统性缺陷。安全测试的报告方式应该是\"这个模块的权限模型有问题\"，而不是\"这一个接口有问题\"。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<p>在测试用例设计里，这三类对应三种<strong>必测的异常路径</strong>：</p>\n<ul>\n<li>输入注入 → 每个输入框、每个 Header、每个排序/分页参数，都要有一条\"特殊字符\"用例</li>\n<li>身份会话 → 每个涉及资源 ID 的接口，都要有一条\"换一个账号的 ID\"用例</li>\n<li>服务端请求 → 每个\"填 URL\"的功能，都要有一条\"填内网地址\"用例</li>\n</ul>\n<p><strong>常见误用</strong>：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但<strong>越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现</strong>——工具不会知道\"这个订单不该被这个用户看到\"。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/Web安全测试地图.md"
+   },
+   {
+    "id": "wiki/45-安全测试/XSS跨站脚本测试",
+    "title": "XSS跨站脚本测试",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "pitfall"
+    ],
+    "links": [
+     "CRLF注入测试",
+     "CSRF跨站请求伪造测试",
+     "Web安全测试地图",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"xss\">XSS 跨站脚本测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>恶意脚本被注入页面并被<strong>别人的浏览器</strong>执行。测试的关键不是\"脚本能不能弹窗\"，而是<strong>payload 有没有按你预期的上下文逃逸出去</strong>。</p>\n<h2 id=\"_2\">三种类型</h2>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>触发条件</th>\n<th>特征</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>反射型</strong></td>\n<td>输入直接回显在当前响应里</td>\n<td>需要诱导点击，一次性</td>\n</tr>\n<tr>\n<td><strong>存储型</strong></td>\n<td>输入被持久化，他人访问时触发</td>\n<td>危害最大，无需诱导</td>\n</tr>\n<tr>\n<td><strong>DOM 型</strong></td>\n<td>前端 JS 从 DOM/URL 读数据后动态写入页面</td>\n<td><strong>请求响应里看不到 payload</strong>，必须看 DOM</td>\n</tr>\n</tbody>\n</table>\n<p><strong>DOM 型是最容易漏的</strong>：抓包看响应体完全正常，payload 是在浏览器端被 JS 拼进去的。验证必须用浏览器实际执行，不能只看 HTTP 响应。</p>\n<h2 id=\"payload\">按输出上下文调整 payload</h2>\n<p>同一段恶意代码，放在不同位置需要不同写法：</p>\n<table>\n<thead>\n<tr>\n<th>输出位置</th>\n<th>payload 形态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>HTML 标签之间</td>\n<td><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></td>\n</tr>\n<tr>\n<td>HTML 标签属性内</td>\n<td><code>\"&gt;&lt;svg/onload=alert(1)&gt;</code></td>\n</tr>\n<tr>\n<td>JS 字符串内</td>\n<td><code>';alert(1);//</code></td>\n</tr>\n<tr>\n<td>属性值内（无引号闭合）</td>\n<td><code>\" onfocus=alert(1) autofocus=\"</code></td>\n</tr>\n<tr>\n<td><code>href</code> / <code>src</code> 中</td>\n<td><code>javascript:alert(1)</code></td>\n</tr>\n</tbody>\n</table>\n<p><strong>探测第一步</strong>：输入 <code>&lt;test&gt;\"'&lt;test&gt;</code>，看响应里哪些字符被原样输出、哪些被编码——这决定了后面用哪套 payload。</p>\n<h2 id=\"_3\">绕过过滤</h2>\n<p>HTML 实体编码、Unicode 编码、大小写混合（<code>&lt;ScRiPt&gt;</code>）、双重编码。有 WAF 时先用探测串确认拦截规则，再针对性绕。</p>\n<h2 id=\"_4\">修复方向</h2>\n<p><strong>输出编码必须与上下文相关</strong>（HTML 编码 ≠ JS 编码 ≠ URL 编码，用错等于没编）；配 <code>Content-Security-Policy</code>；Cookie 设 <code>HttpOnly</code> 让脚本偷不到。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/XSS跨站脚本测试.md"
+   },
+   {
+    "id": "wiki/45-安全测试/越权访问与IDOR",
+    "title": "越权访问与IDOR",
+    "cat": "security-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "越权漏洞你会怎么系统化测试？为什么返回 200 不能判定为越权成功？",
+    "domain": "安全测试",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "root-cause",
+     "checklist"
+    ],
+    "links": [
+     "SQL注入测试",
+     "Web安全测试地图",
+     "XSS跨站脚本测试",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/越权访问与IDOR.md"
+   },
+   {
+    "id": "wiki/60-环境与工具/Redis缓存的五类经典问题",
+    "title": "Redis缓存的五类经典问题",
+    "cat": "database-linux",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "环境与工具",
+    "updated": "2026-09-10",
+    "confidence": "high",
+    "tags": [
+     "interview",
+     "root-cause",
+     "tooling"
+    ],
+    "links": [
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"redis\">Redis 缓存的五类经典问题</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>缓存不是\"加一层就快\"，它有五种典型失效模式，每一种的表现都是\"数据库压力突然变大\"，但根因和修法完全不同。</p>\n<h2 id=\"_2\">五种问题对照表</h2>\n<table>\n<thead>\n<tr>\n<th>问题</th>\n<th>现象</th>\n<th>定位方法</th>\n<th>修法</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>缓存击穿</strong></td>\n<td>某个热点 Key 过期瞬间，大量请求直接打到数据库</td>\n<td>热点 Key 监控</td>\n<td>热点 Key 设为永不过期；或加互斥锁重建</td>\n</tr>\n<tr>\n<td><strong>缓存穿透</strong></td>\n<td>查询的 Key 根本不存在，每次都穿透到底层</td>\n<td>查询日志出现大量 <code>null</code> 返回</td>\n<td>布隆过滤器拦无效 Key；或缓存空值</td>\n</tr>\n<tr>\n<td><strong>缓存雪崩</strong></td>\n<td>大批 Key 同一时刻集中过期，数据库被瞬时打满</td>\n<td>观察 Key 过期时间分布</td>\n<td>过期时间加随机偏移；上多级缓存</td>\n</tr>\n<tr>\n<td><strong>大 Key</strong></td>\n<td>单 Key 体积过大，读写阻塞、网络传输慢</td>\n<td><code>redis-cli --bigkeys</code></td>\n<td>拆分大 Hash/List；压缩 value</td>\n</tr>\n<tr>\n<td><strong>热 Key</strong></td>\n<td>单个 Key 的 QPS 异常集中，压垮单分片</td>\n<td>监控 QPS 集中度</td>\n<td>本地缓存 + Redis 二级；Key 拆分（<code>key_1</code> ~ <code>key_10</code>）</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"redis_1\">还有一层：Redis 自身的单线程瓶颈</h2>\n<p>Redis 命令执行是单线程的。当 <code>INFO</code> 里的 <code>instantaneous_ops_per_sec</code> 接近单实例上限时，加机器不如改用法：</p>\n<ul>\n<li><strong>集群分片</strong> —— 把压力摊到多个实例</li>\n<li><strong>读写分离</strong> —— 读走从节点</li>\n<li><strong>Pipeline 批量操作</strong> —— 减少往返次数，这是性价比最高的一招</li>\n</ul>\n<h2 id=\"_3\">测试视角的落点</h2>\n<p>这五种问题在测试里对应的是<strong>缓存失效场景的用例设计</strong>，不是功能用例：</p>\n<ul>\n<li>击穿 → 用例要覆盖\"热点 Key 刚好在压测过程中过期\"</li>\n<li>穿透 → 用例要覆盖\"随机不存在的 ID 高频查询\"</li>\n<li>雪崩 → 用例要覆盖\"批量写入后同时到达过期点\"</li>\n<li>大 Key → 用例要覆盖\"单个 Key 接近 512MB 上限\"</li>\n<li>热 Key → 用例要覆盖\"单 Key 占 80% 流量\"</li>\n</ul>\n<p><strong>常见误用</strong>：把缓存问题的验证放在功能测试阶段做一遍就算完。这些问题只在<strong>并发</strong>下暴露，功能环境单请求跑一万遍也测不出来。</p>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/60-环境与工具/Redis缓存的五类经典问题.md"
+   }
+  ]
+ }
+}

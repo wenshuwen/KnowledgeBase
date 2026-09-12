@@ -16,6 +16,10 @@ raw/files/**/*.mp4
 raw/files/**/*.dmg
 raw/files/**/*.pcap
 
+# 站点构建缓存（site/ 下的产物 index.html / content.json / kb.json 需要入库）
+site/__pycache__/
+*.pyc
+
 # 临时文件
 *.tmp
 *.swp
