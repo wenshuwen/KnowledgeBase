@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -142,6 +143,37 @@ def test_pack_with_bad_date_is_rejected() -> None:
     pack = _pack("2026-09-12")
     pack["date"] = "2026/09/12"
     assert any("date" in p for p in arc.validate_pack(pack))
+
+
+# --------------------------------------------------------------------------- #
+# 2b. cat 词表（归档短键 vs wiki 长键，混用会让前端标签变成英文原键）
+# --------------------------------------------------------------------------- #
+
+
+def test_pack_with_long_key_cat_is_rejected() -> None:
+    """wiki 的长键（api-testing）混进归档是最容易犯的错 —— 必须被 validate 拦下。"""
+    pack = _pack("2026-09-12")
+    pack["groups"][0]["questions"][0]["cat"] = "api-testing"
+    assert any("cat 非法" in p and "api-testing" in p for p in arc.validate_pack(pack))
+
+
+def test_site_cats_covers_front_end_vocabulary() -> None:
+    """SITE_CATS 必须与前端 CAT_DICT 的键一致 —— 漏一个，那个分类的标签就会掉成兜底样式。"""
+    html_text = (SITE_DIR / "index.html").read_text(encoding="utf-8")
+    block = re.search(r"const CAT_DICT\s*=\s*\{(.*?)\n\};", html_text, re.DOTALL)
+    assert block, "index.html 里找不到 CAT_DICT"
+    front_keys = set(re.findall(r'^\s*"?([A-Za-z0-9_-]+)"?\s*:\s*\{', block.group(1), re.MULTILINE))
+    assert front_keys == set(arc.SITE_CATS), (
+        f"前端 CAT_DICT 与 archive.SITE_CATS 不一致："
+        f"前端多 {sorted(front_keys - set(arc.SITE_CATS))}，"
+        f"归档多 {sorted(set(arc.SITE_CATS) - front_keys)}"
+    )
+
+
+def test_pitfalls_may_omit_cat() -> None:
+    """坑点卡片不展示分类标签，所以允许没有 cat —— 这是刻意豁免，别当成缺失去修。"""
+    pack = _pack("2026-09-12")
+    assert arc.validate_pack(pack) == []   # _pack 造的坑点本就没有 cat
 
 
 # --------------------------------------------------------------------------- #

@@ -55,6 +55,21 @@ GROUP_MIN: Final[dict[str, int]] = {
 #: GitHub 热点的四个板块（按「天」不按「组」——它是当日排行榜快照）
 GITHUB_SECTIONS: Final[tuple[str, ...]] = ("skills", "projects", "testingSkills", "tools")
 
+#: 归档条目的合法 cat —— 与前端 index.html 的 CAT_DICT 键**完全一致**（短键）。
+#: 注意这不是 WIKI-SCHEMA 8.2 的长键枚举（api-testing / performance-testing …）：
+#: 长键是 wiki frontmatter 的契约，归档层用的是站点自己的展示词汇。
+#: 两套词汇的映射见 WIKI-SCHEMA 8.2 的附表。pitfall 类条目可省略 cat
+#: （渲染时坑点卡片不展示分类标签）。
+SITE_CATS: Final[frozenset[str]] = frozenset({
+    "theory", "api", "perf", "auto", "ai", "db", "scene", "devops", "sec",
+    "soft", "python", "env", "llm", "agent", "aitools",
+})
+
+#: 归档里哪些模块必须带 cat（pitfall 可省）
+CAT_REQUIRED_MODULES: Final[tuple[str, ...]] = ("questions", "knowledge", "skills", "exam")
+#: 每个模块条目里 cat 所在的字段名（exam 的选择题用的是 q/o/a/x，cat 同名）
+CAT_FIELD: Final[str] = "cat"
+
 #: 每个板块至少展示的条数
 GITHUB_MIN: Final[int] = 10
 
@@ -268,6 +283,18 @@ def validate_pack(pack: dict[str, Any]) -> list[str]:
                 problems.append(f"第 {gi} 组缺少 {key} 数组")
             elif len(items) < minimum:
                 problems.append(f"第 {gi} 组 {key} 条数不足：{len(items)} < {minimum}")
+
+        # cat 词表校验：用错词表（比如混进 wiki 的长键）会让前端标签
+        # 显示成原始英文键 —— 不报出来就只有用户看得到。
+        for key in CAT_REQUIRED_MODULES:
+            for si, item in enumerate(g.get(key) or []):
+                cat = (item or {}).get(CAT_FIELD)
+                if not cat:
+                    problems.append(f"第 {gi} 组 {key}[{si}] 缺少 {CAT_FIELD}")
+                elif cat not in SITE_CATS:
+                    problems.append(
+                        f"第 {gi} 组 {key}[{si}] cat 非法：{cat!r}（合法值见 archive.SITE_CATS）"
+                    )
 
     gh = pack.get("github")
     if not isinstance(gh, dict):
