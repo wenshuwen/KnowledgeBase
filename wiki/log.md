@@ -172,3 +172,17 @@
 
 **校验**：`build_kb.py --dry-run` —— 死链 0、孤页 0、待修 0、未转义 HTML 0（详见本节提交）。新页无 `interview` 块，`kb.json` 无变化，未重建站点产物。
 
+
+## [2026-09-14] ingest | Agent工具调用测试 + Harness工程（AI 域首批 2 页）
+
+**读源**：本周（2026-09-07 ~ 09-14）`raw/interview/` 每日任务零落盘，每周任务按约定补采——从 `site/archive/2026-09-12.json`（3 组）精选 AI/Agent 类条目，保留原始表述落 `raw/interview/2026-09-14.md`（头部标注来源与选取口径）。单源 = 该补采文件。
+
+**建页**：`50-AI测试/Agent工具调用测试.md`（四层测试法 + 死循环三层防御 + 参数注入跨域风险；interview: ai-agent-testing/question/高级）、`50-AI测试/Harness工程.md`（Agent = Model + Harness、Harness 即被测对象、自进化三风险；interview: ai-agent-testing/knowledge/高级）。AI 域此前为空目录，此为首批两页。
+
+**抽实体**：本轮刻意未抽——LLM-as-judge、RAG、Max Iteration、Loop Detection 等概念在两页内已有定义且互相支撑，独立成页会产生薄页孤点；原料中尚有多轮记忆测试、评测集三层管理、RAG 测试要点等未编译条目，留待后续单源精读（原料已落盘不丢失）。
+
+**补链**：[[Web安全测试地图]] 补跨域注记（注入思想延伸至参数注入/提示注入，链向新页）；[[面试助手题库索引]] 更新进度行并在「相关」补两新页链接。
+
+**索引**：`index.md` 50-AI测试 段由「待投喂」换为 2 行；标签索引新增 #ai-testing 行、#interview 行补 2 页；规模 30 → 32 页。
+
+**待复查**：本周归档条目含短键 `llm`（映射明确落 50-AI测试）无歧义；未出现 `python` / `scene` / `soft` 短键条目，仲裁规则 5 未触发。
