@@ -46,6 +46,7 @@ def _gh_item(i: int, section: str = "skills") -> dict[str, Any]:
         "url": f"https://github.com/owner-{section}-{i}/repo-{i}",
         "stars": 1000 + i,
         "desc": "示例项目",
+        "descEn": "Sample project",
         "scene": "适合用于测试工程。",
         "lang": "Python",
         "topics": ["testing"],
@@ -212,6 +213,63 @@ def test_github_item_without_name_is_rejected() -> None:
     pack = _pack("2026-09-12")
     pack["github"]["skills"][0]["name"] = ""
     assert any("缺少 name" in p for p in arc.validate_pack(pack))
+
+
+# --------------------------------------------------------------------------- #
+# 2c. GitHub 榜单的字段语言契约
+#     name 保留英文全名（唯一标识，翻译会丢可检索性）
+#     desc 必须是中文（卡片上的介绍描述）
+#     descEn 留英文原文（核对译文、重译都靠它）
+# --------------------------------------------------------------------------- #
+
+
+def test_github_desc_must_be_chinese() -> None:
+    """英文简介原样上卡片 = 用户看到一屏英文。采集脚本给不出译文，所以必须在
+    validate 这一层拦住，而不是等用户发现。"""
+    pack = _pack("2026-09-12")
+    en = "Playwright is a framework for Web Testing and Automation."
+    pack["github"]["skills"][0]["desc"] = en
+    pack["github"]["skills"][0]["descEn"] = en
+    assert any("未中文化" in p for p in arc.validate_pack(pack))
+
+
+def test_github_item_with_empty_desc_is_rejected() -> None:
+    """接口没返回简介时 desc 会是空串 —— 也要报出来，免得卡片上凭空少一行。"""
+    pack = _pack("2026-09-12")
+    pack["github"]["projects"][0]["desc"] = ""
+    assert any("desc 为空" in p for p in arc.validate_pack(pack))
+
+
+def test_github_item_without_desc_en_is_rejected() -> None:
+    """英文原文必须留档：删掉它就没法核对译文，也没法在改口径后重译。"""
+    pack = _pack("2026-09-12")
+    pack["github"]["tools"][0].pop("descEn")
+    assert any("descEn" in p for p in arc.validate_pack(pack))
+
+
+def test_normalize_github_item_keeps_english_name_and_raw_desc() -> None:
+    """采集阶段的产出形态：name 是英文全名，desc 还是英文原文占位（待译写）。"""
+    item = arc.normalize_github_item({
+        "full_name": "microsoft/playwright",
+        "html_url": "https://github.com/microsoft/playwright",
+        "stargazers_count": 96013,
+        "description": "Playwright is a framework for Web Testing and Automation.",
+        "language": "TypeScript",
+        "topics": ["browser", "testing"],
+    })
+    assert item["name"] == "microsoft/playwright"   # 名称保留英文，不翻译
+    assert item["desc"] == item["descEn"]            # 采集时 desc 是英文占位
+    assert not arc.has_cjk(item["desc"])             # 所以它一定会被 validate 拦下
+    assert "浏览器自动化" in item["scene"]            # scene 由 topics 规则生成，已是中文
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("适合用于接口测试。", True),
+    ("Playwright is a framework", False),
+    ("", False),
+])
+def test_has_cjk(text: str, expected: bool) -> None:
+    assert arc.has_cjk(text) is expected
 
 
 # --------------------------------------------------------------------------- #

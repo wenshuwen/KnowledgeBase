@@ -108,6 +108,8 @@
     border:1px solid #fde68a;border-radius:7px;padding:2px 8px;white-space:nowrap;
   }
   .gh-desc{font-size:13.5px;color:#3a4150;line-height:1.7;overflow-wrap:anywhere;word-break:break-word}
+  /* 带 title 的描述 = 挂有英文原文，用 help 光标提示「悬浮可见」 */
+  .gh-desc[title]{cursor:help}
   .gh-scene{
     font-size:12.5px;color:#0f766e;background:#f0fdfa;border:1px solid #ccfbf1;
     border-radius:9px;padding:7px 10px;line-height:1.65;
@@ -1425,6 +1427,17 @@ function fmtStars(n){
   if(v >= 1000) return (v/1000).toFixed(1).replace(/\.0$/,"") + "k";
   return String(v);
 }
+/* 描述行：中文为主，英文原文挂在 title 上（悬浮可见）。
+   为什么不是双语并列：中英各一段会把卡片撑高、也稀释了阅读重点；
+   原文的作用是「可核对」，放 tooltip 就够。
+   兼容历史归档：desc 缺失时退回显示 descEn，不留白。 */
+function ghDescHtml(it){
+  const zh = String(it.desc || it.descEn || "").trim();
+  const en = String(it.descEn || "").trim();
+  if(!zh) return "";
+  const tip = (en && en !== zh) ? ` title="${esc(en)}"` : "";
+  return `<div class="gh-desc"${tip}>${esc(zh)}</div>`;
+}
 function renderGithub(){
   const box = $("#ghList");
   if(!box) return;
@@ -1459,7 +1472,7 @@ function renderGithub(){
               <span class="gh-name">${esc(it.name)}</span>
               <span class="gh-stars" title="${Number(it.stars)||0} stars">★ ${fmtStars(it.stars)}</span>
             </div>
-            ${it.desc ? `<div class="gh-desc">${esc(it.desc)}</div>` : ""}
+            ${ghDescHtml(it)}
             ${it.scene ? `<div class="gh-scene"><b>使用场景：</b>${esc(it.scene)}</div>` : ""}
             ${(it.topics||[]).length ? `<div class="gh-tags">${(it.topics||[]).slice(0,6).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>` : ""}
             ${link}
@@ -2070,7 +2083,7 @@ async function renderReview(kw){
         <span class="gh-stars">★ ${fmtStars(it.stars)}</span>
       </div>
       <div class="card-header" style="margin:0">${dTag(date)}<span class="tag ai">${esc(label||"")}</span></div>
-      ${it.desc ? `<div class="gh-desc">${esc(it.desc)}</div>` : ""}
+      ${ghDescHtml(it)}
       ${it.scene ? `<div class="gh-scene"><b>使用场景：</b>${esc(it.scene)}</div>` : ""}
       ${url ? `<a class="gh-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">打开仓库 →</a>` : ""}
     </div>`;

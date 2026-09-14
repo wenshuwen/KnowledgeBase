@@ -18,6 +18,15 @@
 前端只读索引、不去猜文件名，归档策略将来再怎么变都不需要改前端。
 
 保留策略：**当月按日保留，跨月合并为月文件**（体积收敛，历史可永久检索）。
+
+GitHub 榜单的字段语言契约（`github.<板块>[]` 每条）：
+
+    name     英文全名 owner/repo —— 保留英文，翻译会丢掉可检索性
+    desc     中文简介 —— 卡片上的介绍描述，**必须中文**
+    descEn   英文原文 —— 接口返回原样留档，勿删（核对译文 / 重译都靠它）
+
+采集脚本不调模型，所以 `desc` 由脚本写入时**还是英文占位**，
+翻译由调用方（每日任务）逐条译写覆盖；漏译会被 `validate` 拦下。
 """
 
 from __future__ import annotations
@@ -77,6 +86,16 @@ GITHUB_MIN: Final[int] = 10
 SAFE_URL_RE: Final[re.Pattern[str]] = re.compile(
     r"^https://github\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/?$"
 )
+
+#: GitHub 榜单的语言契约：`name` 保留英文全名，`desc` 必须是中文，英文原文留在 `descEn`。
+#: 只判「含不含中文」——这是**下限闸门**，不是译文质量评分：机器判不了译得好不好，
+#: 但能拦住「英文简介原样上卡片」这件事，而后者正是最容易漏的一步。
+CJK_RE: Final[re.Pattern[str]] = re.compile(r"[\u4e00-\u9fff]")
+
+
+def has_cjk(text: str) -> bool:
+    """文本是否含中文（CJK 统一表意文字）。"""
+    return bool(CJK_RE.search(text or ""))
 
 DATE_RE: Final[re.Pattern[str]] = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -308,11 +327,32 @@ def validate_pack(pack: dict[str, Any]) -> list[str]:
                 problems.append(f"github.{sec} 条数不足：{len(items)} < {GITHUB_MIN}")
             else:
                 for it in items:
-                    url = (it or {}).get("url")
+                    it = it or {}
+                    url = it.get("url")
                     if not isinstance(url, str) or not SAFE_URL_RE.match(url):
                         problems.append(f"github.{sec} 存在非法链接：{url!r}")
-                    if not (it or {}).get("name"):
+                    name = str(it.get("name") or "")
+                    if not name:
                         problems.append(f"github.{sec} 有条目缺少 name")
+                    label = name or "(缺少 name)"
+                    # 语言契约：name 保留英文，desc 必须中文，英文原文留 descEn。
+                    # 采集脚本给不出译文，所以「未中文化」是常态缺陷而非异常 ——
+                    # 不在这里拦住，用户就会在页面上看到一整屏英文。
+                    desc = str(it.get("desc") or "").strip()
+                    if not desc:
+                        problems.append(
+                            f"github.{sec} {label} 的 desc 为空（接口未返回简介）："
+                            "依据 topics / scene 补一句中文简介，或换一条有简介的仓库"
+                        )
+                    elif not has_cjk(desc):
+                        problems.append(
+                            f"github.{sec} {label} 的 desc 未中文化：{desc[:40]!r}"
+                            "（应译写为中文，英文原文保留在 descEn）"
+                        )
+                    if not str(it.get("descEn") or "").strip():
+                        problems.append(
+                            f"github.{sec} {label} 缺少 descEn（英文原文留档，勿删）"
+                        )
 
     return problems
 
@@ -500,12 +540,24 @@ def matches_none(repo: dict[str, Any], hints: tuple[str, ...]) -> bool:
 
 
 def normalize_github_item(repo: dict[str, Any]) -> dict[str, Any]:
-    """把 GitHub API 的仓库对象裁剪成站点卡片需要的字段。"""
+    """把 GitHub API 的仓库对象裁剪成站点卡片需要的字段。
+
+    **语言契约（2026-09-14 起）**：
+    - `name`：保留英文全名（`owner/repo`）。它是仓库的唯一标识，翻译会直接
+      丢掉可检索性与可复制性，**不翻译**
+    - `desc`：**中文简介**，是卡片上的介绍描述
+    - `descEn`：接口返回的英文原文，始终留档 —— 没了它就无法核对译文、无法重译
+
+    采集脚本不调模型，拿不到译文，所以 `desc` 这里先落英文原文占位，
+    **由生成任务逐条译写覆盖**。没译写的日包会被 `validate_pack` 拦下。
+    """
+    raw_desc = (repo.get("description") or "").strip()
     return {
         "name": repo.get("full_name") or "",
         "url": repo.get("html_url") or "",
         "stars": int(repo.get("stargazers_count") or 0),
-        "desc": (repo.get("description") or "").strip(),
+        "desc": raw_desc,    # 待译写为中文（占位即英文原文）
+        "descEn": raw_desc,  # 英文原文，永久留档，不要覆盖
         "scene": github_scene(repo),
         "lang": repo.get("language") or "",
         "topics": [str(t) for t in (repo.get("topics") or [])][:8],
@@ -581,6 +633,7 @@ REQUIREMENTS_HINT: Final[str] = (
     f"每天 {GROUP_COUNT} 组；每组下限 "
     + " / ".join(f"{k} {v}" for k, v in GROUP_MIN.items())
     + f"；GitHub 四板块各 {GITHUB_MIN} 条（{', '.join(GITHUB_SECTIONS)}）"
+    + "；GitHub 条目 name 保留英文全名、desc 必须是中文（英文原文留 descEn）"
 )
 
 

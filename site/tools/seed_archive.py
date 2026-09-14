@@ -18,6 +18,10 @@
 
 限流说明：GitHub 未认证搜索 API 约 10 次/分钟，本脚本内置 2.5s 间隔主动限速。
 某板块取不满时留空并告警，不阻断整轮（调用方应沿用最近一天归档里的榜单）。
+
+语言契约：脚本只采集不翻译，产出的 `desc` 是英文原文（`descEn` 同样留档）。
+调用方拿到结果后必须**逐条把 `desc` 译写成中文简介**，`name` 保留英文全名；
+未译写的条目会被 `archive.py validate` 拦下。
 """
 
 from __future__ import annotations
@@ -162,7 +166,7 @@ def main(argv: list[str] | None = None) -> int:
                         help="日包日期（YYYY-MM-DD），默认今天")
     parser.add_argument("--skip-github", action="store_true", help="不抓 GitHub 热点")
     parser.add_argument("--github-only", action="store_true",
-                        help="只采集 GitHub 四个板块，不迁移旧内容包")
+                        help="只采集 GitHub 四个板块，不迁移旧内容包（desc 为英文原文，需调用方译写为中文）")
     parser.add_argument("--out", default="", help="配合 --github-only：把结果写到该文件")
     parser.add_argument("--dry-run", action="store_true", help="只统计，不写文件")
     args = parser.parse_args(argv)
@@ -181,6 +185,13 @@ def main(argv: list[str] | None = None) -> int:
                 log.info("%s", json.dumps(github, ensure_ascii=False)[:400])
             for sec in arc.GITHUB_SECTIONS:
                 log.info("  %-14s %d 条", sec, len(github[sec]))
+            # 采集只做「拿到数据」，不做「翻译」——脚本不调模型。译文由调用方
+            # （每日任务）逐条译写覆盖 desc，英文原文已在 descEn 里留档。
+            log.warning(
+                "⚠ 以上 desc 是 GitHub 接口返回的英文原文（同时存进 descEn）。"
+                "写入日包前必须逐条把 desc 译写成中文简介；name 保留英文全名不动。"
+                "漏译的条目会被 archive.py validate 拦下"
+            )
             if shortfalls:
                 log.warning("以下板块未达 %d 条：%s —— 调用方应沿用最近一天归档里的榜单",
                             arc.GITHUB_MIN, ", ".join(shortfalls))
