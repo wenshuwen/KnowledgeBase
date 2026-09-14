@@ -78,21 +78,59 @@
     -webkit-appearance:none;appearance:none;padding:0;min-width:118px;
   }
   .review-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
-  /* 日期 chips 单行横滑：归档天数逐日累积，若铺成多行会把搜索框一路推下去，
-     横滑可保证这个区域高度恒为一行。滚动条隐藏（浅色页面上横向滚动条很扎眼），
-     上下各留 2px 给 chip 边框，避免被 overflow 裁掉。 */
-  .scope-days{
-    display:flex;flex-wrap:nowrap;align-items:center;gap:8px;
-    position:relative;                            /* 给选中项的 offsetLeft 提供定位上下文 */
-    /* basis 必须为 0、不能是 auto：auto 会取内容宽度（12 天可达 1275px），
-       flex 按它判断换行，会把整排挤到下一行、让「全部历史」独占一行。
-       min-width:0 同样必需，否则内容会撑破 flex 行。 */
-    flex:1 1 0%;min-width:0;
-    overflow-x:auto;padding:2px 0;
-    scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+  /* 日期选择器：收起只占一个小按钮，点开是自绘月历。
+     有归档的日期高亮可点、没归档的置灰 —— 既能一眼看出哪天有内容，
+     又不必把日期平铺成一行（归档逐日累积，平铺迟早撑爆版面）。 */
+  .daypicker{position:relative;flex:none}
+  .daypicker-btn{display:inline-flex;align-items:center;gap:6px}
+  .daypicker-btn.active-scope{background:var(--primary-soft);border-color:transparent;color:var(--primary)}
+  .daypicker-btn:disabled{opacity:.5;cursor:not-allowed}
+  .dp-ico{font-size:12px;line-height:1}
+  .dp-caret{font-size:9px;opacity:.65;line-height:1}
+  .daypicker-pop{
+    position:absolute;top:calc(100% + 8px);left:0;z-index:40;
+    width:268px;max-width:calc(100vw - 36px);
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    box-shadow:0 14px 34px rgba(31,36,48,.14);padding:12px 12px 10px;
   }
-  .scope-days::-webkit-scrollbar{display:none;height:0}
-  .scope-days .chip{flex:none}                    /* 不被压缩，保证文字可读 */
+  .daypicker-pop[hidden]{display:none}
+  /* 下方空间不足时改为向上展开（手机竖屏很常见），方向由 dpPlacePop() 决定 */
+  .daypicker-pop.drop-up{top:auto;bottom:calc(100% + 8px)}
+  .dp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .dp-month{font-size:13px;font-weight:700;color:var(--text)}
+  .dp-nav{
+    width:26px;height:26px;flex:none;border-radius:8px;font-family:inherit;
+    border:1px solid var(--border);background:var(--card);color:var(--muted);
+    font-size:15px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .dp-nav:hover:not(:disabled){border-color:#cfd3ea;color:var(--text)}
+  .dp-nav:disabled{opacity:.35;cursor:not-allowed}
+  .dp-weekdays,.dp-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+  .dp-weekdays{margin-bottom:4px}
+  .dp-weekdays span{font-size:11px;color:var(--muted);text-align:center}
+  .dp-day{
+    aspect-ratio:1 / 1;border:none;background:transparent;border-radius:9px;
+    font-size:12.5px;font-family:inherit;color:#c5c9d8;   /* 无归档：淡到看不太见但仍在位 */
+    display:flex;align-items:center;justify-content:center;
+    position:relative;cursor:default;
+  }
+  .dp-day.has{background:var(--primary-soft);color:var(--primary);font-weight:700;cursor:pointer}
+  .dp-day.has:hover{background:#e3ddfc}
+  .dp-day.has:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+  .dp-day.active{background:var(--primary);color:#fff}
+  .dp-day.today::after{
+    content:"";position:absolute;left:50%;bottom:3px;transform:translateX(-50%);
+    width:4px;height:4px;border-radius:50%;background:var(--primary);
+  }
+  .dp-day.active.today::after{background:#fff}
+  .dp-day.blank{visibility:hidden}
+  .dp-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    margin-top:8px;padding-top:8px;border-top:1px solid var(--border);
+  }
+  .dp-legend{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted)}
+  .dp-legend i{width:9px;height:9px;border-radius:3px;background:var(--primary-soft);border:1px solid #ded7fb}
   .scope-hint{font-size:12.5px;color:var(--muted)}
 
   /* ---------- GitHub 热点 ---------- */
@@ -521,8 +559,6 @@
     .date-pick{padding:5px 8px;gap:5px}
     .date-pick input{font-size:12.5px;min-width:104px}
     .review-scope{gap:8px}
-    /* 小屏：日期 chips 独占一行横滑，order 把它排到「全部历史」与范围提示之后 */
-    .scope-days{flex:1 1 100%;order:9}
     .scope-hint{flex:1 1 auto}
     .gh-name{font-size:14px}
     main{padding:18px 14px 70px}
@@ -738,11 +774,31 @@
   <section id="tab-review">
     <div class="section-head">
       <h2>知识回顾</h2>
-      <p>检索全部已归档的知识内容；上方日期按钮可切换检索范围，下方记录你每天的学习足迹。</p>
+      <p>检索全部已归档的知识内容；可按日期筛选检索范围，下方记录你每天的学习足迹。</p>
     </div>
     <div class="review-scope">
       <button class="btn btn-ghost btn-xs" id="btnReviewAll" title="把检索范围切到全部已归档日期">全部历史</button>
-      <div class="scope-days" id="reviewDays" role="group" aria-label="已归档日期，点选即切换检索范围"></div>
+      <div class="daypicker" id="dayPicker">
+        <button class="btn btn-ghost btn-xs daypicker-btn" id="dayPickerBtn" type="button"
+                aria-haspopup="dialog" aria-expanded="false" title="按归档日期检索">
+          <span class="dp-ico" aria-hidden="true">📅</span><span id="dayPickerLabel">选日期</span><span class="dp-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="daypicker-pop" id="dayPickerPop" role="dialog" aria-label="选择归档日期" hidden>
+          <div class="dp-head">
+            <button class="dp-nav" type="button" data-dp-nav="-1" aria-label="上一个月">‹</button>
+            <span class="dp-month" id="dpMonth"></span>
+            <button class="dp-nav" type="button" data-dp-nav="1" aria-label="下一个月">›</button>
+          </div>
+          <div class="dp-weekdays" aria-hidden="true">
+            <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+          </div>
+          <div class="dp-grid" id="dpGrid"></div>
+          <div class="dp-foot">
+            <span class="dp-legend"><i aria-hidden="true"></i>高亮＝当日有归档</span>
+            <button class="btn btn-ghost btn-xs" id="dpLatest" type="button" title="选中最近一天有归档的日期">最近归档</button>
+          </div>
+        </div>
+      </div>
       <span class="scope-hint" id="reviewScopeHint"></span>
     </div>
     <div class="search-box">
@@ -1665,13 +1721,36 @@ document.addEventListener("click", e=>{
   }
   const goto = e.target.closest("[data-goto]");
   if(goto) switchTab(goto.dataset.goto);
-  // 归档日期快捷入口（检索范围行那排 chips）：点一下即把范围切到那天。
-  // 「全部历史」由 #btnReviewAll 承担，这里只处理具体日期，故不再有 __all__ 哨兵值。
-  const dayChip = e.target.closest("[data-review-date]");
-  if(dayChip){
-    const d = dayChip.dataset.reviewDate;
-    if(d) setReviewScope("date", d);
+  // 日期选择器：开/关弹层、翻月、选日期。选完立刻按新范围重检索，
+  // 所以「搜完想换范围再看」不必先清空搜索框。
+  if(e.target.closest("#dayPickerBtn")){
+    dpSetOpen(!dpOpen);
+    return;
+  }
+  const dpNav = e.target.closest("[data-dp-nav]");
+  if(dpNav){
+    const step = parseInt(dpNav.dataset.dpNav, 10) || 0;
+    if(step){
+      const t = dpView.m + step;                   // m 可能是 0 或 11，需自行处理进退位
+      dpView = { y: dpView.y + Math.floor(t/12), m: ((t % 12) + 12) % 12 };
+      dpRenderMonth();
+    }
+    return;
+  }
+  const dpDay = e.target.closest("[data-dp-day]");
+  if(dpDay){
+    setReviewScope("date", dpDay.dataset.dpDay);
+    dpSetOpen(false);
     renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
+    return;
+  }
+  if(e.target.closest("#dpLatest")){
+    const ds = dpDays();
+    if(ds.length){
+      setReviewScope("date", ds[ds.length-1].date);
+      dpSetOpen(false);
+      renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
+    }
     return;
   }
   const chip = e.target.closest(".chip");
@@ -1884,31 +1963,148 @@ function stripHtml(html){
 
 const REVIEW_MAX_DAYS = 90;                       // 「全部历史」单次最多检索的天数
 // 默认「全部历史」：一进「知识回顾」就是全量范围，选具体某天交给
-// 模块顶部那排「已归档日期」按钮（见 renderScopeChips）
+// 顶部的日期选择器（自绘月历，见 syncDayPicker / dpRenderMonth）
 let reviewScope = { mode: "all", date: "" };      // mode: "date" | "all"
 let reviewSkillRefs = [];                         // 检索结果里的技能对象，供弹窗按引用取用
 let reviewToken = 0;                              // 竞态令牌：丢弃过期的检索结果
 
 const dTag = d => d ? `<span class="tag hist-tag" title="来自该日期的归档">📅 ${esc(dateLabel(d))}</span>` : "";
 
-/* 顶部「已归档日期」chips：点一下即把检索范围切到那天。
-   它原本长在结果区（学习足迹下方），而结果区只在无搜索词时才渲染 —— 意味着
-   「搜完想换个范围再看」必须先清空搜索。上移到检索范围行后常驻可见，两件事解耦。
-   这里只负责结构，选中态由 updateScopeHint() 统一维护；切范围不重建 DOM，
-   所以横滑的滚动位置不会被打回起点。 */
-let scopeDaysSig = "";                            // 已渲染的日期签名
-function renderScopeChips(){
-  const box = document.getElementById("reviewDays");
-  if(!box) return;
-  const days = (state.index && state.index.days) || [];
-  const sig = days.map(d=>d.date).join("|");
-  if(sig === scopeDaysSig) return;                // 归档集合没变：保留现有 DOM 与滚动位置
-  scopeDaysSig = sig;
-  box.innerHTML = days.length
-    ? days.slice().reverse().map(d=>
-        `<button class="chip" data-review-date="${esc(d.date)}" title="只看 ${esc(dateLabel(d.date))} 的内容">${esc(dateLabel(d.date))}</button>`
-      ).join("")
-    : `<span class="scope-hint">暂无归档</span>`;
+/* =====================================================================
+ *  检索范围的日期选择器（自绘月历）
+ *
+ *  为什么不用另外两种做法：
+ *    · 平铺一排日期按钮 —— 归档逐日累积，这排会无限变长，迟早撑爆版面；
+ *    · 原生 <input type="date"> —— 浏览器没有「高亮某些日期」的接口，只能限制
+ *      首尾范围，标不出哪天有归档，也就无法做到「有归档才可点」。
+ *  于是自绘月历：有归档的日期高亮可点、其余置灰，翻月范围也钳制在有归档的月份内。
+ *  收起状态只占一个小按钮，日期再多也不改变版面高度。
+ * ===================================================================== */
+let dpView = { y: 0, m: 0 };                      // 月历当前显示的月份（m: 0-11）
+let dpOpen = false;                               // 弹层是否展开
+
+const dpPad = n => String(n).padStart(2, "0");
+const dpISO = (y, m, d) => `${y}-${dpPad(m)}-${dpPad(d)}`;        // m: 1-12
+/* 索引里的日期是 YYYY-MM-DD 紧凑格式；注意已有的 todayStr() 返回的是
+   「2026年9月14日 周一」这种中文长格式，两者不能直接比较。 */
+function dpTodayISO(){
+  const t = new Date();
+  return dpISO(t.getFullYear(), t.getMonth()+1, t.getDate());
+}
+const dpDays = () => (state.index && state.index.days) || [];
+function dpArchived(){
+  const s = new Set();
+  dpDays().forEach(d=>{ if(d && d.date) s.add(d.date); });
+  return s;
+}
+/* 有归档的月份区间。翻到区间外没有意义，所以据此禁用左右箭头。 */
+function dpBounds(){
+  const ds = dpDays().map(d=>d.date).sort();
+  if(!ds.length) return null;
+  const a = /^(\d{4})-(\d{2})/.exec(ds[0]);
+  const b = /^(\d{4})-(\d{2})/.exec(ds[ds.length-1]);
+  return { min: Number(a[1])*12 + Number(a[2])-1, max: Number(b[1])*12 + Number(b[2])-1 };
+}
+function dpCanNav(step){
+  const b = dpBounds();
+  if(!b) return false;
+  const cur = dpView.y*12 + dpView.m;
+  return step < 0 ? cur > b.min : cur < b.max;
+}
+/* 只在「打开弹层」时把视图月对准选中日期（没选就对最近一天）。
+   不放在每次重渲染里 —— 否则用户翻了几个月，一有重渲染就被拽回原处。 */
+function dpAnchorMonth(){
+  const days = dpDays();
+  const anchor = (reviewScope.mode === "date" && reviewScope.date)
+    ? reviewScope.date
+    : (days.length ? days[days.length-1].date : "");
+  const m = /^(\d{4})-(\d{2})/.exec(anchor || "");
+  if(m){ dpView = { y: Number(m[1]), m: Number(m[2]) - 1 }; return; }
+  const t = new Date();
+  dpView = { y: t.getFullYear(), m: t.getMonth() };
+}
+
+/* 同步触发按钮的文案与选中态；弹层开着时顺带重画，让选中项即时反映。 */
+function syncDayPicker(){
+  const btn = document.getElementById("dayPickerBtn");
+  const label = document.getElementById("dayPickerLabel");
+  if(!btn || !label) return;
+  const has = dpDays().length > 0;
+  const isDate = reviewScope.mode === "date" && !!reviewScope.date;
+  label.textContent = isDate ? dateLabel(reviewScope.date) : "选日期";
+  btn.classList.toggle("active-scope", isDate);
+  btn.disabled = !has;
+  btn.title = has ? "按归档日期检索：月历里高亮的日期当天有归档" : "暂无归档";
+  if(dpOpen) dpRenderMonth();
+}
+
+function dpRenderMonth(){
+  const grid = document.getElementById("dpGrid");
+  const head = document.getElementById("dpMonth");
+  if(!grid || !head) return;
+  const y = dpView.y, m = dpView.m;
+  head.textContent = `${y}年${m+1}月`;
+  const archived = dpArchived(), today = dpTodayISO();
+  const picked = reviewScope.mode === "date" ? reviewScope.date : "";
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;            // 周一放在第一列
+  const total = new Date(y, m+1, 0).getDate();
+  let html = "";
+  for(let i=0;i<offset;i++) html += `<span class="dp-day blank"></span>`;
+  for(let d=1; d<=total; d++){
+    const iso = dpISO(y, m+1, d);
+    const has = archived.has(iso);
+    const cls = ["dp-day"];
+    if(has) cls.push("has");
+    if(iso === picked) cls.push("active");
+    if(iso === today) cls.push("today");
+    // 无归档的日期用 disabled（而非只加类）：键盘、点击都进不来，语义也正确
+    html += has
+      ? `<button class="${cls.join(" ")}" type="button" data-dp-day="${iso}" title="${esc(dateLabel(iso))}｜有归档">${d}</button>`
+      : `<button class="${cls.join(" ")}" type="button" disabled title="无归档">${d}</button>`;
+  }
+  grid.innerHTML = html;
+  const prev = document.querySelector('[data-dp-nav="-1"]');
+  const next = document.querySelector('[data-dp-nav="1"]');
+  if(prev) prev.disabled = !dpCanNav(-1);
+  if(next) next.disabled = !dpCanNav(1);
+}
+
+function dpSetOpen(open){
+  const pop = document.getElementById("dayPickerPop");
+  const btn = document.getElementById("dayPickerBtn");
+  if(!pop || !btn) return;
+  dpOpen = !!open;
+  if(dpOpen){
+    dpAnchorMonth();
+    pop.hidden = false;                           // 先显示，量得到高度才能决定展开方向
+    dpRenderMonth();
+    dpPlacePop();
+  } else {
+    pop.hidden = true;
+    pop.classList.remove("drop-up");
+    pop.style.marginLeft = "";
+  }
+  btn.setAttribute("aria-expanded", dpOpen ? "true" : "false");
+}
+
+/* 弹层定位：默认待在触发按钮正下方，放不下时自行让步。
+   纵向 —— 下方空间不足就改向上展开（手机竖屏里「知识回顾」标题下方往往只剩两三百 px，
+   固定向下会把底部的图例与「最近归档」甩到视口外，要滚动才够得到）；
+   横向 —— 越出视口就整体平移回来，避免贴边被裁。 */
+function dpPlacePop(){
+  const wrap = document.getElementById("dayPicker");
+  const pop = document.getElementById("dayPickerPop");
+  if(!wrap || !pop || pop.hidden) return;
+  pop.classList.remove("drop-up");
+  pop.style.marginLeft = "";
+  const room = window.innerHeight - wrap.getBoundingClientRect().bottom;
+  if(room < pop.offsetHeight + 16) pop.classList.add("drop-up");
+  const pad = 14;
+  const r = pop.getBoundingClientRect();
+  let shift = 0;
+  if(r.right > window.innerWidth - pad) shift = (window.innerWidth - pad) - r.right;
+  if(r.left + shift < pad) shift = pad - r.left;
+  if(shift) pop.style.marginLeft = Math.round(shift) + "px";
 }
 
 function setReviewScope(mode, date){
@@ -1932,25 +2128,7 @@ function updateScopeHint(){
   }
   const all = document.getElementById("btnReviewAll");
   if(all) all.classList.toggle("active-scope", reviewScope.mode === "all");
-  const on = reviewScope.mode === "date" ? reviewScope.date : "";
-  document.querySelectorAll("#reviewDays .chip").forEach(c=>{
-    c.classList.toggle("active", !!on && c.dataset.reviewDate === on);
-  });
-  ensureScopeChipVisible(on);
-}
-
-/* 横滑控件的通病：选中的日期若停在视野外，点完看不到任何高亮反馈。
-   这里把它滚进可视区，两端各留 8px，避免贴边看不出是圆角胶囊。
-   两边都可见时不动 —— 否则每次渲染都会把用户的横滑位置拽回去。 */
-function ensureScopeChipVisible(date){
-  if(!date) return;
-  const box = document.getElementById("reviewDays");
-  const el = box && box.querySelector('.chip[data-review-date="' + date + '"]');
-  if(!box || !el) return;
-  const pad = 8;
-  const left = el.offsetLeft, right = left + el.offsetWidth;
-  if(left - pad < box.scrollLeft) box.scrollLeft = Math.max(0, left - pad);
-  else if(right + pad > box.scrollLeft + box.clientWidth) box.scrollLeft = right + pad - box.clientWidth;
+  syncDayPicker();
 }
 
 /* 取检索范围内的所有日包。单日失败跳过 —— 不让一天的数据坏掉拖垮整次检索。 */
@@ -2028,7 +2206,7 @@ function recordTodayHistory(){
 /* 足迹行取值：历史记录里某一类可能缺失，统一兜底成「—」 */
 const histField = (obj, field) => (obj && obj[field]) ? obj[field] : "—";
 
-/* 空关键词时的首页：只有学习足迹（日期检索已上移到模块顶部的检索范围行，常驻显示） */
+/* 空关键词时的首页：只有学习足迹（按日期检索在顶部那个自绘月历里） */
 function renderReviewHome(box){
   let list = [];
   try{ list = JSON.parse(store.get(LS.history, "[]")) || []; }catch(e){ list = []; }
@@ -2056,7 +2234,7 @@ function renderReviewHome(box){
 async function renderReview(kw){
   const box = $("#reviewResult");
   if(!box) return;
-  renderScopeChips();
+  syncDayPicker();
   updateScopeHint();
   const key = String(kw||"").trim();
   if(!key){ renderReviewHome(box); return; }
@@ -2179,9 +2357,9 @@ function init(){
   }
 
   // ---------- 知识回顾：检索范围控件 ----------
-  // 范围切换集中在模块顶部这一行：#btnReviewAll（全部历史）+ #reviewDays
-  // （各归档日期，由 renderScopeChips 渲染）。两者都是幂等置位 —— 不再做
-  // 「再点一次取消」，因为「全部历史」本身就是其中一个可选值。
+  // 范围切换集中在模块顶部这一行：#btnReviewAll（全部历史）+ 日期选择器
+  // （#dayPicker，自绘月历）。两者都是幂等置位 —— 不再做「再点一次取消」，
+  // 因为「全部历史」本身就是其中一个可选值。
   const btnAll = $("#btnReviewAll");
   if(btnAll){
     btnAll.addEventListener("click", function(){
@@ -2202,6 +2380,17 @@ function init(){
       if(si){ si.value=""; renderReview(""); }
     });
   }
+
+  // 日期选择器收起：点到弹层外面或按 ESC。
+  // 放在这个（后注册的）监听里，先让上面的事件委托处理完点击，
+  // 弹层内的点击靠 closest("#dayPicker") 排除掉。
+  document.addEventListener("click", function(e){
+    if(dpOpen && !e.target.closest("#dayPicker")) dpSetOpen(false);
+  });
+  document.addEventListener("keydown", function(e){
+    if(dpOpen && e.key === "Escape") dpSetOpen(false);
+  });
+  window.addEventListener("resize", function(){ if(dpOpen) dpPlacePop(); });
 
   // 每日提醒：首次打开若今天还没提醒过，稍作延迟弹出
   setTimeout(()=>{
