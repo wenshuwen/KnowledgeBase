@@ -1,23 +1,24 @@
 {
- "contentHash": "4ab8eef3",
- "version": "kb-2026.09.12-4ab8eef3",
- "updatedAt": "2026-09-12",
- "generatedAt": "2026-09-12T19:11:17",
- "summary": "知识库共 17 条，覆盖 6 个分类",
+ "contentHash": "c21d2126",
+ "version": "kb-2026.09.14-c21d2126",
+ "updatedAt": "2026-09-14",
+ "generatedAt": "2026-09-14T21:07:44",
+ "summary": "知识库共 19 条，覆盖 7 个分类",
  "stats": {
-  "total": 17,
+  "total": 19,
   "byCat": {
    "theory": 1,
    "api-testing": 5,
    "performance-testing": 2,
    "automation-testing": 1,
    "security-testing": 7,
+   "ai-agent-testing": 2,
    "database-linux": 1
   },
   "byKind": {
-   "knowledge": 13,
+   "knowledge": 14,
    "skill": 2,
-   "question": 2
+   "question": 3
   }
  },
  "cats": [
@@ -47,6 +48,11 @@
    "count": 7
   },
   {
+   "cat": "ai-agent-testing",
+   "label": "AI Agent 测试",
+   "count": 2
+  },
+  {
    "cat": "database-linux",
    "label": "数据库/Linux",
    "count": 1
@@ -62,17 +68,17 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-09-10",
+    "updated": "2026-09-14",
     "confidence": "high",
     "tags": [
      "interview",
      "index"
     ],
     "links": [
-     "llm-wiki 编译式知识库",
-     "知识库搭建记录"
+     "Agent工具调用测试",
+     "Harness工程"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>待接入自动化</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"知识库搭建记录\">知识库搭建记录</span></li>\n<li><span class=\"wl\" data-page=\"llm-wiki 编译式知识库\">llm-wiki 编译式知识库</span></li>\n</ul>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域首批 2 页 2026-09-14）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>待接入自动化</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -381,7 +387,7 @@
     "level": "高级",
     "question": "",
     "domain": "安全测试",
-    "updated": "2026-09-10",
+    "updated": "2026-09-14",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -389,6 +395,7 @@
      "checklist"
     ],
     "links": [
+     "Agent工具调用测试",
      "CRLF注入测试",
      "CSRF跨站请求伪造测试",
      "SQL注入测试",
@@ -397,7 +404,7 @@
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"web\">Web 安全测试地图</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>安全测试的坑位不是按\"漏洞名字\"记的，而是按<strong>攻击者从哪里进入系统</strong>分成三类：往输入里塞东西、借用你的身份、骗服务器去请求。记住入口，比记住 payload 有用得多。</p>\n<h2 id=\"_2\">三类入口</h2>\n<table>\n<thead>\n<tr>\n<th>类别</th>\n<th>攻击者利用什么</th>\n<th>代表漏洞</th>\n<th>测试的共性动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>输入注入类</strong></td>\n<td>用户输入未经处理就被拼进解释器（SQL、HTML、HTTP 头）</td>\n<td><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span>、<span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span>、<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></td>\n<td>找全用户可控输入点 → 塞特殊字符 → 看输出位置 → 按输出上下文调整 payload</td>\n</tr>\n<tr>\n<td><strong>身份与会话类</strong></td>\n<td>系统信任了客户端传来的身份或凭证</td>\n<td><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>、<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n<td>准备两个账号 → 篡改身份标识 → 重放 → <strong>比对响应体内容而非状态码</strong></td>\n</tr>\n<tr>\n<td><strong>服务端请求类</strong></td>\n<td>服务端代替攻击者发起请求</td>\n<td><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n<td>找\"从 URL 取资源\"的功能点 → 逐级探测回环/内网/云元数据</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三个跨类别的通用原则</h2>\n<p><strong>一、前端控制不是安全措施。</strong> 隐藏按钮、前端校验、UUID 难猜——都只是 UX 或增加难度，不构成防护。判断标准永远是\"直接构造请求会怎样\"。</p>\n<p><strong>二、状态码不等于判定结果。</strong> 越权测试里返回 200 不代表成功越权，必须对比响应体内容是否真的是别人的数据；SSRF 里超时也不代表不可达，可能是被防火墙静默丢弃。<strong>判定依据要落在内容上。</strong></p>\n<p><strong>三、找到一个，就扩大范围。</strong> 越权漏洞往往成群出现——发现一个说明整个权限模型可能有系统性缺陷。安全测试的报告方式应该是\"这个模块的权限模型有问题\"，而不是\"这一个接口有问题\"。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<p>在测试用例设计里，这三类对应三种<strong>必测的异常路径</strong>：</p>\n<ul>\n<li>输入注入 → 每个输入框、每个 Header、每个排序/分页参数，都要有一条\"特殊字符\"用例</li>\n<li>身份会话 → 每个涉及资源 ID 的接口，都要有一条\"换一个账号的 ID\"用例</li>\n<li>服务端请求 → 每个\"填 URL\"的功能，都要有一条\"填内网地址\"用例</li>\n</ul>\n<p><strong>常见误用</strong>：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但<strong>越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现</strong>——工具不会知道\"这个订单不该被这个用户看到\"。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"web\">Web 安全测试地图</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>安全测试的坑位不是按\"漏洞名字\"记的，而是按<strong>攻击者从哪里进入系统</strong>分成三类：往输入里塞东西、借用你的身份、骗服务器去请求。记住入口，比记住 payload 有用得多。</p>\n<h2 id=\"_2\">三类入口</h2>\n<table>\n<thead>\n<tr>\n<th>类别</th>\n<th>攻击者利用什么</th>\n<th>代表漏洞</th>\n<th>测试的共性动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>输入注入类</strong></td>\n<td>用户输入未经处理就被拼进解释器（SQL、HTML、HTTP 头）</td>\n<td><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span>、<span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span>、<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></td>\n<td>找全用户可控输入点 → 塞特殊字符 → 看输出位置 → 按输出上下文调整 payload</td>\n</tr>\n<tr>\n<td><strong>身份与会话类</strong></td>\n<td>系统信任了客户端传来的身份或凭证</td>\n<td><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>、<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n<td>准备两个账号 → 篡改身份标识 → 重放 → <strong>比对响应体内容而非状态码</strong></td>\n</tr>\n<tr>\n<td><strong>服务端请求类</strong></td>\n<td>服务端代替攻击者发起请求</td>\n<td><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n<td>找\"从 URL 取资源\"的功能点 → 逐级探测回环/内网/云元数据</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三个跨类别的通用原则</h2>\n<p><strong>一、前端控制不是安全措施。</strong> 隐藏按钮、前端校验、UUID 难猜——都只是 UX 或增加难度，不构成防护。判断标准永远是\"直接构造请求会怎样\"。</p>\n<p><strong>二、状态码不等于判定结果。</strong> 越权测试里返回 200 不代表成功越权，必须对比响应体内容是否真的是别人的数据；SSRF 里超时也不代表不可达，可能是被防火墙静默丢弃。<strong>判定依据要落在内容上。</strong></p>\n<p><strong>三、找到一个，就扩大范围。</strong> 越权漏洞往往成群出现——发现一个说明整个权限模型可能有系统性缺陷。安全测试的报告方式应该是\"这个模块的权限模型有问题\"，而不是\"这一个接口有问题\"。</p>\n<blockquote>\n<p>更新：2026-09-14 注入思想已延伸进 AI 系统——用户输入被拼进工具参数（参数注入）或对话上下文（提示注入）时，同样适用\"找全输入点 → 塞特殊内容 → 看执行位置\"的套路，跨域入口见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>。</p>\n</blockquote>\n<h2 id=\"_4\">测试视角的落点</h2>\n<p>在测试用例设计里，这三类对应三种<strong>必测的异常路径</strong>：</p>\n<ul>\n<li>输入注入 → 每个输入框、每个 Header、每个排序/分页参数，都要有一条\"特殊字符\"用例</li>\n<li>身份会话 → 每个涉及资源 ID 的接口，都要有一条\"换一个账号的 ID\"用例</li>\n<li>服务端请求 → 每个\"填 URL\"的功能，都要有一条\"填内网地址\"用例</li>\n</ul>\n<p><strong>常见误用</strong>：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但<strong>越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现</strong>——工具不会知道\"这个订单不该被这个用户看到\"。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/45-安全测试/Web安全测试地图.md"
    },
    {
@@ -448,6 +455,51 @@
     ],
     "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/45-安全测试/越权访问与IDOR.md"
+   },
+   {
+    "id": "wiki/50-AI测试/Agent工具调用测试",
+    "title": "Agent工具调用测试",
+    "cat": "ai-agent-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "怎么测试 Agent 的工具调用（Function Calling）？工具调用死循环了，兜底机制怎么设计？",
+    "domain": "AI测试",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "ai-testing",
+     "interview",
+     "checklist"
+    ],
+    "links": [
+     "Harness工程",
+     "Web安全测试地图",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"agent\">Agent 工具调用测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>把 Agent 的工具调用拆成<strong>四层</strong>分别验证——选对工具、参数合法、失败有兜底、组合调用有序；死循环防线是三层防御设计，测试要专门构造持续故障来验证熔断真的生效。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>四层测试法</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 工具选择准确性</td>\n<td>构造需要不同工具的任务集，看 Agent 选没选对</td>\n<td><strong>选错率是核心指标</strong>，不看单次对错看分布</td>\n</tr>\n<tr>\n<td>② 参数正确性</td>\n<td>生成参数过 JSON schema 校验</td>\n<td>重点测缺字段、类型错、枚举值越界</td>\n</tr>\n<tr>\n<td>③ 异常处理</td>\n<td>工具超时、返回错误码、返回空结果时 Agent 的反应</td>\n<td>是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数</td>\n</tr>\n<tr>\n<td>④ 组合调用</td>\n<td>多步任务里工具的调用顺序与上下文传递</td>\n<td>前一步的输出有没有正确进入下一步</td>\n</tr>\n</tbody>\n</table>\n<p><strong>死循环的三层防御</strong>（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：</p>\n<ol>\n<li><strong>工具层硬隔离</strong>：每个外部工具调用都包 try-catch，且不能只吞异常——要返回结构化错误给 LLM，例如 <code>{\"status\":\"failed\",\"error_type\":\"Timeout\",\"retry_after\":5}</code>，让模型知道失败了、该等多久、能不能重试；</li>\n<li><strong>推理层熔断</strong>：同一工具连续失败 3 次或检测到循环调用，强制中断——必须实现 Max Iteration 上限和 Loop Detection；</li>\n<li><strong>规划层自我修正</strong>：更高级的做法是让 Agent 反思\"刚才哪里做错了、要不要换个工具\"，即 Reflection 模式。</li>\n</ol>\n<p><strong>跨域风险——参数注入</strong>：用户输入直接拼进工具参数时，可能被用来执行越权操作。这是注入类攻击在 AI 系统上的延伸，测试要与安全测试联动（思路同 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span> 的输入注入类）。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>为每一层各准备一组用例：任务集断言工具选择、schema 校验断言参数、故障注入断言异常行为、长链路断言组合顺序</li>\n<li><strong>验证熔断必须用持续故障</strong>：专门构造\"工具持续超时\"\"返回格式异常\"的用例，确认 Max Iteration 与 Loop Detection 真的触发，而不是只看代码有没有写</li>\n<li>异常处理断言里加\"诚实性\"检查：任务无法完成时，Agent 是编造结果还是明确交代失败</li>\n<li>对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/50-AI测试/Agent工具调用测试.md"
+   },
+   {
+    "id": "wiki/50-AI测试/Harness工程",
+    "title": "Harness工程",
+    "cat": "ai-agent-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "AI测试",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "ai-testing",
+     "interview"
+    ],
+    "links": [
+     "Agent工具调用测试",
+     "Web安全测试地图",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"harness\">Harness 工程</h1>\n<h2 id=\"_1\">一句话</h2>\n<p><strong>Agent = Model + Harness</strong>。Harness 是模型之外让 Agent\"能做事、做得对、出问题能被发现\"的整套工程外壳，而测试新手最容易犯的错，就是只盯着模型不看 Harness。</p>\n<h2 id=\"_2\">展开</h2>\n<p>Harness 直译\"驾驭装置\"。模型负责\"想\"和\"生成\"，Harness 负责其余的一切工程能力，包括：</p>\n<ul>\n<li><strong>工具封装</strong>——把外部 API 包成模型可调用的工具，含参数校验与结构化错误返回</li>\n<li><strong>上下文管理</strong>——历史消息的窗口、截断与传递策略</li>\n<li><strong>权限控制</strong>——模型能调哪些工具、以什么身份调</li>\n<li><strong>重试熔断</strong>——失败重试策略、最大迭代上限、循环检测</li>\n<li><strong>日志监控与回滚</strong>——全链路可观测，出问题能退回</li>\n</ul>\n<p><strong>和测试的关系特别直接</strong>：一个测试用例 Agent 越跑越不稳定，问题往往<strong>不在模型，而在模型之外的 Harness</strong>——比如上下文无限增长、工具权限没收敛、没有失败兜底。所以测 Agent 不能只盯着 prompt 和回答质量，要把 Harness 当被测对象：工具调用链路、状态管理、失败恢复，都得有验证手段（具体测法见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>）。</p>\n<p><strong>延伸——Agent 自进化的新风险</strong>：当 Agent 被允许修改自己的提示词或配置时，会出现三类新问题——行为漂移（几十轮自修改后行为不可预测，说不清是哪次改动引起的）、依赖污染（自主安装的插件可能带恶意代码）、回滚失败（修改链一长，反向操作不完备）。应对思路是版本快照、关键操作熔断、全链路可观测，把每次自修改记录成可审计的变更。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>拿到不稳定的 Agent 用例时，<strong>先查 Harness 再怀疑模型</strong>：上下文有没有膨胀、权限有没有收敛、失败有没有兜底</li>\n<li>测试范围里显式加入 Harness 组件：工具调用的结构化错误返回、迭代上限触发、上下文截断后关键信息是否丢失</li>\n<li>对自进化型 Agent，验证版本快照可恢复、自修改有审计记录、关键操作有熔断</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/50-AI测试/Harness工程.md"
    },
    {
     "id": "wiki/60-环境与工具/Redis缓存的五类经典问题",
