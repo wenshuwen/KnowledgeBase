@@ -78,6 +78,22 @@
     -webkit-appearance:none;appearance:none;padding:0;min-width:118px;
   }
   .review-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+  /* 模块筛选下拉：与日期按钮成对，同高同圆角，选中后整体转成紫调「生效态」 */
+  .mod-pick{
+    position:relative;display:inline-flex;align-items:center;flex:none;
+    background:var(--card);border:1px solid var(--border);border-radius:9px;
+    padding:0 6px 0 9px;transition:background .15s ease,border-color .15s ease;
+  }
+  .mod-pick:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--ring)}
+  .mod-pick::before{content:"🧩";font-size:12px;line-height:1;margin-right:5px;flex:none}
+  .mod-pick select{
+    border:none;outline:none;background:transparent;font-family:inherit;cursor:pointer;
+    font-size:12.5px;font-weight:600;color:var(--text);padding:6px 13px 6px 0;
+    -webkit-appearance:none;appearance:none;
+  }
+  .mod-pick .mp-caret{position:absolute;right:7px;font-size:10px;color:var(--muted);pointer-events:none}
+  .mod-pick.on{background:var(--primary-soft);border-color:transparent}
+  .mod-pick.on select{color:var(--primary)}
   /* 日期选择器：收起只占一个小按钮，点开是自绘月历。
      有归档的日期高亮可点、没归档的置灰 —— 既能一眼看出哪天有内容，
      又不必把日期平铺成一行（归档逐日累积，平铺迟早撑爆版面）。 */
@@ -545,6 +561,18 @@
   .search-input-wrap input::-webkit-search-cancel-button{-webkit-appearance:none}
   .search-summary{font-size:13px;color:var(--muted);margin-bottom:10px}
   .search-summary b{color:var(--primary)}
+  /* 知识回顾的模块标题：色条 + 加粗标题 + 条数徽标 + 右侧延伸细线。
+     原来只有「小圆点 + 灰色小字」，区块边界感太弱、扫读时抓不住位置。 */
+  .sec-head{display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sec-head:first-child{margin-top:6px}
+  .sec-bar{width:4px;height:16px;border-radius:2px;background:var(--sec);flex:none}
+  .sec-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:.2px}
+  .sec-count{
+    font-size:11.5px;font-weight:700;line-height:1;flex:none;
+    color:var(--sec);background:var(--sec-soft);border-radius:999px;padding:4px 9px;
+  }
+  .sec-extra{font-size:12px;color:var(--muted);flex:none}
+  .sec-line{flex:1 1 auto;height:1px;background:var(--border);min-width:12px}
   .history-date{font-size:12.5px;font-weight:700;color:var(--primary);margin-bottom:8px}
   .history-row{font-size:13.5px;color:#3a4150;padding:4px 0}
 
@@ -563,6 +591,10 @@
     .date-pick input{font-size:12.5px;min-width:104px}
     .review-scope{gap:8px}
     .scope-hint{flex:1 1 auto}
+    .mod-pick{padding:0 5px 0 8px}
+    .mod-pick select{font-size:12px;padding:6px 12px 6px 0}
+    .sec-title{font-size:14px}
+    .sec-head{margin:18px 0 10px}
     .gh-name{font-size:14px}
     main{padding:18px 14px 70px}
     .hero{padding:20px 20px 18px}
@@ -777,7 +809,7 @@
   <section id="tab-review">
     <div class="section-head">
       <h2>知识回顾</h2>
-      <p>检索全部已归档的知识内容；可按日期筛选检索范围，下方记录你每天的学习足迹。</p>
+      <p>检索全部已归档的知识内容；可按日期与模块筛选范围，下方记录你每天的学习足迹。</p>
     </div>
     <div class="review-scope">
       <button class="btn btn-ghost btn-xs" id="btnReviewAll" title="把检索范围切到全部已归档日期">全部历史</button>
@@ -802,6 +834,10 @@
           </div>
         </div>
       </div>
+      <label class="mod-pick" id="modPick" title="按模块筛选：可只看某一类内容">
+        <select id="reviewModule" aria-label="按模块筛选"></select>
+        <span class="mp-caret" aria-hidden="true">▾</span>
+      </label>
       <span class="scope-hint" id="reviewScopeHint"></span>
     </div>
     <div class="search-box">
@@ -1974,6 +2010,21 @@ function stripHtml(html){
 
 const REVIEW_MAX_DAYS = 90;                       // 「全部历史」单次最多检索的天数
 const DAY_SECTION_LIMIT = 6;                      // 「某日归档」每节默认展开的条数（其余折叠）
+
+/* 知识回顾的模块口径：一处定义，驱动「下拉选项 / 分节标题 / 检索结果分节」三处，
+   避免各写一份枚举而走散。key 与归档包里的字段一一对应（q/k/s/p/e/g）。 */
+const REVIEW_MODULES = [
+  { key:"q", name:"面试题",      color:"#7c3aed", soft:"#f5f3ff" },
+  { key:"k", name:"知识点",      color:"#10b981", soft:"#ecfdf5" },
+  { key:"s", name:"测试技能",    color:"#f59e0b", soft:"#fffbeb" },
+  { key:"p", name:"面试坑点",    color:"#ef4444", soft:"#fef2f2" },
+  { key:"e", name:"选择题",      color:"#0284c7", soft:"#f0f9ff" },
+  { key:"g", name:"GitHub 热点", color:"#6366f1", soft:"#eef2ff" },
+];
+const REVIEW_MODULE_MAP = {};
+REVIEW_MODULES.forEach(m=>{ REVIEW_MODULE_MAP[m.key] = m; });
+const REVIEW_BROWSE_MAX_DAYS = 30;                // 「全部历史」按模块浏览时最多取最近多少天
+let reviewModule = "";                            // "" = 全部模块；否则是上面某个 key
 // 默认「全部历史」：一进「知识回顾」就是全量范围，选具体某天交给
 // 顶部的日期选择器（自绘月历，见 syncDayPicker / dpRenderMonth）
 let reviewScope = { mode: "all", date: "" };      // mode: "date" | "all"
@@ -2128,18 +2179,46 @@ function rangeLabel(){
   return reviewScope.mode === "all" ? "全部历史" : (reviewScope.date ? dateLabel(reviewScope.date) : "未选择日期");
 }
 
+/* 范围 + 模块的完整中文描述，供摘要文案与空态共用 */
+function scopeText(){
+  const modTxt = reviewModule ? ` · 仅看 ${REVIEW_MODULE_MAP[reviewModule].name}` : "";
+  return rangeLabel() + modTxt;
+}
+
+/* 模块下拉：填充选项（口径来自 REVIEW_MODULES）并同步选中态。
+   幂等 —— 每次渲染都可以调用，不会重复插选项。 */
+function syncModulePicker(){
+  const sel = document.getElementById("reviewModule");
+  if(!sel) return;
+  if(!sel.dataset.ready){
+    const all = document.createElement("option");
+    all.value = ""; all.textContent = "全部模块";
+    sel.appendChild(all);
+    REVIEW_MODULES.forEach(def=>{
+      const op = document.createElement("option");
+      op.value = def.key; op.textContent = def.name;
+      sel.appendChild(op);
+    });
+    sel.dataset.ready = "1";
+  }
+  if(sel.value !== reviewModule) sel.value = reviewModule;
+  const wrap = sel.closest(".mod-pick");
+  if(wrap) wrap.classList.toggle("on", !!reviewModule);
+}
+
 function updateScopeHint(){
   const total = ((state.index && state.index.days) || []).length;
   const hint = document.getElementById("reviewScopeHint");
-  // 这里不再 early return：范围提示与两处范围控件的选中态都得跟着 reviewScope 走，
+  // 这里不再 early return：范围提示与各处范围控件的选中态都得跟着状态走，
   // 任一元素缺失都不该让其余部分停在旧状态
   if(hint){
-    hint.textContent = reviewScope.mode === "all"
+    hint.textContent = (reviewScope.mode === "all"
       ? `检索范围：全部历史（${Math.min(total, REVIEW_MAX_DAYS)} 天）`
-      : `检索范围：${rangeLabel()}`;
+      : `检索范围：${rangeLabel()}`) + (reviewModule ? ` · 仅看 ${REVIEW_MODULE_MAP[reviewModule].name}` : "");
   }
   const all = document.getElementById("btnReviewAll");
   if(all) all.classList.toggle("active-scope", reviewScope.mode === "all");
+  syncModulePicker();
   syncDayPicker();
 }
 
@@ -2174,24 +2253,18 @@ function hitKeywords(obj, kw){
   return parts.join(" ").toLowerCase().indexOf(kw) >= 0;
 }
 
+/* 在范围内按关键词检索。模块档位不是「全部」时，只在该模块里找 —— 过滤放在这里，
+   渲染层就不必再判断一次。 */
 async function searchArchive(kw){
   const key = String(kw||"").trim().toLowerCase();
   if(!key) return null;
   const packs = await collectScopePacks();
-  const res = { q:[], k:[], s:[], p:[], e:[], g:[] };
-  packs.forEach(({date, pack})=>{
-    (pack.groups || []).forEach(g=>{
-      (g.questions||[]).forEach(it=>{ if(hitKeywords(it,key)) res.q.push({it,date}); });
-      (g.knowledge||[]).forEach(it=>{ if(hitKeywords(it,key)) res.k.push({it,date}); });
-      (g.skills||[]).forEach(it=>{ if(hitKeywords(it,key)) res.s.push({it,date}); });
-      (g.pitfalls||[]).forEach(it=>{ if(hitKeywords(it,key)) res.p.push({it,date}); });
-      (g.exam||[]).forEach(it=>{ if(hitKeywords(it,key)) res.e.push({it,date}); });
-    });
-    const gh = pack.github || {};
-    [["skills","热门 Skill"],["projects","热门项目"],["testingSkills","测试辅助 Skill"],["tools","测试工具"]]
-      .forEach(([sec,label])=>{
-        (gh[sec]||[]).forEach(it=>{ if(hitKeywords(it,key)) res.g.push({it,date,label}); });
-      });
+  const all = collectModuleItems(packs);
+  const res = {};
+  REVIEW_MODULES.forEach(def=>{
+    res[def.key] = (reviewModule && reviewModule !== def.key)
+      ? []
+      : all[def.key].filter(e=>hitKeywords(e.it, key));
   });
   return res;
 }
@@ -2227,10 +2300,10 @@ function renderReviewHome(box){
   if(!list.length){
     html += `<div class="empty"><div class="big">📭</div><div>还没有学习记录，去「今日速览」开始今天的复习吧</div></div>`;
   } else {
-    html += `<div class="block-label" style="margin:4px 0 12px"><span class="dot"></span>学习足迹（共 ${list.length} 天）</div>`
-      // 「全部历史 + 无关键词」时只看足迹，容易被误认为「没有归档内容」；
-      // 这里点明从哪儿能看到某一天的完整归档。
-      + `<div style="font-size:12.5px;color:var(--muted);margin:-4px 0 12px">用上方的「📅 选日期」可查看某一天的完整归档内容。</div>` +
+    html += secHead("学习足迹", "#64748b", "#f1f5f9", `共 ${list.length} 天`)
+      // 「全部历史 + 全模块」时只看足迹，容易被误认为「没有归档内容」；
+      // 这里点明另外两个入口。
+      + `<div style="font-size:12.5px;color:var(--muted);margin:-4px 0 12px">用上方的「📅 选日期」看某一天的完整归档；用「🧩 模块」下拉可按面试题 / 知识点 / 技能等浏览全部历史。</div>` +
       list.slice().reverse().map(h=>`
         <div class="card" style="margin-bottom:12px">
           <div class="history-date">📅 ${esc(h.date)}</div>
@@ -2245,25 +2318,104 @@ function renderReviewHome(box){
   box.innerHTML = html;
 }
 
-/* 分节渲染：条目多的模块先露 6 条，避免一屏铺出上百张卡片。
-   展开状态靠 hidden 切换，不重渲染整块（重渲染会把横滑/滚动位置拽回顶部）。 */
-function daySection(label, dot, items, render){
+/* 分节标题：色条 + 加粗标题 + 条数徽标 + 右侧延伸细线 */
+function secHead(name, color, soft, count, extra){
+  return `<div class="sec-head" style="--sec:${color};--sec-soft:${soft}">`
+    + `<span class="sec-bar" aria-hidden="true"></span>`
+    + `<span class="sec-title">${esc(name)}</span>`
+    + (count === null || count === undefined || count === "" ? "" : `<span class="sec-count">${esc(String(count))}</span>`)
+    + (extra ? `<span class="sec-extra">${esc(extra)}</span>` : "")
+    + `<span class="sec-line" aria-hidden="true"></span>`
+    + `</div>`;
+}
+
+/* 把若干日包拆成「模块键 → 条目数组」。条目统一为 {it, date, label?}，
+   检索路径与浏览路径共用同一份提取逻辑，字段口径不会走散。 */
+function collectModuleItems(packs){
+  const out = {};
+  REVIEW_MODULES.forEach(m=>{ out[m.key] = []; });
+  (packs || []).forEach(({date, pack})=>{
+    if(!pack) return;
+    (pack.groups || []).forEach(g=>{
+      (g.questions || []).forEach(it=>out.q.push({it, date}));
+      (g.knowledge || []).forEach(it=>out.k.push({it, date}));
+      (g.skills    || []).forEach(it=>out.s.push({it, date}));
+      (g.pitfalls  || []).forEach(it=>out.p.push({it, date}));
+      (g.exam      || []).forEach(it=>out.e.push({it, date}));
+    });
+    const gh = pack.github || {};
+    [["skills","热门 Skill"],["projects","热门项目"],["testingSkills","测试辅助 Skill"],["tools","测试工具"]]
+      .forEach(([sec,label])=>{ (gh[sec]||[]).forEach(it=>out.g.push({it, date, label})); });
+  });
+  return out;
+}
+
+/* 单个条目的卡片。跨日期浏览/检索时 withDate=true，打上「来自哪天」的标签。 */
+function moduleCard(key, entry, withDate){
+  const it = entry.it, date = entry.date;
+  const d = withDate ? dTag(date) : "";
+  if(key === "q"){
+    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${d}</div>`
+      + `<div class="q-title">${esc(it.q)}</div><div class="q-answer">${it.a}</div></div>`;
+  }
+  if(key === "k"){
+    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}`
+      + `<span class="kp-title" style="margin:0">${esc(it.t)}</span>${d}</div><div class="kp-body">${it.body}</div></div>`;
+  }
+  if(key === "s"){
+    const ref = reviewSkillRefs.push({s:it, date:date}) - 1;
+    return `<div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}">`
+      + `<div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${esc(it.t)}</div>${d}</div>`
+      + `<div class="skill-desc">${esc(it.d)}</div>`
+      + `<div class="skill-tools">${(it.tools||[]).map(x=>`<span class="tool-pill">${esc(x)}</span>`).join("")}</div>`
+      + `<div class="skill-more">查看详情 →</div></div>`;
+  }
+  if(key === "p"){
+    return `<div class="card" style="margin-bottom:12px"><div class="card-header"><span class="pit-num">!</span>`
+      + `<span class="pit-title">${esc(it.t)}</span>${d}</div><div class="pit-desc">${esc(it.d)}</div>`
+      + `<div class="pit-tip"><b>破解：</b>${esc(it.tip)}</div></div>`;
+  }
+  if(key === "e"){
+    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${d}</div>`
+      + `<div class="q-title">${esc(it.q)}</div>`
+      + `<div class="q-answer"><b>答案：${"ABCD"[it.a]}。</b>${it.x||""}</div></div>`;
+  }
+  if(key === "g"){
+    const url = safeRepoUrl(it.url);
+    return `<div class="card gh-card" style="margin-bottom:12px">`
+      + `<div class="gh-top"><span class="gh-name">${esc(it.name)}</span><span class="gh-stars">★ ${fmtStars(it.stars)}</span></div>`
+      + `<div class="card-header" style="margin:0">${d}<span class="tag ai">${esc(entry.label||"")}</span></div>`
+      + ghDescHtml(it)
+      + (it.scene ? `<div class="gh-scene"><b>使用场景：</b>${esc(it.scene)}</div>` : "")
+      + (url ? `<a class="gh-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">打开仓库 →</a>` : "")
+      + `</div>`;
+  }
+  return "";
+}
+
+/* 分节：条目多时先露 6 条，其余折叠成「展开剩余 N 条」。
+   展开用 hidden 切换、不重渲染整块 —— 重渲染会把滚动位置拽回顶部。 */
+function daySection(def, items, renderFn){
   if(!items || !items.length) return "";
-  const head = `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:${dot}"></span>${esc(label)}（${items.length}）</div>`;
-  if(items.length <= DAY_SECTION_LIMIT) return head + items.map(render).join("");
+  const head = secHead(def.name, def.color, def.soft, items.length);
+  if(items.length <= DAY_SECTION_LIMIT) return head + items.map(renderFn).join("");
   return head
-    + items.slice(0, DAY_SECTION_LIMIT).map(render).join("")
-    + `<div class="day-rest" hidden>${items.slice(DAY_SECTION_LIMIT).map(render).join("")}</div>`
+    + items.slice(0, DAY_SECTION_LIMIT).map(renderFn).join("")
+    + `<div class="day-rest" hidden>${items.slice(DAY_SECTION_LIMIT).map(renderFn).join("")}</div>`
     + `<button class="btn btn-xs btn-ghost day-more" data-more>展开剩余 ${items.length - DAY_SECTION_LIMIT} 条 ▾</button>`;
 }
 
-/* 「选中某一天 + 无关键词」：展示该日归档的完整内容。
-   数据入口仍是 collectScopePacks()（date 模式下只拉那一天，一次请求），
-   所以这里不再单独走一套取数逻辑。 */
-async function renderReviewDay(box, date){
+/* 浏览模式（无关键词）。两种形态：
+   · 单日范围            → 按模块分节（选了具体模块就只留那一节）
+   · 全部历史 + 选了模块 → 按日期分节，节内是该模块的条目
+   数据源都是 collectScopePacks()，不另起一套取数逻辑。 */
+async function renderReviewBrowse(box){
   if(!box) return;
   const my = ++reviewToken;
-  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在加载「${esc(dateLabel(date))}」的归档…</div></div>`;
+  const single = reviewScope.mode === "date" && !!reviewScope.date;
+  const scopeTip = single ? `「${dateLabel(reviewScope.date)}」` : "全部历史";
+  const modTip = reviewModule ? ` · ${REVIEW_MODULE_MAP[reviewModule].name}` : "";
+  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在加载${esc(scopeTip + modTip)}的归档…</div></div>`;
 
   let packs;
   try{
@@ -2276,77 +2428,48 @@ async function renderReviewDay(box, date){
   }
   if(my !== reviewToken) return;                    // 已有更新的渲染，丢弃这次
 
-  const pack = packs[0] && packs[0].pack;
-  if(!pack || !(pack.groups || []).length){
-    box.innerHTML = `<div class="empty"><div class="big">📭</div><div>「${esc(dateLabel(date))}」暂无可展示的归档内容</div></div>`;
-    return;
-  }
+  packs = (packs || []).filter(p=>p && p.pack && (p.pack.groups || []).length);
+  if(!single && packs.length > REVIEW_BROWSE_MAX_DAYS) packs = packs.slice(-REVIEW_BROWSE_MAX_DAYS);
 
-  const groups = pack.groups || [];
-  const q = [], k = [], sk = [], p = [], ex = [];
-  groups.forEach(g=>{
-    (g.questions || []).forEach(it=>q.push(it));
-    (g.knowledge || []).forEach(it=>k.push(it));
-    (g.skills    || []).forEach(it=>sk.push(it));
-    (g.pitfalls  || []).forEach(it=>p.push(it));
-    (g.exam      || []).forEach(it=>ex.push(it));
-  });
-
+  const mods = reviewModule ? [REVIEW_MODULE_MAP[reviewModule]] : REVIEW_MODULES;
+  const items = collectModuleItems(packs);
   reviewSkillRefs = [];
-  const total = q.length + k.length + sk.length + p.length + ex.length;
-  let html = `<div class="search-summary">「${esc(dateLabel(date))}」共 <b>${groups.length}</b> 组、<b>${total}</b> 条：`
-    + `面试题 ${q.length} / 知识点 ${k.length} / 技能 ${sk.length} / 坑点 ${p.length} / 选择题 ${ex.length}`
-    + `　（想跨日期查找，在上方搜索框输入关键词）</div>`;
 
-  html += daySection("面试题", "#7c3aed", q, it=>
-    `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}</div>`
-    + `<div class="q-title">${esc(it.q)}</div><div class="q-answer">${it.a}</div></div>`);
+  let html = "";
 
-  html += daySection("知识点", "#10b981", k, it=>
-    `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}`
-    + `<span class="kp-title" style="margin:0">${esc(it.t)}</span></div><div class="kp-body">${it.body}</div></div>`);
-
-  html += daySection("测试技能", "#f59e0b", sk, it=>{
-    const ref = reviewSkillRefs.push({s:it, date:date}) - 1;
-    return `<div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}">`
-      + `<div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${esc(it.t)}</div></div>`
-      + `<div class="skill-desc">${esc(it.d)}</div>`
-      + `<div class="skill-tools">${(it.tools||[]).map(x=>`<span class="tool-pill">${esc(x)}</span>`).join("")}</div>`
-      + `<div class="skill-more">查看详情 →</div></div>`;
-  });
-
-  html += daySection("面试坑点", "#ef4444", p, it=>
-    `<div class="card" style="margin-bottom:12px"><div class="card-header"><span class="pit-num">!</span>`
-    + `<span class="pit-title">${esc(it.t)}</span></div><div class="pit-desc">${esc(it.d)}</div>`
-    + `<div class="pit-tip"><b>破解：</b>${esc(it.tip)}</div></div>`);
-
-  html += daySection("选择题", "#0ea5e9", ex, it=>
-    `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}</div>`
-    + `<div class="q-title">${esc(it.q)}</div>`
-    + `<div class="q-answer"><b>答案：${"ABCD"[it.a]}。</b>${it.x||""}</div></div>`);
-
-  // GitHub 热点：四个板块合成一节，每条用标签标出所属板块（与检索结果同一形态）
-  const gh = pack.github || {};
-  const ghItems = [];
-  [["skills","热门 Skill"],["projects","热门项目"],["testingSkills","测试辅助 Skill"],["tools","测试工具"]]
-    .forEach(([sec,label])=>{
-      (gh[sec] || []).forEach(it=>ghItems.push({it, label}));
+  if(single){
+    const date = packs.length ? packs[0].date : (reviewScope.date || "");
+    const total = mods.reduce((n, d)=>n + items[d.key].length, 0);
+    if(!total){
+      box.innerHTML = `<div class="empty"><div class="big">📭</div><div>「${esc(dateLabel(date))}」${reviewModule ? esc(mods[0].name) : ""}暂无可展示的归档内容</div></div>`;
+      return;
+    }
+    html += `<div class="search-summary">「${esc(dateLabel(date))}」共 <b>${total}</b> 条`
+      + (reviewModule ? `　模块：<b>${esc(mods[0].name)}</b>` : "　（想跨日期查找，可在上方搜索框输入关键词）") + `</div>`;
+    mods.forEach(def=>{ html += daySection(def, items[def.key], e=>moduleCard(def.key, e, false)); });
+  } else {
+    // 多日范围只可能由「选了具体模块」进入（全模块的多日浏览量太大，首页仍是学习足迹）
+    const def = mods[0];
+    const all = items[def.key];
+    if(!all.length){
+      box.innerHTML = `<div class="empty"><div class="big">📭</div><div>已归档的内容里暂无可展示的${esc(def.name)}</div></div>`;
+      return;
+    }
+    html += `<div class="search-summary">全部历史（最近 <b>${packs.length}</b> 天）· 模块 <b>${esc(def.name)}</b>：共 <b>${all.length}</b> 条</div>`;
+    packs.slice().reverse().forEach(({date, pack})=>{
+      const per = collectModuleItems([{date, pack}])[def.key];
+      if(!per.length) return;
+      // 日期用中性色，与模块色区分：一眼能看出这一节是「哪一天」
+      html += daySection({ key:def.key, name:dateLabel(date), color:"#64748b", soft:"#f1f5f9" },
+                         per, e=>moduleCard(def.key, e, false));
     });
-  html += daySection("GitHub 热点", "#0ea5e9", ghItems, ({it, label})=>{
-    const url = safeRepoUrl(it.url);
-    return `<div class="card gh-card" style="margin-bottom:12px">`
-      + `<div class="gh-top"><span class="gh-name">${esc(it.name)}</span><span class="gh-stars">★ ${fmtStars(it.stars)}</span></div>`
-      + `<div class="card-header" style="margin:0"><span class="tag ai">${esc(label)}</span></div>`
-      + ghDescHtml(it)
-      + (it.scene ? `<div class="gh-scene"><b>使用场景：</b>${esc(it.scene)}</div>` : "")
-      + (url ? `<a class="gh-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">打开仓库 →</a>` : "")
-      + `</div>`;
-  });
+  }
 
   box.innerHTML = html;
 }
 
-/* 渲染知识回顾。有关键词 → 跨归档检索；无关键词 → 选中某天看该日归档 / 否则足迹 */
+/* 渲染知识回顾。分流：
+   有词 → 在「范围 × 模块」内检索；无词 → 单日看该日归档 / 全部历史+指定模块按日期看 / 否则足迹首页 */
 async function renderReview(kw){
   const box = $("#reviewResult");
   if(!box) return;
@@ -2354,15 +2477,14 @@ async function renderReview(kw){
   updateScopeHint();
   const key = String(kw||"").trim();
   if(!key){
-    // 无关键词时：选中某一天 → 展示该日归档的完整内容；「全部历史」→ 学习足迹首页。
-    // 早期这里无条件走 renderReviewHome()，范围选择器选了日期也看不出任何变化。
-    if(reviewScope.mode === "date" && reviewScope.date) renderReviewDay(box, reviewScope.date);
+    // 早期这里无条件走 renderReviewHome()，范围控件选了日期也看不出任何变化。
+    if((reviewScope.mode === "date" && reviewScope.date) || reviewModule) renderReviewBrowse(box);
     else renderReviewHome(box);
     return;
   }
 
   const my = ++reviewToken;
-  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在检索「${esc(rangeLabel())}」…</div></div>`;
+  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在检索「${esc(scopeText())}」…</div></div>`;
 
   let res;
   try{
@@ -2376,52 +2498,18 @@ async function renderReview(kw){
   // 输入过程中可能已经发起了更新的检索，这次结果直接丢弃，避免旧结果覆盖新结果
   if(my !== reviewToken) return;
 
-  const total = res.q.length+res.k.length+res.s.length+res.p.length+res.e.length+res.g.length;
+  const total = REVIEW_MODULES.reduce((n, d)=>n + (res[d.key] || []).length, 0);
   if(!total){
-    box.innerHTML = `<div class="empty"><div class="big">🔍</div><div>在「${esc(rangeLabel())}」里没找到与「${esc(key)}」相关的内容，换个关键词或扩大检索范围</div></div>`;
+    box.innerHTML = `<div class="empty"><div class="big">🔍</div><div>在「${esc(scopeText())}」里没找到与「${esc(key)}」相关的内容，换个关键词或调整筛选范围</div></div>`;
     return;
   }
 
   reviewSkillRefs = [];
-  let html = `<div class="search-summary">在「${esc(rangeLabel())}」里找到 <b>${total}</b> 条与「${esc(key)}」相关的内容</div>`;
-
-  if(res.q.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot"></span>面试题（${res.q.length}）</div>` + res.q.map(({it,date})=>`
-    <div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${dTag(date)}</div><div class="q-title">${esc(it.q)}</div><div class="q-answer">${it.a}</div></div>
-  `).join("");
-
-  if(res.k.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:#10b981"></span>知识点（${res.k.length}）</div>` + res.k.map(({it,date})=>`
-    <div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}<span class="kp-title" style="margin:0">${esc(it.t)}</span>${dTag(date)}</div><div class="kp-body">${it.body}</div></div>
-  `).join("");
-
-  if(res.s.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:#f59e0b"></span>测试技能（${res.s.length}）</div>` + res.s.map(({it,date})=>{
-    const ref = reviewSkillRefs.push({s:it, date:date}) - 1;
-    return `
-    <div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}"><div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${esc(it.t)}</div>${dTag(date)}</div><div class="skill-desc">${esc(it.d)}</div><div class="skill-tools">${(it.tools||[]).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div><div class="skill-more">查看详情 →</div></div>
-  `;
-  }).join("");
-
-  if(res.p.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:#ef4444"></span>面试坑点（${res.p.length}）</div>` + res.p.map(({it,date})=>`
-    <div class="card" style="margin-bottom:12px"><div class="card-header"><span class="pit-num">!</span><span class="pit-title">${esc(it.t)}</span>${dTag(date)}</div><div class="pit-desc">${esc(it.d)}</div><div class="pit-tip"><b>破解：</b>${esc(it.tip)}</div></div>
-  `).join("");
-
-  if(res.e.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:#7c3aed"></span>相关选择题（${res.e.length}）</div>` + res.e.map(({it,date})=>`
-    <div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${dTag(date)}</div><div class="q-title">${esc(it.q)}</div><div class="q-answer"><b>答案：${"ABCD"[it.a]}。</b>${it.x||""}</div></div>
-  `).join("");
-
-  if(res.g.length) html += `<div class="block-label" style="margin:6px 0 10px"><span class="dot" style="background:#0ea5e9"></span>GitHub 热点（${res.g.length}）</div>` + res.g.map(({it,date,label})=>{
-    const url = safeRepoUrl(it.url);
-    return `
-    <div class="card gh-card" style="margin-bottom:12px">
-      <div class="gh-top">
-        <span class="gh-name">${esc(it.name)}</span>
-        <span class="gh-stars">★ ${fmtStars(it.stars)}</span>
-      </div>
-      <div class="card-header" style="margin:0">${dTag(date)}<span class="tag ai">${esc(label||"")}</span></div>
-      ${ghDescHtml(it)}
-      ${it.scene ? `<div class="gh-scene"><b>使用场景：</b>${esc(it.scene)}</div>` : ""}
-      ${url ? `<a class="gh-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">打开仓库 →</a>` : ""}
-    </div>`;
-  }).join("");
+  let html = `<div class="search-summary">在「${esc(scopeText())}」里找到 <b>${total}</b> 条与「${esc(key)}」相关的内容</div>`;
+  REVIEW_MODULES.forEach(def=>{
+    const arr = res[def.key] || [];
+    if(arr.length) html += daySection(def, arr, e=>moduleCard(def.key, e, true));
+  });
 
   box.innerHTML = html;
 }
@@ -2486,6 +2574,15 @@ function init(){
   if(btnAll){
     btnAll.addEventListener("click", function(){
       setReviewScope("all", "");
+      renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
+    });
+  }
+
+  // 知识回顾：模块筛选下拉（选项由 syncModulePicker() 按 REVIEW_MODULES 填充）
+  const modSel = $("#reviewModule");
+  if(modSel){
+    modSel.addEventListener("change", function(){
+      reviewModule = this.value || "";
       renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     });
   }
