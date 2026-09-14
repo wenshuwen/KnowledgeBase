@@ -82,7 +82,7 @@
   .mod-pick{
     position:relative;display:inline-flex;align-items:center;flex:none;
     background:var(--card);border:1px solid var(--border);border-radius:9px;
-    padding:0 6px 0 9px;transition:background .15s ease,border-color .15s ease;
+    padding:0 11px;transition:background .15s ease,border-color .15s ease;
   }
   .mod-pick:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--ring)}
   .mod-pick::before{content:"🧩";font-size:12px;line-height:1;margin-right:5px;flex:none}
@@ -90,8 +90,10 @@
     border:none;outline:none;background:transparent;font-family:inherit;cursor:pointer;
     font-size:12.5px;font-weight:600;color:var(--text);padding:6px 13px 6px 0;
     -webkit-appearance:none;appearance:none;
+    /* 填满容器：外层宽度已钉死，这里让点击热区覆盖整个控件而不是只有文字那一小段 */
+    flex:1 1 auto;min-width:0;
   }
-  .mod-pick .mp-caret{position:absolute;right:7px;font-size:10px;color:var(--muted);pointer-events:none}
+  .mod-pick .mp-caret{position:absolute;right:9px;font-size:10px;color:var(--muted);pointer-events:none}
   .mod-pick.on{background:var(--primary-soft);border-color:transparent}
   .mod-pick.on select{color:var(--primary)}
   /* 日期选择器：收起只占一个小按钮，点开是自绘月历。
@@ -99,7 +101,14 @@
      又不必把日期平铺成一行（归档逐日累积，平铺迟早撑爆版面）。 */
   .daypicker{position:relative;flex:none}
   .daypicker-btn{display:inline-flex;align-items:center;gap:6px}
-  .daypicker-btn.active-scope{background:var(--primary-soft);border-color:transparent;color:var(--primary)}
+  /* 顶部这两个控件成对出现，统一外框尺寸：同高、同宽、同圆角、同水平内边距。
+     两个值都显式钉死，不依赖内容自然宽度 —— 实测同一套样式在 375 与 1000 视口下，
+     自然宽度能差出 17px（emoji 行盒与字体度量随视口浮动），看上去就是一大一小。
+     宽 144px 是「最宽日期标签 + 图标 + 箭头」的实测上限（如「12月31日 周三」），
+     两个控件都按它取值，既等宽又不会挤到换行。 */
+  .daypicker-btn,.mod-pick{height:40px;width:144px}
+  /* 日期标签兜底：万一将来标签更长，省略号收尾而不是撑破固定宽度 */
+  #dayPickerLabel{overflow:hidden;text-overflow:ellipsis}
   .daypicker-btn:disabled{opacity:.5;cursor:not-allowed}
   .dp-ico{font-size:12px;line-height:1}
   .dp-caret{font-size:9px;opacity:.65;line-height:1}
@@ -204,8 +213,6 @@
   /* 「某日归档」折叠：每节默认 6 条，避免一屏上百张卡片 */
   .day-rest[hidden]{display:none}
   .day-more{margin:-2px 0 18px}
-  /* 检索范围按钮的生效态：它已是知识回顾唯一的范围开关，必须能看出当前处于哪一档 */
-  .btn-ghost.active-scope{background:var(--primary-soft);color:var(--primary);border-color:#c7ccf7}
   .btn .spin{display:inline-block}
   .btn.loading .spin{animation:rot .7s linear infinite}
   @keyframes rot{to{transform:rotate(360deg)}}
@@ -573,8 +580,6 @@
   }
   .sec-extra{font-size:12px;color:var(--muted);flex:none}
   .sec-line{flex:1 1 auto;height:1px;background:var(--border);min-width:12px}
-  .history-date{font-size:12.5px;font-weight:700;color:var(--primary);margin-bottom:8px}
-  .history-row{font-size:13.5px;color:#3a4150;padding:4px 0}
 
   @media(max-width:640px){
     .header-inner{padding:12px 14px;gap:10px;flex-wrap:wrap}
@@ -591,7 +596,7 @@
     .date-pick input{font-size:12.5px;min-width:104px}
     .review-scope{gap:8px}
     .scope-hint{flex:1 1 auto}
-    .mod-pick{padding:0 5px 0 8px}
+    .mod-pick{padding:0 9px}
     .mod-pick select{font-size:12px;padding:6px 12px 6px 0}
     .sec-title{font-size:14px}
     .sec-head{margin:18px 0 10px}
@@ -809,10 +814,9 @@
   <section id="tab-review">
     <div class="section-head">
       <h2>知识回顾</h2>
-      <p>检索全部已归档的知识内容；可按日期与模块筛选范围，下方记录你每天的学习足迹。</p>
+      <p>按日期查看当天的归档内容，默认当天；再用模块下拉可缩小到某一类（面试题 / 知识点 / 技能 / 坑点 / 选择题 / GitHub 热点）。</p>
     </div>
     <div class="review-scope">
-      <button class="btn btn-ghost btn-xs" id="btnReviewAll" title="把检索范围切到全部已归档日期">全部历史</button>
       <div class="daypicker" id="dayPicker">
         <button class="btn btn-ghost btn-xs daypicker-btn" id="dayPickerBtn" type="button"
                 aria-haspopup="dialog" aria-expanded="false" title="按归档日期检索">
@@ -1778,7 +1782,7 @@ document.addEventListener("click", e=>{
   }
   const dpDay = e.target.closest("[data-dp-day]");
   if(dpDay){
-    setReviewScope("date", dpDay.dataset.dpDay);
+    setReviewDate(dpDay.dataset.dpDay);
     dpSetOpen(false);
     renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     return;
@@ -1786,7 +1790,7 @@ document.addEventListener("click", e=>{
   if(e.target.closest("#dpLatest")){
     const ds = dpDays();
     if(ds.length){
-      setReviewScope("date", ds[ds.length-1].date);
+      setReviewDate(ds[ds.length-1].date);
       dpSetOpen(false);
       renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     }
@@ -1974,12 +1978,11 @@ function toast(msg){
 }
 
 /* =====================================================================
- *  知识回顾：按日期检索历史归档 + 学习足迹
+ *  知识回顾：按日期查看历史归档
  *
- *  检索范围有两种，由 reviewScope 决定：
- *    · 某个日期 —— 只查那一天的包，一次请求
- *    · 全部历史 —— 逐日拉取索引里的包。按「文件」走缓存（历史月份合并成月文件后
- *                   一个月只需下一次），并设天数上限，避免历史变长后把页面拖死。
+ *  检索范围只有一种 —— 某个日期，默认当天（见 ensureReviewDate）。
+ *  一次渲染只拉那一天的一个包，不做逐日聚合：「全部历史」那种全量模式已移除，
+ *  归档逐日累积，全量既拖慢页面，展示上也堆不下。跨日期找内容走关键词检索。
  * ===================================================================== */
 function safe(fn){
   try{ fn(); }catch(e){ if(window.console && console.warn) console.warn("IA step failed:", e); }
@@ -2008,8 +2011,7 @@ function stripHtml(html){
   return out;
 }
 
-const REVIEW_MAX_DAYS = 90;                       // 「全部历史」单次最多检索的天数
-const DAY_SECTION_LIMIT = 6;                      // 「某日归档」每节默认展开的条数（其余折叠）
+const DAY_SECTION_LIMIT = 6;                      // 每节默认展开的条数（其余折叠）
 
 /* 知识回顾的模块口径：一处定义，驱动「下拉选项 / 分节标题 / 检索结果分节」三处，
    避免各写一份枚举而走散。key 与归档包里的字段一一对应（q/k/s/p/e/g）。 */
@@ -2023,11 +2025,10 @@ const REVIEW_MODULES = [
 ];
 const REVIEW_MODULE_MAP = {};
 REVIEW_MODULES.forEach(m=>{ REVIEW_MODULE_MAP[m.key] = m; });
-const REVIEW_BROWSE_MAX_DAYS = 30;                // 「全部历史」按模块浏览时最多取最近多少天
 let reviewModule = "";                            // "" = 全部模块；否则是上面某个 key
-// 默认「全部历史」：一进「知识回顾」就是全量范围，选具体某天交给
-// 顶部的日期选择器（自绘月历，见 syncDayPicker / dpRenderMonth）
-let reviewScope = { mode: "all", date: "" };      // mode: "date" | "all"
+// 检索范围就是一个日期，默认当天（见 ensureReviewDate）。
+// 空串 = 尚未确定，首次渲染时补上，避免顶层初始化时索引还没加载完。
+let reviewDate = "";
 let reviewSkillRefs = [];                         // 检索结果里的技能对象，供弹窗按引用取用
 let reviewToken = 0;                              // 竞态令牌：丢弃过期的检索结果
 
@@ -2060,6 +2061,19 @@ function dpArchived(){
   dpDays().forEach(d=>{ if(d && d.date) s.add(d.date); });
   return s;
 }
+/* 默认检索日期：当天。当天还没有归档（日报任务尚未跑完）就退到最近一天有归档的日期 ——
+   「默认当天」不该以进来就看到空页为代价。 */
+function defaultReviewDate(){
+  const days = dpDays();
+  if(!days.length) return dpTodayISO();
+  const today = dpTodayISO();
+  if(days.some(d=>d.date === today)) return today;
+  return days[days.length-1].date;
+}
+function ensureReviewDate(){
+  if(!reviewDate) reviewDate = defaultReviewDate();
+  return reviewDate;
+}
 /* 有归档的月份区间。翻到区间外没有意义，所以据此禁用左右箭头。 */
 function dpBounds(){
   const ds = dpDays().map(d=>d.date).sort();
@@ -2077,10 +2091,7 @@ function dpCanNav(step){
 /* 只在「打开弹层」时把视图月对准选中日期（没选就对最近一天）。
    不放在每次重渲染里 —— 否则用户翻了几个月，一有重渲染就被拽回原处。 */
 function dpAnchorMonth(){
-  const days = dpDays();
-  const anchor = (reviewScope.mode === "date" && reviewScope.date)
-    ? reviewScope.date
-    : (days.length ? days[days.length-1].date : "");
+  const anchor = ensureReviewDate();
   const m = /^(\d{4})-(\d{2})/.exec(anchor || "");
   if(m){ dpView = { y: Number(m[1]), m: Number(m[2]) - 1 }; return; }
   const t = new Date();
@@ -2093,9 +2104,8 @@ function syncDayPicker(){
   const label = document.getElementById("dayPickerLabel");
   if(!btn || !label) return;
   const has = dpDays().length > 0;
-  const isDate = reviewScope.mode === "date" && !!reviewScope.date;
-  label.textContent = isDate ? dateLabel(reviewScope.date) : "选日期";
-  btn.classList.toggle("active-scope", isDate);
+  const date = ensureReviewDate();
+  label.textContent = date ? dateLabel(date) : "选日期";
   btn.disabled = !has;
   btn.title = has ? "按归档日期检索：月历里高亮的日期当天有归档" : "暂无归档";
   if(dpOpen) dpRenderMonth();
@@ -2108,7 +2118,7 @@ function dpRenderMonth(){
   const y = dpView.y, m = dpView.m;
   head.textContent = `${y}年${m+1}月`;
   const archived = dpArchived(), today = dpTodayISO();
-  const picked = reviewScope.mode === "date" ? reviewScope.date : "";
+  const picked = reviewDate || "";
   const offset = (new Date(y, m, 1).getDay() + 6) % 7;            // 周一放在第一列
   const total = new Date(y, m+1, 0).getDate();
   let html = "";
@@ -2170,13 +2180,13 @@ function dpPlacePop(){
   if(shift) pop.style.marginLeft = Math.round(shift) + "px";
 }
 
-function setReviewScope(mode, date){
-  reviewScope = { mode: mode, date: date || "" };
+function setReviewDate(date){
+  reviewDate = date || "";
   updateScopeHint();
 }
 
 function rangeLabel(){
-  return reviewScope.mode === "all" ? "全部历史" : (reviewScope.date ? dateLabel(reviewScope.date) : "未选择日期");
+  return reviewDate ? dateLabel(reviewDate) : "未选择日期";
 }
 
 /* 范围 + 模块的完整中文描述，供摘要文案与空态共用 */
@@ -2207,37 +2217,24 @@ function syncModulePicker(){
 }
 
 function updateScopeHint(){
-  const total = ((state.index && state.index.days) || []).length;
   const hint = document.getElementById("reviewScopeHint");
-  // 这里不再 early return：范围提示与各处范围控件的选中态都得跟着状态走，
+  // 这里不再 early return：范围提示与各处控件都得跟着状态走，
   // 任一元素缺失都不该让其余部分停在旧状态
   if(hint){
-    hint.textContent = (reviewScope.mode === "all"
-      ? `检索范围：全部历史（${Math.min(total, REVIEW_MAX_DAYS)} 天）`
-      : `检索范围：${rangeLabel()}`) + (reviewModule ? ` · 仅看 ${REVIEW_MODULE_MAP[reviewModule].name}` : "");
+    hint.textContent = `检索范围：${rangeLabel()}`
+      + (reviewModule ? ` · 仅看 ${REVIEW_MODULE_MAP[reviewModule].name}` : "");
   }
-  const all = document.getElementById("btnReviewAll");
-  if(all) all.classList.toggle("active-scope", reviewScope.mode === "all");
   syncModulePicker();
   syncDayPicker();
 }
 
-/* 取检索范围内的所有日包。单日失败跳过 —— 不让一天的数据坏掉拖垮整次检索。 */
+/* 取当前检索日期的日包。取不到返回空数组；取到了但包损坏则让异常抛给调用方，
+   由渲染层显示「加载失败」，不要伪装成「这一天没有内容」。 */
 async function collectScopePacks(){
-  const days = (state.index && state.index.days) || [];
-  if(reviewScope.mode === "date"){
-    const entry = indexEntry(reviewScope.date);
-    if(!entry) return [];
-    return [{ date: reviewScope.date, pack: await fetchPack(entry) }];
-  }
-  const picked = days.slice(-REVIEW_MAX_DAYS);
-  const out = [];
-  for(const entry of picked){
-    try{
-      out.push({ date: entry.date, pack: await fetchPack(entry) });
-    }catch(e){ /* 跳过这一天的坏数据 */ }
-  }
-  return out;
+  const date = ensureReviewDate();
+  const entry = date ? indexEntry(date) : null;
+  if(!entry) return [];
+  return [{ date: date, pack: await fetchPack(entry) }];
 }
 
 /* 条目是否命中关键词：把可检索字段拼成一段文本再查。
@@ -2269,7 +2266,9 @@ async function searchArchive(kw){
   return res;
 }
 
-// 记录每日学习足迹（按日期去重，保留最近 30 天）
+// 记录每日学习足迹（按日期去重，保留最近 30 天）。
+// 知识回顾页已改为「固定单日」视图，原「学习足迹」列表失去展示入口，
+// 数据照旧记录 —— 日后若要恢复该视图，历史不至于从某天起断档。
 function recordTodayHistory(){
   const set = getDailySet();
   if(!set.q && !set.k && !set.s && !set.p) return;
@@ -2286,36 +2285,6 @@ function recordTodayHistory(){
   });
   if(list.length>30) list = list.slice(-30);
   store.set(LS.history, JSON.stringify(list));
-}
-
-/* 足迹行取值：历史记录里某一类可能缺失，统一兜底成「—」 */
-const histField = (obj, field) => (obj && obj[field]) ? obj[field] : "—";
-
-/* 空关键词时的首页：只有学习足迹（按日期检索在顶部那个自绘月历里） */
-function renderReviewHome(box){
-  let list = [];
-  try{ list = JSON.parse(store.get(LS.history, "[]")) || []; }catch(e){ list = []; }
-  let html = "";
-
-  if(!list.length){
-    html += `<div class="empty"><div class="big">📭</div><div>还没有学习记录，去「今日速览」开始今天的复习吧</div></div>`;
-  } else {
-    html += secHead("学习足迹", "#64748b", "#f1f5f9", `共 ${list.length} 天`)
-      // 「全部历史 + 全模块」时只看足迹，容易被误认为「没有归档内容」；
-      // 这里点明另外两个入口。
-      + `<div style="font-size:12.5px;color:var(--muted);margin:-4px 0 12px">用上方的「📅 选日期」看某一天的完整归档；用「🧩 模块」下拉可按面试题 / 知识点 / 技能等浏览全部历史。</div>` +
-      list.slice().reverse().map(h=>`
-        <div class="card" style="margin-bottom:12px">
-          <div class="history-date">📅 ${esc(h.date)}</div>
-          <div class="history-row">❓ ${esc(histField(h.q,"t"))}</div>
-          <div class="history-row">📖 ${esc(histField(h.k,"t"))}</div>
-          <div class="history-row">🛠️ ${esc(histField(h.s,"t"))}</div>
-          <div class="history-row">⚠️ ${esc(histField(h.p,"t"))}</div>
-        </div>
-      `).join("");
-  }
-
-  box.innerHTML = html;
 }
 
 /* 分节标题：色条 + 加粗标题 + 条数徽标 + 右侧延伸细线 */
@@ -2405,17 +2374,14 @@ function daySection(def, items, renderFn){
     + `<button class="btn btn-xs btn-ghost day-more" data-more>展开剩余 ${items.length - DAY_SECTION_LIMIT} 条 ▾</button>`;
 }
 
-/* 浏览模式（无关键词）。两种形态：
-   · 单日范围            → 按模块分节（选了具体模块就只留那一节）
-   · 全部历史 + 选了模块 → 按日期分节，节内是该模块的条目
-   数据源都是 collectScopePacks()，不另起一套取数逻辑。 */
+/* 浏览模式（无关键词）：把当前检索日期的归档按模块分节展示，
+   选了具体模块就只留那一节。数据源是 collectScopePacks()，与检索路径共用。 */
 async function renderReviewBrowse(box){
   if(!box) return;
   const my = ++reviewToken;
-  const single = reviewScope.mode === "date" && !!reviewScope.date;
-  const scopeTip = single ? `「${dateLabel(reviewScope.date)}」` : "全部历史";
+  const date = ensureReviewDate();
   const modTip = reviewModule ? ` · ${REVIEW_MODULE_MAP[reviewModule].name}` : "";
-  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在加载${esc(scopeTip + modTip)}的归档…</div></div>`;
+  box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在加载「${esc(dateLabel(date))}」${esc(modTip)}的归档…</div></div>`;
 
   let packs;
   try{
@@ -2429,59 +2395,36 @@ async function renderReviewBrowse(box){
   if(my !== reviewToken) return;                    // 已有更新的渲染，丢弃这次
 
   packs = (packs || []).filter(p=>p && p.pack && (p.pack.groups || []).length);
-  if(!single && packs.length > REVIEW_BROWSE_MAX_DAYS) packs = packs.slice(-REVIEW_BROWSE_MAX_DAYS);
 
-  const mods = reviewModule ? [REVIEW_MODULE_MAP[reviewModule]] : REVIEW_MODULES;
+  const def = reviewModule ? REVIEW_MODULE_MAP[reviewModule] : null;
+  const mods = def ? [def] : REVIEW_MODULES;
   const items = collectModuleItems(packs);
   reviewSkillRefs = [];
 
-  let html = "";
-
-  if(single){
-    const date = packs.length ? packs[0].date : (reviewScope.date || "");
-    const total = mods.reduce((n, d)=>n + items[d.key].length, 0);
-    if(!total){
-      box.innerHTML = `<div class="empty"><div class="big">📭</div><div>「${esc(dateLabel(date))}」${reviewModule ? esc(mods[0].name) : ""}暂无可展示的归档内容</div></div>`;
-      return;
-    }
-    html += `<div class="search-summary">「${esc(dateLabel(date))}」共 <b>${total}</b> 条`
-      + (reviewModule ? `　模块：<b>${esc(mods[0].name)}</b>` : "　（想跨日期查找，可在上方搜索框输入关键词）") + `</div>`;
-    mods.forEach(def=>{ html += daySection(def, items[def.key], e=>moduleCard(def.key, e, false)); });
-  } else {
-    // 多日范围只可能由「选了具体模块」进入（全模块的多日浏览量太大，首页仍是学习足迹）
-    const def = mods[0];
-    const all = items[def.key];
-    if(!all.length){
-      box.innerHTML = `<div class="empty"><div class="big">📭</div><div>已归档的内容里暂无可展示的${esc(def.name)}</div></div>`;
-      return;
-    }
-    html += `<div class="search-summary">全部历史（最近 <b>${packs.length}</b> 天）· 模块 <b>${esc(def.name)}</b>：共 <b>${all.length}</b> 条</div>`;
-    packs.slice().reverse().forEach(({date, pack})=>{
-      const per = collectModuleItems([{date, pack}])[def.key];
-      if(!per.length) return;
-      // 日期用中性色，与模块色区分：一眼能看出这一节是「哪一天」
-      html += daySection({ key:def.key, name:dateLabel(date), color:"#64748b", soft:"#f1f5f9" },
-                         per, e=>moduleCard(def.key, e, false));
-    });
+  const total = mods.reduce((n, d)=>n + items[d.key].length, 0);
+  if(!total){
+    box.innerHTML = `<div class="empty"><div class="big">📭</div><div>「${esc(dateLabel(date))}」${def ? esc(def.name) : ""}暂无可展示的归档内容</div></div>`;
+    return;
   }
+
+  let html = `<div class="search-summary">「${esc(dateLabel(date))}」共 <b>${total}</b> 条`
+    + (def ? `　模块：<b>${esc(def.name)}</b>` : "　（想跨日期查找，可在上方搜索框输入关键词）") + `</div>`;
+  mods.forEach(d=>{ html += daySection(d, items[d.key], e=>moduleCard(d.key, e, false)); });
 
   box.innerHTML = html;
 }
 
 /* 渲染知识回顾。分流：
-   有词 → 在「范围 × 模块」内检索；无词 → 单日看该日归档 / 全部历史+指定模块按日期看 / 否则足迹首页 */
+   有词 → 在当前日期（可再叠加模块）范围内检索；无词 → 直接展示当前日期的归档。
+   两条路读的是同一个日期，不存在「改范围控件却不生效」的第三种状态。 */
 async function renderReview(kw){
   const box = $("#reviewResult");
   if(!box) return;
+  ensureReviewDate();
   syncDayPicker();
   updateScopeHint();
   const key = String(kw||"").trim();
-  if(!key){
-    // 早期这里无条件走 renderReviewHome()，范围控件选了日期也看不出任何变化。
-    if((reviewScope.mode === "date" && reviewScope.date) || reviewModule) renderReviewBrowse(box);
-    else renderReviewHome(box);
-    return;
-  }
+  if(!key){ renderReviewBrowse(box); return; }
 
   const my = ++reviewToken;
   box.innerHTML = `<div class="empty"><div class="big">⏳</div><div>正在检索「${esc(scopeText())}」…</div></div>`;
@@ -2566,17 +2509,9 @@ function init(){
     });
   }
 
-  // ---------- 知识回顾：检索范围控件 ----------
-  // 范围切换集中在模块顶部这一行：#btnReviewAll（全部历史）+ 日期选择器
-  // （#dayPicker，自绘月历）。两者都是幂等置位 —— 不再做「再点一次取消」，
-  // 因为「全部历史」本身就是其中一个可选值。
-  const btnAll = $("#btnReviewAll");
-  if(btnAll){
-    btnAll.addEventListener("click", function(){
-      setReviewScope("all", "");
-      renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
-    });
-  }
+  // ---------- 知识回顾：模块筛选 ----------
+  // 检索范围固定为「一天」，由顶部日期选择器（#dayPicker，自绘月历）决定，默认当天。
+  // 原先的「全部历史」开关已移除：全量范围内容太多，展示与加载都不划算。
 
   // 知识回顾：模块筛选下拉（选项由 syncModulePicker() 按 REVIEW_MODULES 填充）
   const modSel = $("#reviewModule");
