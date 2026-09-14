@@ -79,12 +79,6 @@
   }
   .review-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
   .scope-hint{font-size:12.5px;color:var(--muted)}
-  .group-pill{
-    font-size:12.5px;color:var(--muted);background:var(--card);
-    border:1px solid var(--border);border-radius:999px;padding:7px 13px;
-    white-space:nowrap;flex:none;
-  }
-  .group-pill b{color:var(--primary);font-weight:700}
 
   /* ---------- GitHub 热点 ---------- */
   .gh-block{margin-bottom:20px}
@@ -136,6 +130,10 @@
   .btn-primary:hover{box-shadow:0 12px 24px -8px rgba(79,70,229,.65)}
   .btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--border)}
   .btn-ghost:hover{background:#fafafe;border-color:#d6d9ec}
+  /* 小尺寸按钮：给「知识回顾」这类辅助开关用，不与搜索框抢视线 */
+  .btn-xs{font-size:12.5px;padding:6px 11px;border-radius:9px;gap:5px}
+  /* 检索范围按钮的生效态：它已是知识回顾唯一的范围开关，必须能看出当前处于哪一档 */
+  .btn-ghost.active-scope{background:var(--primary-soft);color:var(--primary);border-color:#c7ccf7}
   .btn .spin{display:inline-block}
   .btn.loading .spin{animation:rot .7s linear infinite}
   @keyframes rot{to{transform:rotate(360deg)}}
@@ -496,12 +494,17 @@
 
   @media(max-width:640px){
     .header-inner{padding:12px 14px;gap:10px;flex-wrap:wrap}
+    /* 移动端标题不能被右侧按钮挤到折行：组号胶囊移除后按钮变窄、更早挤上第一行，
+       会把「面试助手」压成两行。nowrap 让标题的 min-content 等于完整标题宽度，
+       再配 min-width:auto 作为下限 —— 宽度不够时改为让按钮整行换下去。
+       只用 min-width:auto 无效：中文允许字间断行，min-content 只有一个字宽。 */
+    .title-block{min-width:auto}
+    .title-block h1{white-space:nowrap}
     .title-block .sub{display:none}
     .header-actions{margin-left:auto;gap:6px;flex-wrap:wrap;justify-content:flex-end}
     /* 日期控件在移动端必须保留可见 —— 它是切换内容日期的主入口，隐藏等于功能不可达 */
     .date-pick{padding:5px 8px;gap:5px}
     .date-pick input{font-size:12.5px;min-width:104px}
-    .group-pill{padding:6px 10px;font-size:12px}
     .review-scope{gap:8px}
     .gh-name{font-size:14px}
     main{padding:18px 14px 70px}
@@ -608,9 +611,6 @@
         <span class="date-ico">📅</span>
         <input type="date" id="datePick" aria-label="选择日期" />
       </label>
-      <span class="group-pill" id="groupPill" title="当前是所选日期的第几组内容，点「刷新内容」切换到下一组">
-        第 <b id="groupNow">1</b>/<b id="groupTotal">1</b> 组
-      </span>
       <button class="btn btn-ghost" id="btnSettings" title="设置定时提醒" data-page-node-id="acP1aW8jCGFfbprTi3cnxf">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="sXO1bV8kGAKf2txpSwHfgi"><circle cx="12" cy="12" r="3" data-page-node-id="eFrHTjvOh3EqMCzivc0Jzq"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" data-page-node-id="oEUeAFqZHDwU81daiZZnNI"/></svg>
         提醒设置
@@ -720,14 +720,10 @@
   <section id="tab-review">
     <div class="section-head">
       <h2>知识回顾</h2>
-      <p>按日期检索已归档的知识内容；下方记录你每天的学习足迹。</p>
+      <p>检索全部已归档的知识内容；下方记录你每天的学习足迹，点日期按钮可切换范围。</p>
     </div>
     <div class="review-scope">
-      <label class="date-pick" title="选择要检索的归档日期">
-        <span class="date-ico">📅</span>
-        <input type="date" id="reviewDate" aria-label="选择归档日期" />
-      </label>
-      <button class="btn btn-ghost" id="btnReviewAll" title="检索全部已归档日期">全部历史</button>
+      <button class="btn btn-ghost btn-xs" id="btnReviewAll" title="把检索范围切到全部已归档日期">全部历史</button>
       <span class="scope-hint" id="reviewScopeHint"></span>
     </div>
     <div class="search-box">
@@ -1025,29 +1021,19 @@ async function applyDate(date){
   state.group = 0;
   const pick = document.getElementById("datePick");
   if(pick) pick.value = date;
-  safe(()=>{ updateGroupMeta(); });
   safe(()=>{ rerenderAll(); });
   return true;
 }
 
-/* 组进度：让用户知道「刷新内容」还有几组可切 */
-function updateGroupMeta(){
-  const total = (state.pack && state.pack.groups && state.pack.groups.length) || 1;
-  const now = document.getElementById("groupNow");
-  const tot = document.getElementById("groupTotal");
-  if(now) now.textContent = String((state.group % total) + 1);
-  if(tot) tot.textContent = String(total);
-}
+/* 刷新内容：切到下一组（组号只由 toast 提示，页面上不再常驻显示） */
 
-/* 把索引里的可选范围写进两个日期控件 —— 避免用户盲选到没有归档的日期 */
+/* 把索引里的可选范围写进页头日期控件 —— 避免用户盲选到没有归档的日期 */
 function syncDateInputs(){
   const days = (state.index && state.index.days) || [];
   if(!days.length) return;
   const min = days[0].date, max = days[days.length - 1].date;
   const pick = document.getElementById("datePick");
   if(pick){ pick.min = min; pick.max = max; if(!pick.value) pick.value = state.date || max; }
-  const rv = document.getElementById("reviewDate");
-  if(rv){ rv.min = min; rv.max = max; if(!rv.value) rv.value = max; }
 }
 
 /* =====================================================================
@@ -1150,9 +1136,6 @@ async function loadArchive(){
   const days = (state.index && state.index.days) || [];
   if(!days.length) throw new Error("归档索引里没有任何可用日期");
   const target = state.date || days[days.length - 1].date;
-  // 知识回顾的检索范围也要给个合理默认值 —— 否则日期框里显示着日期、
-  // 范围提示却写着「未选择日期」，两处自相矛盾。
-  if(!reviewScope.date && reviewScope.mode === "date") setReviewScope("date", target);
   syncDateInputs();
   await applyDate(target);
 }
@@ -1163,7 +1146,6 @@ function useFallback(reason){
   state.pack = FALLBACK_PACK;
   state.date = "";
   state.group = 0;
-  safe(()=>{ updateGroupMeta(); });
   safe(()=>{ rerenderAll(); });
   safe(()=>{
     try{
@@ -1280,7 +1262,6 @@ function renderDaily(){
   heroMeta.innerHTML = [
     set.q ? `<span class="pill">🧠 ${catName(set.q.cat)}</span>` : "",
     state.date ? `<span class="pill">📅 ${esc(dateLabel(state.date))}</span>` : "",
-    `<span class="pill">🔢 第 ${state.group + 1}/${(state.pack && state.pack.groups.length) || 1} 组</span>`,
     `<span class="pill">📚 本组 ${g.questions.length} 题 / ✍️ ${g.exam.length} 题</span>`,
     `<span class="pill">📦 已归档 ${(state.index && state.index.days.length) || 0} 天</span>`
   ].join("");
@@ -1670,7 +1651,7 @@ document.addEventListener("click", e=>{
   if(dayChip){
     const d = dayChip.dataset.reviewDate;
     if(d === "__all__"){ setReviewScope("all", ""); }
-    else { setReviewScope("date", d); const rv = $("#reviewDate"); if(rv) rv.value = d; }
+    else { setReviewScope("date", d); }
     renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     return;
   }
@@ -1714,7 +1695,6 @@ function rebuildChips(){
 }
 
 function rerenderAll(){
-  safe(()=>{ updateGroupMeta(); });
   safe(()=>{ rebuildChips(); });
   safe(()=>{ renderDaily(); });
   safe(()=>{ renderQuestions(activeCat("#qChips")); });   // 保持当前筛选
@@ -1884,7 +1864,9 @@ function stripHtml(html){
 }
 
 const REVIEW_MAX_DAYS = 90;                       // 「全部历史」单次最多检索的天数
-let reviewScope = { mode: "date", date: "" };     // mode: "date" | "all"
+// 默认「全部历史」：知识回顾已没有日期输入框，让它一进来就是全量范围，
+// 选具体某天交给页面底部的「已归档日期」按钮
+let reviewScope = { mode: "all", date: "" };      // mode: "date" | "all"
 let reviewSkillRefs = [];                         // 检索结果里的技能对象，供弹窗按引用取用
 let reviewToken = 0;                              // 竞态令牌：丢弃过期的检索结果
 
@@ -2145,20 +2127,13 @@ function init(){
   }
 
   // ---------- 知识回顾：检索范围控件 ----------
-  const reviewDate = $("#reviewDate");
-  if(reviewDate){
-    reviewDate.addEventListener("change", function(){
-      if(!this.value) return;
-      setReviewScope("date", this.value);
-      renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
-    });
-  }
+  // 页头的日期框已移除：它原本是范围切换的主入口，现在改由页面底部
+  // 「已归档日期」那排日期按钮负责选具体某天，这里只留一个「全部历史」开关。
+  // 因为已经没有可供反选的日期输入，这个按钮做成幂等置位，不再做「再点取消」。
   const btnAll = $("#btnReviewAll");
   if(btnAll){
     btnAll.addEventListener("click", function(){
-      // 再点一次取消，回到「按日期」范围
-      if(reviewScope.mode === "all") setReviewScope("date", reviewDate ? reviewDate.value : "");
-      else setReviewScope("all", "");
+      setReviewScope("all", "");
       renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     });
   }
