@@ -1,23 +1,23 @@
 {
- "contentHash": "c21d2126",
- "version": "kb-2026.09.14-c21d2126",
+ "contentHash": "10ebdefc",
+ "version": "kb-2026.09.14-10ebdefc",
  "updatedAt": "2026-09-14",
- "generatedAt": "2026-09-14T21:07:44",
- "summary": "知识库共 19 条，覆盖 7 个分类",
+ "generatedAt": "2026-09-14T21:38:28",
+ "summary": "知识库共 25 条，覆盖 7 个分类",
  "stats": {
-  "total": 19,
+  "total": 25,
   "byCat": {
    "theory": 1,
-   "api-testing": 5,
+   "api-testing": 7,
    "performance-testing": 2,
    "automation-testing": 1,
    "security-testing": 7,
    "ai-agent-testing": 2,
-   "database-linux": 1
+   "database-linux": 5
   },
   "byKind": {
-   "knowledge": 14,
-   "skill": 2,
+   "knowledge": 16,
+   "skill": 6,
    "question": 3
   }
  },
@@ -30,7 +30,7 @@
   {
    "cat": "api-testing",
    "label": "接口测试",
-   "count": 5
+   "count": 7
   },
   {
    "cat": "performance-testing",
@@ -55,7 +55,7 @@
   {
    "cat": "database-linux",
    "label": "数据库/Linux",
-   "count": 1
+   "count": 5
   }
  ],
  "data": {
@@ -158,6 +158,56 @@
     "source_path": "wiki/40-接口测试/Mock接口桩的设计模式.md"
    },
    {
+    "id": "wiki/40-接口测试/OSI七层网络模型",
+    "title": "OSI七层网络模型",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "test-theory",
+     "interview"
+    ],
+    "links": [
+     "HTTP与HTTPS的核心差异",
+     "HTTP协议要点与状态码",
+     "TCP与UDP的核心差异",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"osi\">OSI 七层网络模型</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>OSI 把网络通信拆成七层，核心思想是<strong>分层解耦</strong>——每层只做自己的事、为上层提供服务。对测试的价值不在背诵，而在<strong>排障时先定层</strong>：问题落在哪一层，决定用哪套工具。</p>\n<h2 id=\"_2\">七层速查</h2>\n<p>口诀：<strong>应表会传网数物</strong>。</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>名称</th>\n<th>核心关键词</th>\n<th>常见协议/设备</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>7</td>\n<td>应用层</td>\n<td>业务接口、人机交互</td>\n<td>HTTP/HTTPS、DNS、FTP</td>\n</tr>\n<tr>\n<td>6</td>\n<td>表示层</td>\n<td>格式转换、加密压缩</td>\n<td>SSL/TLS、JPEG、UTF-8</td>\n</tr>\n<tr>\n<td>5</td>\n<td>会话层</td>\n<td>建立/断开会话</td>\n<td>RPC、断点续传（现代协议多已融入应用层）</td>\n</tr>\n<tr>\n<td>4</td>\n<td>传输层</td>\n<td>端到端、端口号</td>\n<td>TCP、UDP</td>\n</tr>\n<tr>\n<td>3</td>\n<td>网络层</td>\n<td>IP 寻址、路由规划</td>\n<td>IP、ICMP（ping）、路由器</td>\n</tr>\n<tr>\n<td>2</td>\n<td>数据链路层</td>\n<td>MAC 寻址、成帧</td>\n<td>以太网、Wi-Fi、交换机</td>\n</tr>\n<tr>\n<td>1</td>\n<td>物理层</td>\n<td>比特流、物理信号</td>\n<td>网线、光纤、集线器</td>\n</tr>\n</tbody>\n</table>\n<p>发送端自上而下<strong>封装</strong>（每层加自己的头部），接收端自下而上<strong>解封装</strong>；对等层之间靠协议\"水平对话\"。</p>\n<h2 id=\"_3\">测试视角的落点：按层选工具，按层定边界</h2>\n<p>排障时先问\"问题在第几层\"，每一层有自己的探测手段：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>探测命令/手段</th>\n<th>能回答什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>L3 网络</td>\n<td><code>ping</code>、<code>mtr</code></td>\n<td>通不通、延迟、丢包、路由路径</td>\n</tr>\n<tr>\n<td>L4 传输</td>\n<td><code>telnet</code>、<code>ss -tulnp</code></td>\n<td>端口是否监听、连接能否建立</td>\n</tr>\n<tr>\n<td>L7 应用</td>\n<td>curl / 浏览器 DevTools / 接口工具</td>\n<td>状态码、响应体、鉴权、业务逻辑</td>\n</tr>\n</tbody>\n</table>\n<p>两个常见的面试延伸：</p>\n<ul>\n<li><strong>HTTPS 的加密发生在哪层？</strong> SSL/TLS 工作在表示层（介于应用与传输之间）——所以 HTTPS 仍是 TCP 之上的应用层协议，加密不改变 HTTP 语义。见 <span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><strong>分层与性能排查的映射</strong>：磁盘/内存/CPU 是主机资源层，网络重传是传输层，慢 SQL 在应用依赖层——<span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span> 的七层就是这套思想在性能领域的落地</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"TCP与UDP的核心差异\">TCP与UDP的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/OSI七层网络模型.md"
+   },
+   {
+    "id": "wiki/40-接口测试/TCP与UDP的核心差异",
+    "title": "TCP与UDP的核心差异",
+    "cat": "api-testing",
+    "kind": "knowledge",
+    "level": "中级",
+    "question": "",
+    "domain": "接口测试",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "api-testing",
+     "test-theory",
+     "interview"
+    ],
+    "links": [
+     "HTTP与HTTPS的核心差异",
+     "HTTP协议要点与状态码",
+     "Linux系统监控-网络",
+     "OSI七层网络模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"tcp-udp\">TCP 与 UDP 的核心差异</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>两个传输层协议的分歧是<strong>设计哲学</strong>：TCP 是追求数据完整性的\"完美主义者\"，UDP 是追求极致速度的\"极简主义者\"。选型不是看谁高级，而是看业务容得下丢包还是容得下延迟。</p>\n<h2 id=\"_2\">核心对比</h2>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>TCP</th>\n<th>UDP</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>连接方式</td>\n<td>面向连接（三次握手、四次挥手）</td>\n<td>无连接，知道 IP+端口直接发</td>\n</tr>\n<tr>\n<td>可靠性</td>\n<td>不丢、不重、不乱序（序列号 + ACK + 超时/快速重传）</td>\n<td>尽力交付，丢包不管</td>\n</tr>\n<tr>\n<td>传输形式</td>\n<td>面向字节流，<strong>无边界 → 粘包/拆包要应用层自己处理</strong></td>\n<td>面向数据报，保留消息边界</td>\n</tr>\n<tr>\n<td>速度</td>\n<td>较慢（确认、重传、拥塞控制的开销）</td>\n<td>极快</td>\n</tr>\n<tr>\n<td>首部开销</td>\n<td>20~60 字节</td>\n<td>固定 8 字节</td>\n</tr>\n<tr>\n<td>通信对象</td>\n<td>仅一对一</td>\n<td>一对一/一对多/多对多（广播、组播）</td>\n</tr>\n<tr>\n<td>典型场景</td>\n<td>网页（HTTP）、文件传输、邮件、支付</td>\n<td>音视频通话、实时游戏、直播、DNS</td>\n</tr>\n</tbody>\n</table>\n<p><strong>选型原则</strong>：要求数据 100% 完整、能容忍延迟 → TCP；实时性优先、能容忍少量丢包 → UDP。反例值得记住：射击游戏如果用 TCP，重传旧包反而导致画面卡死——丢一帧比卡一秒好。</p>\n<h2 id=\"_3\">面试三大追问点</h2>\n<p><strong>一、三次握手为什么不能是两次？</strong>\n两次无法防止<strong>历史失效的 SYN</strong> 造成错误连接：旧 SYN 迟到到达时，服务端在两次握手下会直接建连并分配资源傻等；三次握手下服务端等不到第三次 ACK 会超时释放。四次则纯属浪费——第三次已把 ACK 和 SYN 合并。</p>\n<p><strong>二、四次挥手为什么是四次？</strong>\nTCP 是<strong>全双工</strong>的。客户端发 FIN 只代表自己发完了；服务端可能还有数据没发完，必须先回 ACK（进入半关闭），等数据发完再发自己的 FIN。ACK 和 FIN 在时间上被拆开，所以多了一次。</p>\n<p><strong>三、TIME_WAIT 状态的作用？</strong>\n① 确保最后一个 ACK 能到达对方（丢了对方会重发 FIN）；② 让旧连接的残留报文在网络中自然消失（等待 2MSL）。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<ul>\n<li><strong>压测时看到大量 TIME_WAIT</strong> → 说明是短连接高频交互，压测机和被测端都可能耗尽端口/连接资源。优先确认客户端连接池是否复用连接（Keep-Alive），而不是急着调内核参数</li>\n<li><strong>自定义 TCP 协议的接口要专门测粘包/拆包</strong>：TCP 无消息边界，收包方按固定长度或分隔符切分——构造\"一次发半条、一次发两条\"的用例</li>\n<li><strong>HTTP/3 基于 UDP（QUIC）</strong>：升级后\"连接复用、弱网重传\"类用例要重测，行为与 TCP 版本不同（见 <span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span> 的版本演进）</li>\n<li><strong>网络层排查</strong>的命令与判读见 <span class=\"wl\" data-page=\"Linux系统监控-网络\">Linux系统监控-网络</span>（重传率、建连时间、抖动）</li>\n</ul>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"OSI七层网络模型\">OSI七层网络模型</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"Linux系统监控-网络\">Linux系统监控-网络</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/40-接口测试/TCP与UDP的核心差异.md"
+   },
+   {
     "id": "wiki/40-接口测试/接口测试知识地图",
     "title": "接口测试知识地图",
     "cat": "api-testing",
@@ -256,7 +306,7 @@
      "性能瓶颈定位的分层排查路径",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>系统变慢从来不是\"整体慢\"，而是<strong>某一层先到拐点</strong>。把所有可能的瓶颈按调用链拆成七层，每层配一组可量化的健康阈值，排查才有落点。</p>\n<h2 id=\"_2\">七层与各自的风险阈值</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>关键指标</th>\n<th>风险阈值</th>\n<th>典型根因</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>CPU</strong></td>\n<td>利用率 / 上下文切换 / 运行队列</td>\n<td>us &gt; 85%；cs &gt; 3 万/s；r &gt; 核心数×2</td>\n<td>线程竞争、死循环、算法低效</td>\n</tr>\n<tr>\n<td><strong>内存</strong></td>\n<td>使用率 / Full GC 频次 / STW</td>\n<td>使用率 &gt; 95%；Full GC &gt; 5 次/分；STW &gt; 100ms</td>\n<td>内存泄漏、JVM 参数不当</td>\n</tr>\n<tr>\n<td><strong>磁盘 I/O</strong></td>\n<td>%util / await</td>\n<td>%util &gt; 90%；await &gt; 20ms</td>\n<td>同步 I/O 过多、日志过密</td>\n</tr>\n<tr>\n<td><strong>网络</strong></td>\n<td>TCP 重传率 / 带宽 / 建连时间</td>\n<td>重传 &gt; 2%；connecting &gt; 50ms</td>\n<td>拥塞丢包、带宽饱和、连接池耗尽</td>\n</tr>\n<tr>\n<td><strong>数据库</strong></td>\n<td>慢查询占比 / 连接池 / 锁等待</td>\n<td>慢查询 &gt; 5%；连接池 &gt; 80%；锁等待 &gt; 1s</td>\n<td>缺索引、事务过长、连接复用不足</td>\n</tr>\n<tr>\n<td><strong>应用/JVM</strong></td>\n<td>线程池队列 / TPS 波动 / 超时率</td>\n<td>队列持续增长；TPS 波动 &gt; 30%；超时率 &gt; 1%</td>\n<td>远程调用阻塞、慢 SQL、无降级</td>\n</tr>\n<tr>\n<td><strong>中间件</strong></td>\n<td>MQ Lag / 容器 Throttling</td>\n<td>Lag &gt; 分区数×1000；出现 CPU Throttling</td>\n<td>消费能力不足、CPU Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">为什么\"分层\"比\"凭经验猜\"更靠谱</h2>\n<p>单看一个指标几乎必错。三个坑：</p>\n<ol>\n<li><strong>指标之间会互相伪装。</strong> CPU 的 <code>wa</code>（I/O 等待）高，根因其实在磁盘；<code>sy</code>（系统态）高，根因常在锁与连接。只看 CPU 利用率会一路查到错误的层。</li>\n<li><strong>健康值必须用同类系统对比。</strong> \"CPU 60% 算不算高\"没有绝对答案，要看这台机器的基线。没有基线的阈值是装饰品。</li>\n<li><strong>拐点比绝对值重要。</strong> 真正要找的是\"再加一点压力，指标突然不成比例恶化\"的那个点——而不是某个静态数字。</li>\n</ol>\n<h2 id=\"_4\">与测试设计的关系</h2>\n<p>分层模型直接决定性能测试的<strong>监控埋点清单</strong>：哪一层没监控，那一层出问题时就只能靠猜。所以设计压测场景时，先按这七层列出观测项，再决定压什么。</p>\n<p>具体排查顺序和实操动作见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>系统变慢从来不是\"整体慢\"，而是<strong>某一层先到拐点</strong>。把所有可能的瓶颈按调用链拆成七层，每层配一组可量化的健康阈值，排查才有落点。</p>\n<h2 id=\"_2\">七层与各自的风险阈值</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>关键指标</th>\n<th>风险阈值</th>\n<th>典型根因</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>CPU</strong></td>\n<td>利用率 / 上下文切换 / 运行队列</td>\n<td>us &gt; 85%；cs &gt; 3 万/s；r &gt; 核心数×2</td>\n<td>线程竞争、死循环、算法低效</td>\n</tr>\n<tr>\n<td><strong>内存</strong></td>\n<td>使用率 / Full GC 频次 / STW</td>\n<td>使用率 &gt; 95%；Full GC &gt; 5 次/分；STW &gt; 100ms</td>\n<td>内存泄漏、JVM 参数不当</td>\n</tr>\n<tr>\n<td><strong>磁盘 I/O</strong></td>\n<td>%util / await</td>\n<td>%util &gt; 80%；await &gt; 20ms</td>\n<td>同步 I/O 过多、日志过密</td>\n</tr>\n<tr>\n<td><strong>网络</strong></td>\n<td>TCP 重传率 / 带宽 / 建连时间</td>\n<td>重传 &gt; 2%；connecting &gt; 50ms</td>\n<td>拥塞丢包、带宽饱和、连接池耗尽</td>\n</tr>\n<tr>\n<td><strong>数据库</strong></td>\n<td>慢查询占比 / 连接池 / 锁等待</td>\n<td>慢查询 &gt; 5%；连接池 &gt; 80%；锁等待 &gt; 1s</td>\n<td>缺索引、事务过长、连接复用不足</td>\n</tr>\n<tr>\n<td><strong>应用/JVM</strong></td>\n<td>线程池队列 / TPS 波动 / 超时率</td>\n<td>队列持续增长；TPS 波动 &gt; 30%；超时率 &gt; 1%</td>\n<td>远程调用阻塞、慢 SQL、无降级</td>\n</tr>\n<tr>\n<td><strong>中间件</strong></td>\n<td>MQ Lag / 容器 Throttling</td>\n<td>Lag &gt; 分区数×1000；出现 CPU Throttling</td>\n<td>消费能力不足、CPU Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">为什么\"分层\"比\"凭经验猜\"更靠谱</h2>\n<p>单看一个指标几乎必错。三个坑：</p>\n<ol>\n<li><strong>指标之间会互相伪装。</strong> CPU 的 <code>wa</code>（I/O 等待）高，根因其实在磁盘；<code>sy</code>（系统态）高，根因常在锁与连接。只看 CPU 利用率会一路查到错误的层。</li>\n<li><strong>健康值必须用同类系统对比。</strong> \"CPU 60% 算不算高\"没有绝对答案，要看这台机器的基线。没有基线的阈值是装饰品。</li>\n<li><strong>拐点比绝对值重要。</strong> 真正要找的是\"再加一点压力，指标突然不成比例恶化\"的那个点——而不是某个静态数字。</li>\n</ol>\n<h2 id=\"_4\">与测试设计的关系</h2>\n<p>分层模型直接决定性能测试的<strong>监控埋点清单</strong>：哪一层没监控，那一层出问题时就只能靠猜。所以设计压测场景时，先按这七层列出观测项，再决定压什么。</p>\n<p>具体排查顺序和实操动作见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/30-性能测试/性能瓶颈的分层模型.md"
    },
    {
@@ -500,6 +550,115 @@
     ],
     "body": "<h1 id=\"harness\">Harness 工程</h1>\n<h2 id=\"_1\">一句话</h2>\n<p><strong>Agent = Model + Harness</strong>。Harness 是模型之外让 Agent\"能做事、做得对、出问题能被发现\"的整套工程外壳，而测试新手最容易犯的错，就是只盯着模型不看 Harness。</p>\n<h2 id=\"_2\">展开</h2>\n<p>Harness 直译\"驾驭装置\"。模型负责\"想\"和\"生成\"，Harness 负责其余的一切工程能力，包括：</p>\n<ul>\n<li><strong>工具封装</strong>——把外部 API 包成模型可调用的工具，含参数校验与结构化错误返回</li>\n<li><strong>上下文管理</strong>——历史消息的窗口、截断与传递策略</li>\n<li><strong>权限控制</strong>——模型能调哪些工具、以什么身份调</li>\n<li><strong>重试熔断</strong>——失败重试策略、最大迭代上限、循环检测</li>\n<li><strong>日志监控与回滚</strong>——全链路可观测，出问题能退回</li>\n</ul>\n<p><strong>和测试的关系特别直接</strong>：一个测试用例 Agent 越跑越不稳定，问题往往<strong>不在模型，而在模型之外的 Harness</strong>——比如上下文无限增长、工具权限没收敛、没有失败兜底。所以测 Agent 不能只盯着 prompt 和回答质量，要把 Harness 当被测对象：工具调用链路、状态管理、失败恢复，都得有验证手段（具体测法见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>）。</p>\n<p><strong>延伸——Agent 自进化的新风险</strong>：当 Agent 被允许修改自己的提示词或配置时，会出现三类新问题——行为漂移（几十轮自修改后行为不可预测，说不清是哪次改动引起的）、依赖污染（自主安装的插件可能带恶意代码）、回滚失败（修改链一长，反向操作不完备）。应对思路是版本快照、关键操作熔断、全链路可观测，把每次自修改记录成可审计的变更。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>拿到不稳定的 Agent 用例时，<strong>先查 Harness 再怀疑模型</strong>：上下文有没有膨胀、权限有没有收敛、失败有没有兜底</li>\n<li>测试范围里显式加入 Harness 组件：工具调用的结构化错误返回、迭代上限触发、上下文截断后关键信息是否丢失</li>\n<li>对自进化型 Agent，验证版本快照可恢复、自修改有审计记录、关键操作有熔断</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/Harness工程.md"
+   },
+   {
+    "id": "wiki/60-环境与工具/Linux系统监控-CPU",
+    "title": "Linux系统监控-CPU",
+    "cat": "database-linux",
+    "kind": "skill",
+    "level": "中级",
+    "question": "",
+    "domain": "环境与工具",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "linux",
+     "tooling",
+     "env-setup",
+     "performance-testing",
+     "interview"
+    ],
+    "links": [
+     "Linux系统监控-内存",
+     "Linux系统监控-磁盘",
+     "性能瓶颈定位的分层排查路径",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"linux-cpu\">Linux 系统监控：CPU</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>CPU 监控的核心不是看利用率数字，而是<strong>拆开 us/sy/wa 三个成分</strong>——它们分别指向计算密集、锁/系统调用、I/O 等待三条完全不同的排查路径。</p>\n<h2 id=\"cpu-top-cpus\">CPU 使用率成分判读（top 的 %Cpu(s) 行）</h2>\n<table>\n<thead>\n<tr>\n<th>成分</th>\n<th>含义</th>\n<th>高了说明什么</th>\n<th>JVM 关联</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>us</code></td>\n<td>用户态</td>\n<td>计算密集 / 死循环 / 算法低效</td>\n<td>业务代码、GC 线程主要耗在这里</td>\n</tr>\n<tr>\n<td><code>sy</code></td>\n<td>内核态</td>\n<td>锁竞争、系统调用频繁、上下文切换多</td>\n<td>JNI/native 调用过重</td>\n</tr>\n<tr>\n<td><code>wa</code></td>\n<td>I/O 等待</td>\n<td><strong>CPU 在等磁盘/网络 I/O，元凶往往不是 CPU</strong></td>\n<td>GC 日志同步写盘会加剧</td>\n</tr>\n<tr>\n<td><code>st</code></td>\n<td>虚拟化窃取</td>\n<td>宿主机超卖，邻居租户在抢 CPU（云环境专属）</td>\n<td>&gt;5% 找云厂商</td>\n</tr>\n</tbody>\n</table>\n<p>经验线：<code>us + sy</code> 长期 &gt; 80% 是计算瓶颈；<code>wa</code> 持续 &gt; 20% 是 I/O 信号——<strong>wa 高时先查磁盘，别盯着 CPU 优化</strong>。</p>\n<h2 id=\"_2\">关键命令</h2>\n<pre><code class=\"language-bash\">top -o %CPU          # 按 CPU 排序；按 1 可看各核心\ntop -Hp &lt;PID&gt;        # 线程视图：进程内哪个线程在烧 CPU（jstack 的实时版）\nps aux --sort=-%cpu | head    # 快照式列出 CPU 前 10 进程\nuptime               # load average：1/5/15 分钟平均负载，持续 &gt; 核心数即过载\nvmstat 1             # 看 cs（上下文切换）、in（中断）、r（运行队列）\n</code></pre>\n<p>线程数直接统计：<code>ls /proc/&lt;PID&gt;/task | wc -l</code>（最准确，适合脚本）。</p>\n<h2 id=\"_3\">避坑清单</h2>\n<ul>\n<li><strong>不要只看一次快照</strong>：top 是实时工具，单次截图意义有限；至少观察 3–5 个刷新周期，或 <code>top -b -d 1 -n 60 &gt; top.log</code> 录制趋势</li>\n<li><strong>%CPU &gt; 100% 不是 bug</strong>：多核机器上一个进程上限 = 核心数 × 100%</li>\n<li><strong>容器内 top 可能失真</strong>：旧内核下看到的是宿主机资源，务必确认 cgroup 视图</li>\n<li><strong>Load 高但 CPU 空闲</strong>：多半是 D 状态进程堆积（<code>ps axo state,pid,comm | grep ^D</code>），根因常在 I/O 或 NFS 挂载</li>\n<li><strong>生产慎用 <code>jmap -heap</code></strong>：会触发 Full GC，优先 <code>jcmd</code>/<code>jstat</code></li>\n</ul>\n<h2 id=\"_4\">症状速查</h2>\n<table>\n<thead>\n<tr>\n<th>症状</th>\n<th>top 特征</th>\n<th>下一步</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>us 高、wa 低</td>\n<td>us &gt; 80%</td>\n<td><code>top -Hp</code> 找热点线程 → jstack 看栈</td>\n</tr>\n<tr>\n<td>wa 高</td>\n<td>wa &gt; 20~30%，进程大量 D 状态</td>\n<td>转 <span class=\"wl\" data-page=\"Linux系统监控-磁盘\">Linux系统监控-磁盘</span>：iostat 看 %util/await</td>\n</tr>\n<tr>\n<td>sy 高</td>\n<td>sy &gt; 30%，cs 飙升</td>\n<td>vmstat 看 cs/in；jstack 搜 BLOCKED</td>\n</tr>\n<tr>\n<td>st 高</td>\n<td>st &gt; 5%</td>\n<td>联系云厂商 / 迁独占实例</td>\n</tr>\n<tr>\n<td>Load 高 CPU 空闲</td>\n<td>load ≫ 核数，id &gt; 70%</td>\n<td>找 D 状态进程，查 I/O 与网络存储</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Linux系统监控-内存\">Linux系统监控-内存</span></li>\n<li><span class=\"wl\" data-page=\"Linux系统监控-磁盘\">Linux系统监控-磁盘</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/60-环境与工具/Linux系统监控-CPU.md"
+   },
+   {
+    "id": "wiki/60-环境与工具/Linux系统监控-内存",
+    "title": "Linux系统监控-内存",
+    "cat": "database-linux",
+    "kind": "skill",
+    "level": "中级",
+    "question": "",
+    "domain": "环境与工具",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "linux",
+     "tooling",
+     "env-setup",
+     "performance-testing",
+     "interview"
+    ],
+    "links": [
+     "Linux系统监控-CPU",
+     "Linux系统监控-磁盘",
+     "Redis缓存的五类经典问题",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"linux\">Linux 系统监控：内存</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>看内存健康只认一个指标：<strong><code>available</code></strong>。<code>free</code> 少是 Linux 的正常姿态（空闲内存拿去做缓存了），而 Swap 是否在<strong>持续换入换出</strong>才是内存不足的真正信号。</p>\n<h2 id=\"free\">free 的正确读法</h2>\n<pre><code class=\"language-bash\">free -h        # 人类可读单位（推荐）\nfree -s 3      # 每 3 秒刷新，观察趋势\n</code></pre>\n<p><code>buff/cache</code> 虽被占用但随时可回收；<code>available</code> = free + 可回收的 buff/cache，<strong>才是\"还能给新程序多少内存\"的答案</strong>。</p>\n<h2 id=\"_2\">关键命令</h2>\n<pre><code class=\"language-bash\">top 按大写 M            # 按内存排序找&quot;内存大户&quot;；主要看 RES 列\nps aux --sort=-%mem | head\nvmstat 1 10            # 核心：观察 si / so 两列\ncat /proc/meminfo | grep -E &quot;SwapTotal|SwapFree|SwapCached|Dirty&quot;\nsar -W 1               # 专门看每秒换页数\n</code></pre>\n<p><strong>Swap 速率判读</strong>（比 Swap used 大小重要得多）：</p>\n<table>\n<thead>\n<tr>\n<th>si/so 表现</th>\n<th>结论</th>\n<th>动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>始终为 0</td>\n<td>Swap 只是静态占用，无性能影响</td>\n<td>忽略</td>\n</tr>\n<tr>\n<td>持续 &gt; 几百 KB/s</td>\n<td>内存带宽被 Swap 拖垮，响应时间剧烈波动</td>\n<td>查内存泄漏 / 流量超物理内存上限</td>\n</tr>\n<tr>\n<td>间歇性突发</td>\n<td>定时任务瞬间申请大内存</td>\n<td>错峰执行 / 调整堆与内存池</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">高频问题与判别</h2>\n<ul>\n<li><strong>available 充足但 Swap 还在涨</strong> → 内核的内存冷热分级策略：主动把\"冷\"页换出腾给文件缓存。看速率，不看存量</li>\n<li><strong>内存还有，应用却 OOM</strong> → 进程级限制不是系统级：查 <code>ulimit -a</code>、JVM <code>-Xmx</code> 是否设小了</li>\n<li><strong>容器内 free 显示充足但应用报内存不足</strong> → 容器看到的是宿主机内存；真实限额要读 cgroup（<code>/sys/fs/cgroup/memory/memory.limit_in_bytes</code>）</li>\n<li><strong>RES 持续增长不回落</strong> → 疑似内存泄漏，Heap Dump 后用 MAT 分析 GC Root 引用链</li>\n<li><strong>swappiness 调优</strong>：数据库服务器设 1~10（内核\"不到万不得已别用 Swap\"），默认 60 适合通用服务器</li>\n</ul>\n<h2 id=\"vs\">物理内存 vs 虚拟内存</h2>\n<p>物理内存（RAM）纳秒级、断电即失，决定\"跑多快\"；虚拟内存是拿磁盘充当内存的蓄水池（Swap），毫秒级——<strong>慢 3~4 个数量级</strong>，这就是\"Swap 是性能杀手\"的物理原因。</p>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Linux系统监控-CPU\">Linux系统监控-CPU</span></li>\n<li><span class=\"wl\" data-page=\"Linux系统监控-磁盘\">Linux系统监控-磁盘</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"Redis缓存的五类经典问题\">Redis缓存的五类经典问题</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/60-环境与工具/Linux系统监控-内存.md"
+   },
+   {
+    "id": "wiki/60-环境与工具/Linux系统监控-磁盘",
+    "title": "Linux系统监控-磁盘",
+    "cat": "database-linux",
+    "kind": "skill",
+    "level": "中级",
+    "question": "",
+    "domain": "环境与工具",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "linux",
+     "tooling",
+     "env-setup",
+     "performance-testing",
+     "interview"
+    ],
+    "links": [
+     "Linux系统监控-CPU",
+     "Linux系统监控-内存",
+     "性能瓶颈定位的分层排查路径",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"linux\">Linux 系统监控：磁盘</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>磁盘排查分两个问题：<strong>空间够不够</strong>（df/du）和<strong>速度快不快</strong>（iostat）。性能问题里更要命的是后者——<code>%util</code> 与 <code>await</code> 两个指标组合起来读，才能定性 I/O 瓶颈。</p>\n<h2 id=\"df-du-inode\">空间：df / du / inode</h2>\n<pre><code class=\"language-bash\">df -h            # 各文件系统使用率（&gt;80% 重点关注）\ndf -i            # inode 使用情况——空间充足却建不了新文件，多半是 inode 耗尽\ndu -sh /var/log  # 定位大目录\ndu -h --max-depth=1 / | sort -hr | head -10   # 根目录下最大的 10 个目录\n</code></pre>\n<p><code>df</code> 看文件系统、<code>du</code> 看目录；两者对不上时，通常是<strong>文件已删除但进程仍持有句柄</strong>——<code>lsof | grep deleted</code> 找到进程，重启即释放。</p>\n<h2 id=\"iostat\">性能：iostat 字段判读</h2>\n<pre><code class=\"language-bash\">iostat -dx 1 5   # 每秒采样，共 5 次\n</code></pre>\n<table>\n<thead>\n<tr>\n<th>字段</th>\n<th>含义</th>\n<th>判读</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>%util</code></td>\n<td>磁盘繁忙度</td>\n<td>&lt;70% 正常；<strong>≥80% 持续 = I/O 饱和</strong>（与 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span> 阈值一致）</td>\n</tr>\n<tr>\n<td><code>await</code></td>\n<td>平均 I/O 等待（ms）</td>\n<td>SSD &lt;1ms、HDD 10~30ms 正常；&gt;20ms 警惕，&gt;50ms 严重</td>\n</tr>\n<tr>\n<td><code>avgqu-sz</code></td>\n<td>平均队列长度</td>\n<td>持续 &gt;10 = 请求在排队，磁盘处理不过来</td>\n</tr>\n<tr>\n<td><code>r/s w/s</code></td>\n<td>IOPS</td>\n<td>与吞吐（rkB/s、wkB/s）分开看</td>\n</tr>\n</tbody>\n</table>\n<p><strong>避坑</strong>：iostat 第一次输出是开机以来的平均值，会掩盖瞬时波动——<strong>忽略第一次，只看后续采样</strong>。</p>\n<p><strong>三个瓶颈信号</strong>（同时满足更确定）：%util 持续接近 100% 且 await 升高（饱和）；avgqu-sz &gt; 10（队列堆积）；CPU <code>wa</code> &gt; 20~30%（CPU 在等 I/O）。</p>\n<p><strong>一个典型误判</strong>：%util 高但 rkB/s 很低 → 大量<strong>小文件随机读写</strong>（频繁打日志、随机更新索引），这是最坏的 I/O 模式，比大文件顺序写伤害大得多。定位具体进程用 <code>sudo iotop -o</code>。</p>\n<h2 id=\"tmp\">案例：/tmp 目录爆满的处置套路</h2>\n<p><strong>先诊断，后清理，再根治</strong>，严禁盲目 rm：</p>\n<ol>\n<li><code>df -h /tmp</code> 确认是独立分区还是 tmpfs</li>\n<li>快速恢复：<code>find /tmp -type f -mtime +1 -delete</code> 按时间清旧文件（最安全的清理方式）；正被使用的日志改为清空（<code>&gt; file.log</code>）而非删除</li>\n<li>清了还是 100%？→ 进程持有已删除文件的句柄（<code>lsof /tmp | grep deleted</code>），或 <strong>inode 耗尽</strong>（<code>df -i /tmp</code>，清理海量小文件）</li>\n<li>根治：独立分区/LVM 扩容、fstab 限制 tmpfs size、设 80% 阈值告警</li>\n</ol>\n<h2 id=\"_2\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Linux系统监控-CPU\">Linux系统监控-CPU</span></li>\n<li><span class=\"wl\" data-page=\"Linux系统监控-内存\">Linux系统监控-内存</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/60-环境与工具/Linux系统监控-磁盘.md"
+   },
+   {
+    "id": "wiki/60-环境与工具/Linux系统监控-网络",
+    "title": "Linux系统监控-网络",
+    "cat": "database-linux",
+    "kind": "skill",
+    "level": "中级",
+    "question": "",
+    "domain": "环境与工具",
+    "updated": "2026-09-14",
+    "confidence": "high",
+    "tags": [
+     "linux",
+     "tooling",
+     "env-setup",
+     "performance-testing",
+     "interview"
+    ],
+    "links": [
+     "Linux系统监控-CPU",
+     "Linux系统监控-磁盘",
+     "TCP与UDP的核心差异",
+     "性能瓶颈定位的分层排查路径",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"linux\">Linux 系统监控：网络</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>网络排查三板斧：<strong>ss/lsof 管端口与连接</strong>、<strong>ping 管延迟与抖动</strong>、<strong>队列长度管应用是否跟上</strong>。比\"延迟多少毫秒\"更值得盯的是<strong>抖动（mdev）</strong>——平均 50ms 但抖动 20ms 的网络，体验远差于平均 80ms 而抖动 2ms 的。</p>\n<h2 id=\"ss-lsof\">端口与连接：ss / lsof</h2>\n<pre><code class=\"language-bash\">ss -tulnp | grep &lt;端口&gt;    # netstat 的现代替代，更快、信息更全（-p 要 sudo）\nlsof -i :&lt;端口&gt; -P -n      # 精准定位某端口被哪个进程占用；-P/-n 禁止名称解析防卡顿\n</code></pre>\n<p><strong>ss 输出的两个队列是排障金矿</strong>：\n- <code>Recv-Q</code> 持续不为 0 → 应用取数据的速度跟不上网络收包速度（应用处理慢了）\n- <code>Send-Q</code> 持续不为 0 → 网络拥塞或对端处理缓慢</p>\n<h2 id=\"ping\">延迟与抖动：ping 的进阶用法</h2>\n<pre><code class=\"language-bash\">ping -c 100 -i 0.2 &lt;target&gt;   # 采样 100 次（-i &lt;0.2 需 root）\nping -q -c 100 &lt;target&gt;       # 静默模式，直接取统计摘要\nping -s 1472 -M do &lt;target&gt;   # 大包探测 MTU/分片问题\n</code></pre>\n<p>统计行 <code>rtt min/avg/max/mdev</code> 里，<strong>mdev（抖动）比 avg 更重要</strong>：mdev &lt;1ms 极稳定（局域网/专线）；1~10ms 正常公网；&gt;20ms 严重抖动，查 QoS/拥塞/设备负载。</p>\n<p><strong>实用判别技巧</strong>：\n- 先 <code>ping IP</code> 再 <code>ping 域名</code>——域名首包明显更慢是 <strong>DNS 解析慢</strong>，不是网络问题\n- 建立基线：业务低峰期采一轮数据做对照；\"CPU 60% 算不算高\"没有绝对答案，延迟同理\n- 周期性延迟尖峰 → 多半是定时任务/备份在抢带宽</p>\n<p>延迟参考（同地域云服务器 &lt;2ms 优秀、跨省公网 40~100ms 正常、Web/API 含后端处理 50~150ms 正常——完整表见原料）。</p>\n<h2 id=\"_2\">测试视角的落点</h2>\n<ul>\n<li><strong>压测时的网络观测</strong>：重传率 &gt;2%、建连时间 &gt;50ms 是 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span> 网络层的风险阈值；<code>ss</code> 的 Recv-Q/Send-Q 堆积说明瓶颈在应用或对端而非带宽</li>\n<li><strong>连接数验证</strong>：长连接是否真被复用，看 <code>ss</code> 里 ESTABLISHED 数量是否符合连接池配置，而不是想当然</li>\n<li>排查顺序上网络排在 CPU/内存/磁盘之后，见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n</ul>\n<h2 id=\"_3\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Linux系统监控-CPU\">Linux系统监控-CPU</span></li>\n<li><span class=\"wl\" data-page=\"Linux系统监控-磁盘\">Linux系统监控-磁盘</span></li>\n<li><span class=\"wl\" data-page=\"TCP与UDP的核心差异\">TCP与UDP的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/60-环境与工具/Linux系统监控-网络.md"
    },
    {
     "id": "wiki/60-环境与工具/Redis缓存的五类经典问题",
