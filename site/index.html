@@ -78,6 +78,21 @@
     -webkit-appearance:none;appearance:none;padding:0;min-width:118px;
   }
   .review-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+  /* 日期 chips 单行横滑：归档天数逐日累积，若铺成多行会把搜索框一路推下去，
+     横滑可保证这个区域高度恒为一行。滚动条隐藏（浅色页面上横向滚动条很扎眼），
+     上下各留 2px 给 chip 边框，避免被 overflow 裁掉。 */
+  .scope-days{
+    display:flex;flex-wrap:nowrap;align-items:center;gap:8px;
+    position:relative;                            /* 给选中项的 offsetLeft 提供定位上下文 */
+    /* basis 必须为 0、不能是 auto：auto 会取内容宽度（12 天可达 1275px），
+       flex 按它判断换行，会把整排挤到下一行、让「全部历史」独占一行。
+       min-width:0 同样必需，否则内容会撑破 flex 行。 */
+    flex:1 1 0%;min-width:0;
+    overflow-x:auto;padding:2px 0;
+    scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+  }
+  .scope-days::-webkit-scrollbar{display:none;height:0}
+  .scope-days .chip{flex:none}                    /* 不被压缩，保证文字可读 */
   .scope-hint{font-size:12.5px;color:var(--muted)}
 
   /* ---------- GitHub 热点 ---------- */
@@ -506,6 +521,9 @@
     .date-pick{padding:5px 8px;gap:5px}
     .date-pick input{font-size:12.5px;min-width:104px}
     .review-scope{gap:8px}
+    /* 小屏：日期 chips 独占一行横滑，order 把它排到「全部历史」与范围提示之后 */
+    .scope-days{flex:1 1 100%;order:9}
+    .scope-hint{flex:1 1 auto}
     .gh-name{font-size:14px}
     main{padding:18px 14px 70px}
     .hero{padding:20px 20px 18px}
@@ -720,10 +738,11 @@
   <section id="tab-review">
     <div class="section-head">
       <h2>知识回顾</h2>
-      <p>检索全部已归档的知识内容；下方记录你每天的学习足迹，点日期按钮可切换范围。</p>
+      <p>检索全部已归档的知识内容；上方日期按钮可切换检索范围，下方记录你每天的学习足迹。</p>
     </div>
     <div class="review-scope">
       <button class="btn btn-ghost btn-xs" id="btnReviewAll" title="把检索范围切到全部已归档日期">全部历史</button>
+      <div class="scope-days" id="reviewDays" role="group" aria-label="已归档日期，点选即切换检索范围"></div>
       <span class="scope-hint" id="reviewScopeHint"></span>
     </div>
     <div class="search-box">
@@ -1646,12 +1665,12 @@ document.addEventListener("click", e=>{
   }
   const goto = e.target.closest("[data-goto]");
   if(goto) switchTab(goto.dataset.goto);
-  // 归档日期快捷入口：点一下即把检索范围切到那天
+  // 归档日期快捷入口（检索范围行那排 chips）：点一下即把范围切到那天。
+  // 「全部历史」由 #btnReviewAll 承担，这里只处理具体日期，故不再有 __all__ 哨兵值。
   const dayChip = e.target.closest("[data-review-date]");
   if(dayChip){
     const d = dayChip.dataset.reviewDate;
-    if(d === "__all__"){ setReviewScope("all", ""); }
-    else { setReviewScope("date", d); }
+    if(d) setReviewScope("date", d);
     renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
     return;
   }
@@ -1864,13 +1883,33 @@ function stripHtml(html){
 }
 
 const REVIEW_MAX_DAYS = 90;                       // 「全部历史」单次最多检索的天数
-// 默认「全部历史」：知识回顾已没有日期输入框，让它一进来就是全量范围，
-// 选具体某天交给页面底部的「已归档日期」按钮
+// 默认「全部历史」：一进「知识回顾」就是全量范围，选具体某天交给
+// 模块顶部那排「已归档日期」按钮（见 renderScopeChips）
 let reviewScope = { mode: "all", date: "" };      // mode: "date" | "all"
 let reviewSkillRefs = [];                         // 检索结果里的技能对象，供弹窗按引用取用
 let reviewToken = 0;                              // 竞态令牌：丢弃过期的检索结果
 
 const dTag = d => d ? `<span class="tag hist-tag" title="来自该日期的归档">📅 ${esc(dateLabel(d))}</span>` : "";
+
+/* 顶部「已归档日期」chips：点一下即把检索范围切到那天。
+   它原本长在结果区（学习足迹下方），而结果区只在无搜索词时才渲染 —— 意味着
+   「搜完想换个范围再看」必须先清空搜索。上移到检索范围行后常驻可见，两件事解耦。
+   这里只负责结构，选中态由 updateScopeHint() 统一维护；切范围不重建 DOM，
+   所以横滑的滚动位置不会被打回起点。 */
+let scopeDaysSig = "";                            // 已渲染的日期签名
+function renderScopeChips(){
+  const box = document.getElementById("reviewDays");
+  if(!box) return;
+  const days = (state.index && state.index.days) || [];
+  const sig = days.map(d=>d.date).join("|");
+  if(sig === scopeDaysSig) return;                // 归档集合没变：保留现有 DOM 与滚动位置
+  scopeDaysSig = sig;
+  box.innerHTML = days.length
+    ? days.slice().reverse().map(d=>
+        `<button class="chip" data-review-date="${esc(d.date)}" title="只看 ${esc(dateLabel(d.date))} 的内容">${esc(dateLabel(d.date))}</button>`
+      ).join("")
+    : `<span class="scope-hint">暂无归档</span>`;
+}
 
 function setReviewScope(mode, date){
   reviewScope = { mode: mode, date: date || "" };
@@ -1882,14 +1921,36 @@ function rangeLabel(){
 }
 
 function updateScopeHint(){
-  const hint = document.getElementById("reviewScopeHint");
-  if(!hint) return;
   const total = ((state.index && state.index.days) || []).length;
-  hint.textContent = reviewScope.mode === "all"
-    ? `检索范围：全部历史（${Math.min(total, REVIEW_MAX_DAYS)} 天）`
-    : `检索范围：${rangeLabel()}`;
+  const hint = document.getElementById("reviewScopeHint");
+  // 这里不再 early return：范围提示与两处范围控件的选中态都得跟着 reviewScope 走，
+  // 任一元素缺失都不该让其余部分停在旧状态
+  if(hint){
+    hint.textContent = reviewScope.mode === "all"
+      ? `检索范围：全部历史（${Math.min(total, REVIEW_MAX_DAYS)} 天）`
+      : `检索范围：${rangeLabel()}`;
+  }
   const all = document.getElementById("btnReviewAll");
   if(all) all.classList.toggle("active-scope", reviewScope.mode === "all");
+  const on = reviewScope.mode === "date" ? reviewScope.date : "";
+  document.querySelectorAll("#reviewDays .chip").forEach(c=>{
+    c.classList.toggle("active", !!on && c.dataset.reviewDate === on);
+  });
+  ensureScopeChipVisible(on);
+}
+
+/* 横滑控件的通病：选中的日期若停在视野外，点完看不到任何高亮反馈。
+   这里把它滚进可视区，两端各留 8px，避免贴边看不出是圆角胶囊。
+   两边都可见时不动 —— 否则每次渲染都会把用户的横滑位置拽回去。 */
+function ensureScopeChipVisible(date){
+  if(!date) return;
+  const box = document.getElementById("reviewDays");
+  const el = box && box.querySelector('.chip[data-review-date="' + date + '"]');
+  if(!box || !el) return;
+  const pad = 8;
+  const left = el.offsetLeft, right = left + el.offsetWidth;
+  if(left - pad < box.scrollLeft) box.scrollLeft = Math.max(0, left - pad);
+  else if(right + pad > box.scrollLeft + box.clientWidth) box.scrollLeft = right + pad - box.clientWidth;
 }
 
 /* 取检索范围内的所有日包。单日失败跳过 —— 不让一天的数据坏掉拖垮整次检索。 */
@@ -1967,7 +2028,7 @@ function recordTodayHistory(){
 /* 足迹行取值：历史记录里某一类可能缺失，统一兜底成「—」 */
 const histField = (obj, field) => (obj && obj[field]) ? obj[field] : "—";
 
-/* 空关键词时的首页：学习足迹 + 已归档日期清单（点一下即切检索范围） */
+/* 空关键词时的首页：只有学习足迹（日期检索已上移到模块顶部的检索范围行，常驻显示） */
 function renderReviewHome(box){
   let list = [];
   try{ list = JSON.parse(store.get(LS.history, "[]")) || []; }catch(e){ list = []; }
@@ -1988,16 +2049,6 @@ function renderReviewHome(box){
       `).join("");
   }
 
-  const days = (state.index && state.index.days) || [];
-  if(days.length){
-    html += `<div class="block-label" style="margin:22px 0 12px"><span class="dot" style="background:#7c3aed"></span>已归档日期（${days.length} 天，点选即切换检索范围）</div>
-      <div class="chips">
-        <button class="chip ${reviewScope.mode==="all"?"active":""}" data-review-date="__all__">全部历史</button>
-        ${days.slice().reverse().map(d=>`
-          <button class="chip ${(reviewScope.mode==="date"&&reviewScope.date===d.date)?"active":""}" data-review-date="${esc(d.date)}">${esc(dateLabel(d.date))}</button>
-        `).join("")}
-      </div>`;
-  }
   box.innerHTML = html;
 }
 
@@ -2005,6 +2056,7 @@ function renderReviewHome(box){
 async function renderReview(kw){
   const box = $("#reviewResult");
   if(!box) return;
+  renderScopeChips();
   updateScopeHint();
   const key = String(kw||"").trim();
   if(!key){ renderReviewHome(box); return; }
@@ -2127,9 +2179,9 @@ function init(){
   }
 
   // ---------- 知识回顾：检索范围控件 ----------
-  // 页头的日期框已移除：它原本是范围切换的主入口，现在改由页面底部
-  // 「已归档日期」那排日期按钮负责选具体某天，这里只留一个「全部历史」开关。
-  // 因为已经没有可供反选的日期输入，这个按钮做成幂等置位，不再做「再点取消」。
+  // 范围切换集中在模块顶部这一行：#btnReviewAll（全部历史）+ #reviewDays
+  // （各归档日期，由 renderScopeChips 渲染）。两者都是幂等置位 —— 不再做
+  // 「再点一次取消」，因为「全部历史」本身就是其中一个可选值。
   const btnAll = $("#btnReviewAll");
   if(btnAll){
     btnAll.addEventListener("click", function(){
