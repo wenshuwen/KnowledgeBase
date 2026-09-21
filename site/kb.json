@@ -1,31 +1,31 @@
 {
- "contentHash": "10ebdefc",
- "version": "kb-2026.09.14-10ebdefc",
- "updatedAt": "2026-09-14",
- "generatedAt": "2026-09-14T21:38:28",
- "summary": "知识库共 25 条，覆盖 7 个分类",
+ "contentHash": "052b5a4b",
+ "version": "kb-2026.09.21-052b5a4b",
+ "updatedAt": "2026-09-21",
+ "generatedAt": "2026-09-21T21:37:46",
+ "summary": "知识库共 27 条，覆盖 7 个分类",
  "stats": {
-  "total": 25,
+  "total": 27,
   "byCat": {
-   "theory": 1,
+   "theory": 2,
    "api-testing": 7,
    "performance-testing": 2,
    "automation-testing": 1,
    "security-testing": 7,
-   "ai-agent-testing": 2,
+   "ai-agent-testing": 3,
    "database-linux": 5
   },
   "byKind": {
-   "knowledge": 16,
+   "knowledge": 17,
    "skill": 6,
-   "question": 3
+   "question": 4
   }
  },
  "cats": [
   {
    "cat": "theory",
    "label": "测试理论",
-   "count": 1
+   "count": 2
   },
   {
    "cat": "api-testing",
@@ -50,7 +50,7 @@
   {
    "cat": "ai-agent-testing",
    "label": "AI Agent 测试",
-   "count": 2
+   "count": 3
   },
   {
    "cat": "database-linux",
@@ -61,6 +61,29 @@
  "data": {
   "items": [
    {
+    "id": "wiki/10-测试理论/假阴性漏测的六大来源",
+    "title": "假阴性漏测的六大来源",
+    "cat": "theory",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "测试理论",
+    "updated": "2026-09-21",
+    "confidence": "high",
+    "tags": [
+     "test-theory",
+     "interview",
+     "pitfall",
+     "checklist"
+    ],
+    "links": [
+     "Mock接口桩的设计模式",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>用例绿了不代表测到了——假阴性（漏测）有六个系统性来源，治理主线是<strong>线上缺陷逃逸倒查 + 变异测试体检</strong>，而不是加更多用例。</p>\n<h2 id=\"_2\">展开</h2>\n<table>\n<thead>\n<tr>\n<th>#</th>\n<th>来源</th>\n<th>典型形态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td><strong>断言太弱</strong></td>\n<td>只断状态码或仅断关键字段——接口 200 了但业务结果是错的，用例照样绿</td>\n</tr>\n<tr>\n<td>2</td>\n<td><strong>数据太干净</strong></td>\n<td>单用户、单线程、无脏数据、无数据量——线上才会触发的并发冲突与数据边界全测不到</td>\n</tr>\n<tr>\n<td>3</td>\n<td><strong>环境与生产结构性差异</strong></td>\n<td>单机测多节点、测试库无数据量、未开限流——结构性问题在测试环境根本不存在</td>\n</tr>\n<tr>\n<td>4</td>\n<td><strong>只覆盖主流程</strong></td>\n<td>异常分支、重试、超时、部分成功缺失</td>\n</tr>\n<tr>\n<td>5</td>\n<td><strong>Mock 与真实依赖不一致</strong></td>\n<td>理想响应掩盖了延迟、限流与真实依赖会返回的额外字段</td>\n</tr>\n<tr>\n<td>6</td>\n<td><strong>为了跑过不断放宽断言</strong></td>\n<td>偶发失败就把断言删掉改成「只要不报错」——最终等于没断</td>\n</tr>\n</tbody>\n</table>\n<p>其中第 1、6 条与「产物校验的Fail-Open陷阱」（知识库内部复盘页，不上站）同根：校验/断言机制存在，但弱到拦不住问题；第 5 条正是 <span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span> 里「Mock 通过 ≠ 接口没问题」的假阴性面。</p>\n<p><strong>治理主线（两条，缺一不可）</strong>：</p>\n<ol>\n<li><strong>缺陷复盘倒查（线上逃逸率）</strong>：每条线上缺陷追问「哪条用例本该拦住它、为什么没拦住」，结论回写用例——用真实逃逸样本喂养用例集；</li>\n<li><strong>变异测试定期体检</strong>：向代码注入已知 bug，仍然全绿的用例块就是摆设——直接量化「断言有效性」而不是「用例数量」。</li>\n</ol>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>用例评审时按六来源过 checklist：断言层级够不够、数据构造是否含脏数据与量级、异常与部分成功有没有用例、Mock 边界是否覆盖失败模式；</li>\n<li>接入变异测试工具定期跑用例集，输出「存活变异体」清单作为断言弱点的整改 backlog；</li>\n<li>线上逃逸缺陷必出复盘：逃逸率进质量周报，倒查结论必须落回具体用例或明确标注「无对应用例可补」；</li>\n<li>禁止「放宽断言让用例变绿」的操作——偶发失败先归因（环境 / 脚本 / 缺陷），确属用例过严再改，且改动要留痕。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/10-测试理论/假阴性漏测的六大来源.md"
+   },
+   {
     "id": "wiki/75-面试助手/面试助手题库索引",
     "title": "面试助手题库索引",
     "cat": "theory",
@@ -68,17 +91,19 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-09-14",
+    "updated": "2026-09-21",
     "confidence": "high",
     "tags": [
      "interview",
      "index"
     ],
     "links": [
+     "Agent任务成功率的分层口径",
      "Agent工具调用测试",
-     "Harness工程"
+     "Harness工程",
+     "假阴性漏测的六大来源"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域首批 2 页 2026-09-14）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>待接入自动化</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域 3 页、测试理论 2 页，最近 2026-09-21）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -489,7 +514,7 @@
     "level": "高级",
     "question": "越权漏洞你会怎么系统化测试？为什么返回 200 不能判定为越权成功？",
     "domain": "安全测试",
-    "updated": "2026-09-10",
+    "updated": "2026-09-21",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -503,8 +528,32 @@
      "XSS跨站脚本测试",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"2026-09-21\">服务端鉴权验证（2026-09-21 补）</h2>\n<blockquote>\n<p>更新：2026-09-21 源自 <code>raw/interview/2026-09-21.md</code>——把「怎么证明鉴权真的在服务端做」的验证动作系统化。</p>\n</blockquote>\n<p>立场先行：<strong>前端隐藏按钮只是体验优化，不是安全控制</strong>（即上文第 4 变体的正面验证法）。验证只有一个原则——<strong>绕过界面，直接打接口</strong>：</p>\n<ol>\n<li><strong>抓包改字段重放</strong>：普通账号正常操作后，把请求里的用户 id / 订单 id / 租户 id / 角色 code 改成别人的重放，看服务端是否拒绝；</li>\n<li><strong>低权限 token 直调高权限接口</strong>：前端有路由守卫、后端完全没校验是高频漏洞形态；</li>\n<li><strong>删掉前端限制</strong>：disabled 按钮改成可点、直接 URL 打开被隐藏菜单，验证「UI 不可见但接口可达」的路径；</li>\n<li><strong>看响应体泄露</strong>：即使返回 403，错误信息带出他人数据片段或敏感字段同样是缺陷。</li>\n</ol>\n<p><strong>矩阵化组织</strong>：「角色 × 资源归属 × 操作」三维矩阵（自己的 / 同租户他人 / 跨租户 × 查改删导出），每格一条断言，期望结果明确写成「403 或 404，且不返回任何业务数据」。矩阵化才能保证覆盖完整、后续版本可回归。</p>\n<p><strong>两个高频盲区</strong>：① <strong>多租户</strong>（同角色不同数据域——权限模型完全相同，差别只在数据归属）；② <strong>批量接口的部分执行</strong>——传 10 个 id、9 个自己的 1 个别人的，必须验证服务端是整体拒绝还是部分执行，而不是只测单条。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/45-安全测试/越权访问与IDOR.md"
+   },
+   {
+    "id": "wiki/50-AI测试/Agent任务成功率的分层口径",
+    "title": "Agent任务成功率的分层口径",
+    "cat": "ai-agent-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "Agent 的任务成功率怎么定义和统计？中间步骤做对了但最终结果不对，算成功吗？",
+    "domain": "AI测试",
+    "updated": "2026-09-21",
+    "confidence": "high",
+    "tags": [
+     "ai-testing",
+     "interview",
+     "metric",
+     "best-practice"
+    ],
+    "links": [
+     "Agent工具调用测试",
+     "Harness工程",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"agent\">Agent 任务成功率的分层口径</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>只报一个「成功率」数字没有信息量——必须<strong>分四层统计</strong>，且立场明确：<strong>中间步骤再漂亮，最终目标没达成就是失败</strong>。</p>\n<h2 id=\"_2\">展开</h2>\n<p>四层口径，从产品视角到工程视角逐层收窄：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>口径</th>\n<th>用途</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 任务级成功率</td>\n<td>用户目标是否达成</td>\n<td><strong>唯一对外汇报的口径</strong></td>\n</tr>\n<tr>\n<td>② 过程级正确性</td>\n<td>工具选择是否正确、参数抽取是否准确、步骤是否多余或缺失</td>\n<td><strong>只用于定位失败的环节</strong>，不用于判定成败</td>\n</tr>\n<tr>\n<td>③ 失败归因分类</td>\n<td>规划错误 / 工具错误 / 参数错误 / 知识缺失 / 幻觉 / 超限（步数、token、超时）</td>\n<td>没有归因的成功率只是一条曲线，有归因才能指导优化</td>\n</tr>\n<tr>\n<td>④ 效率与成本口径</td>\n<td>平均步数、工具调用次数、token、端到端 P95</td>\n<td>「成功但用了 40 步、花了 8 毛钱」在很多场景等于不可用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>必须单独统计的一类：「编造的成功」比「诚实的失败」危害大得多</strong>——Agent 没调工具、凭记忆编了个看起来对的答案，被计入成功率后，换一个输入必然失败。要从成功率里挑出来单列。</p>\n<p><strong>统计纪律</strong>：\n- 评测集必须带<strong>标准答案与标准步骤</strong>，否则过程级判定无从谈起；\n- Agent 有随机性，<strong>同一任务跑多次、报告「N 次里的成功次数」</strong>，而不是挑最好一次；\n- 每次运行的步骤序列、工具入参出参、耗时、token 必须<strong>落库（trace）</strong>，否则无法归因也无法复现。</p>\n<p>与 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span> 的衔接：过程级正确性正是其「四层测试法」中①②层的判定结果；「编造的成功」对应其异常处理层的「诚实性」检查——两者是同一套 trace 在「判定口径」与「测试方法」两个视角的展开。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>评测脚本按四层分别出数：任务成功率对外、归因分布对内、效率成本做容量与选型依据；</li>\n<li>过程判定接 trace 落库：把实际步骤序列与标准步骤比对，识别「侥幸成功」（结果对但工具用错/参数错/凭记忆作答）并纳入归因分类；</li>\n<li>报告口径固定为「N 次运行中的成功率 + 归因分布 + 成本」，禁止用单次最好成绩汇报；</li>\n<li>把「编造的成功」做成独立指标：抽查「未调用任何工具却给出答案」的样本，验证诚实性。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/50-AI测试/Agent任务成功率的分层口径.md"
    },
    {
     "id": "wiki/50-AI测试/Agent工具调用测试",
@@ -514,7 +563,7 @@
     "level": "高级",
     "question": "怎么测试 Agent 的工具调用（Function Calling）？工具调用死循环了，兜底机制怎么设计？",
     "domain": "AI测试",
-    "updated": "2026-09-14",
+    "updated": "2026-09-21",
     "confidence": "high",
     "tags": [
      "ai-testing",
@@ -522,11 +571,12 @@
      "checklist"
     ],
     "links": [
+     "Agent任务成功率的分层口径",
      "Harness工程",
      "Web安全测试地图",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"agent\">Agent 工具调用测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>把 Agent 的工具调用拆成<strong>四层</strong>分别验证——选对工具、参数合法、失败有兜底、组合调用有序；死循环防线是三层防御设计，测试要专门构造持续故障来验证熔断真的生效。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>四层测试法</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 工具选择准确性</td>\n<td>构造需要不同工具的任务集，看 Agent 选没选对</td>\n<td><strong>选错率是核心指标</strong>，不看单次对错看分布</td>\n</tr>\n<tr>\n<td>② 参数正确性</td>\n<td>生成参数过 JSON schema 校验</td>\n<td>重点测缺字段、类型错、枚举值越界</td>\n</tr>\n<tr>\n<td>③ 异常处理</td>\n<td>工具超时、返回错误码、返回空结果时 Agent 的反应</td>\n<td>是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数</td>\n</tr>\n<tr>\n<td>④ 组合调用</td>\n<td>多步任务里工具的调用顺序与上下文传递</td>\n<td>前一步的输出有没有正确进入下一步</td>\n</tr>\n</tbody>\n</table>\n<p><strong>死循环的三层防御</strong>（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：</p>\n<ol>\n<li><strong>工具层硬隔离</strong>：每个外部工具调用都包 try-catch，且不能只吞异常——要返回结构化错误给 LLM，例如 <code>{\"status\":\"failed\",\"error_type\":\"Timeout\",\"retry_after\":5}</code>，让模型知道失败了、该等多久、能不能重试；</li>\n<li><strong>推理层熔断</strong>：同一工具连续失败 3 次或检测到循环调用，强制中断——必须实现 Max Iteration 上限和 Loop Detection；</li>\n<li><strong>规划层自我修正</strong>：更高级的做法是让 Agent 反思\"刚才哪里做错了、要不要换个工具\"，即 Reflection 模式。</li>\n</ol>\n<p><strong>跨域风险——参数注入</strong>：用户输入直接拼进工具参数时，可能被用来执行越权操作。这是注入类攻击在 AI 系统上的延伸，测试要与安全测试联动（思路同 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span> 的输入注入类）。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>为每一层各准备一组用例：任务集断言工具选择、schema 校验断言参数、故障注入断言异常行为、长链路断言组合顺序</li>\n<li><strong>验证熔断必须用持续故障</strong>：专门构造\"工具持续超时\"\"返回格式异常\"的用例，确认 Max Iteration 与 Loop Detection 真的触发，而不是只看代码有没有写</li>\n<li>异常处理断言里加\"诚实性\"检查：任务无法完成时，Agent 是编造结果还是明确交代失败</li>\n<li>对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"agent\">Agent 工具调用测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>把 Agent 的工具调用拆成<strong>四层</strong>分别验证——选对工具、参数合法、失败有兜底、组合调用有序；死循环防线是三层防御设计，测试要专门构造持续故障来验证熔断真的生效。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>四层测试法</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 工具选择准确性</td>\n<td>构造需要不同工具的任务集，看 Agent 选没选对</td>\n<td><strong>选错率是核心指标</strong>，不看单次对错看分布</td>\n</tr>\n<tr>\n<td>② 参数正确性</td>\n<td>生成参数过 JSON schema 校验</td>\n<td>重点测缺字段、类型错、枚举值越界</td>\n</tr>\n<tr>\n<td>③ 异常处理</td>\n<td>工具超时、返回错误码、返回空结果时 Agent 的反应</td>\n<td>是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数</td>\n</tr>\n<tr>\n<td>④ 组合调用</td>\n<td>多步任务里工具的调用顺序与上下文传递</td>\n<td>前一步的输出有没有正确进入下一步</td>\n</tr>\n</tbody>\n</table>\n<p><strong>死循环的三层防御</strong>（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：</p>\n<ol>\n<li><strong>工具层硬隔离</strong>：每个外部工具调用都包 try-catch，且不能只吞异常——要返回结构化错误给 LLM，例如 <code>{\"status\":\"failed\",\"error_type\":\"Timeout\",\"retry_after\":5}</code>，让模型知道失败了、该等多久、能不能重试；</li>\n<li><strong>推理层熔断</strong>：同一工具连续失败 3 次或检测到循环调用，强制中断——必须实现 Max Iteration 上限和 Loop Detection；</li>\n<li><strong>规划层自我修正</strong>：更高级的做法是让 Agent 反思\"刚才哪里做错了、要不要换个工具\"，即 Reflection 模式。</li>\n</ol>\n<p><strong>跨域风险——参数注入</strong>：用户输入直接拼进工具参数时，可能被用来执行越权操作。这是注入类攻击在 AI 系统上的延伸，测试要与安全测试联动（思路同 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span> 的输入注入类）。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>为每一层各准备一组用例：任务集断言工具选择、schema 校验断言参数、故障注入断言异常行为、长链路断言组合顺序</li>\n<li><strong>验证熔断必须用持续故障</strong>：专门构造\"工具持续超时\"\"返回格式异常\"的用例，确认 Max Iteration 与 Loop Detection 真的触发，而不是只看代码有没有写</li>\n<li>异常处理断言里加\"诚实性\"检查：任务无法完成时，Agent 是编造结果还是明确交代失败</li>\n<li>对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span>（过程级正确性即本页四层测试法①②层的判定口径）</li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/Agent工具调用测试.md"
    },
    {
