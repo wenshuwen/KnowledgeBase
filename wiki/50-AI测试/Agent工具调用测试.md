@@ -3,7 +3,7 @@ title: Agent工具调用测试
 type: concept
 domain: AI测试
 created: 2026-09-14
-updated: 2026-09-14
+updated: 2026-09-21
 sources: [raw/interview/2026-09-14.md]
 tags: [ai-testing, interview, checklist]
 confidence: high
@@ -49,6 +49,7 @@ interview:
 - 对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行
 
 ## 相关
+- [[Agent任务成功率的分层口径]]（过程级正确性即本页四层测试法①②层的判定口径）
 - [[Harness工程]]
 - [[Web安全测试地图]]
 - [[面试助手题库索引]]
