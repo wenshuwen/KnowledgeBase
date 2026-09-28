@@ -1,24 +1,24 @@
 {
- "contentHash": "052b5a4b",
- "version": "kb-2026.09.21-052b5a4b",
- "updatedAt": "2026-09-21",
- "generatedAt": "2026-09-21T21:37:46",
- "summary": "知识库共 27 条，覆盖 7 个分类",
+ "contentHash": "3867ed47",
+ "version": "kb-2026.09.28-3867ed47",
+ "updatedAt": "2026-09-28",
+ "generatedAt": "2026-09-28T21:13:07",
+ "summary": "知识库共 29 条，覆盖 7 个分类",
  "stats": {
-  "total": 27,
+  "total": 29,
   "byCat": {
    "theory": 2,
    "api-testing": 7,
    "performance-testing": 2,
    "automation-testing": 1,
-   "security-testing": 7,
+   "security-testing": 9,
    "ai-agent-testing": 3,
    "database-linux": 5
   },
   "byKind": {
-   "knowledge": 17,
+   "knowledge": 18,
    "skill": 6,
-   "question": 4
+   "question": 5
   }
  },
  "cats": [
@@ -45,7 +45,7 @@
   {
    "cat": "security-testing",
    "label": "安全测试",
-   "count": 7
+   "count": 9
   },
   {
    "cat": "ai-agent-testing",
@@ -91,7 +91,7 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-09-21",
+    "updated": "2026-09-28",
     "confidence": "high",
     "tags": [
      "interview",
@@ -101,9 +101,11 @@
      "Agent任务成功率的分层口径",
      "Agent工具调用测试",
      "Harness工程",
-     "假阴性漏测的六大来源"
+     "假阴性漏测的六大来源",
+     "安全测试的分层策略与手段组合",
+     "限流与防刷机制的测试"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域 3 页、测试理论 2 页，最近 2026-09-21）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域 3 页、测试理论 2 页、安全域 9 页，最近 2026-09-28）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -462,7 +464,7 @@
     "level": "高级",
     "question": "",
     "domain": "安全测试",
-    "updated": "2026-09-14",
+    "updated": "2026-09-28",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -476,10 +478,11 @@
      "SQL注入测试",
      "SSRF服务端请求伪造测试",
      "XSS跨站脚本测试",
+     "安全测试的分层策略与手段组合",
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"web\">Web 安全测试地图</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>安全测试的坑位不是按\"漏洞名字\"记的，而是按<strong>攻击者从哪里进入系统</strong>分成三类：往输入里塞东西、借用你的身份、骗服务器去请求。记住入口，比记住 payload 有用得多。</p>\n<h2 id=\"_2\">三类入口</h2>\n<table>\n<thead>\n<tr>\n<th>类别</th>\n<th>攻击者利用什么</th>\n<th>代表漏洞</th>\n<th>测试的共性动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>输入注入类</strong></td>\n<td>用户输入未经处理就被拼进解释器（SQL、HTML、HTTP 头）</td>\n<td><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span>、<span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span>、<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></td>\n<td>找全用户可控输入点 → 塞特殊字符 → 看输出位置 → 按输出上下文调整 payload</td>\n</tr>\n<tr>\n<td><strong>身份与会话类</strong></td>\n<td>系统信任了客户端传来的身份或凭证</td>\n<td><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>、<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n<td>准备两个账号 → 篡改身份标识 → 重放 → <strong>比对响应体内容而非状态码</strong></td>\n</tr>\n<tr>\n<td><strong>服务端请求类</strong></td>\n<td>服务端代替攻击者发起请求</td>\n<td><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n<td>找\"从 URL 取资源\"的功能点 → 逐级探测回环/内网/云元数据</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三个跨类别的通用原则</h2>\n<p><strong>一、前端控制不是安全措施。</strong> 隐藏按钮、前端校验、UUID 难猜——都只是 UX 或增加难度，不构成防护。判断标准永远是\"直接构造请求会怎样\"。</p>\n<p><strong>二、状态码不等于判定结果。</strong> 越权测试里返回 200 不代表成功越权，必须对比响应体内容是否真的是别人的数据；SSRF 里超时也不代表不可达，可能是被防火墙静默丢弃。<strong>判定依据要落在内容上。</strong></p>\n<p><strong>三、找到一个，就扩大范围。</strong> 越权漏洞往往成群出现——发现一个说明整个权限模型可能有系统性缺陷。安全测试的报告方式应该是\"这个模块的权限模型有问题\"，而不是\"这一个接口有问题\"。</p>\n<blockquote>\n<p>更新：2026-09-14 注入思想已延伸进 AI 系统——用户输入被拼进工具参数（参数注入）或对话上下文（提示注入）时，同样适用\"找全输入点 → 塞特殊内容 → 看执行位置\"的套路，跨域入口见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>。</p>\n</blockquote>\n<h2 id=\"_4\">测试视角的落点</h2>\n<p>在测试用例设计里，这三类对应三种<strong>必测的异常路径</strong>：</p>\n<ul>\n<li>输入注入 → 每个输入框、每个 Header、每个排序/分页参数，都要有一条\"特殊字符\"用例</li>\n<li>身份会话 → 每个涉及资源 ID 的接口，都要有一条\"换一个账号的 ID\"用例</li>\n<li>服务端请求 → 每个\"填 URL\"的功能，都要有一条\"填内网地址\"用例</li>\n</ul>\n<p><strong>常见误用</strong>：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但<strong>越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现</strong>——工具不会知道\"这个订单不该被这个用户看到\"。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"web\">Web 安全测试地图</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>安全测试的坑位不是按\"漏洞名字\"记的，而是按<strong>攻击者从哪里进入系统</strong>分成三类：往输入里塞东西、借用你的身份、骗服务器去请求。记住入口，比记住 payload 有用得多。</p>\n<h2 id=\"_2\">三类入口</h2>\n<table>\n<thead>\n<tr>\n<th>类别</th>\n<th>攻击者利用什么</th>\n<th>代表漏洞</th>\n<th>测试的共性动作</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>输入注入类</strong></td>\n<td>用户输入未经处理就被拼进解释器（SQL、HTML、HTTP 头）</td>\n<td><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span>、<span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span>、<span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></td>\n<td>找全用户可控输入点 → 塞特殊字符 → 看输出位置 → 按输出上下文调整 payload</td>\n</tr>\n<tr>\n<td><strong>身份与会话类</strong></td>\n<td>系统信任了客户端传来的身份或凭证</td>\n<td><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span>、<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n<td>准备两个账号 → 篡改身份标识 → 重放 → <strong>比对响应体内容而非状态码</strong></td>\n</tr>\n<tr>\n<td><strong>服务端请求类</strong></td>\n<td>服务端代替攻击者发起请求</td>\n<td><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n<td>找\"从 URL 取资源\"的功能点 → 逐级探测回环/内网/云元数据</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">三个跨类别的通用原则</h2>\n<p><strong>一、前端控制不是安全措施。</strong> 隐藏按钮、前端校验、UUID 难猜——都只是 UX 或增加难度，不构成防护。判断标准永远是\"直接构造请求会怎样\"。</p>\n<p><strong>二、状态码不等于判定结果。</strong> 越权测试里返回 200 不代表成功越权，必须对比响应体内容是否真的是别人的数据；SSRF 里超时也不代表不可达，可能是被防火墙静默丢弃。<strong>判定依据要落在内容上。</strong></p>\n<p><strong>三、找到一个，就扩大范围。</strong> 越权漏洞往往成群出现——发现一个说明整个权限模型可能有系统性缺陷。安全测试的报告方式应该是\"这个模块的权限模型有问题\"，而不是\"这一个接口有问题\"。</p>\n<blockquote>\n<p>更新：2026-09-14 注入思想已延伸进 AI 系统——用户输入被拼进工具参数（参数注入）或对话上下文（提示注入）时，同样适用\"找全输入点 → 塞特殊内容 → 看执行位置\"的套路，跨域入口见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>。</p>\n</blockquote>\n<h2 id=\"_4\">测试视角的落点</h2>\n<p>在测试用例设计里，这三类对应三种<strong>必测的异常路径</strong>：</p>\n<ul>\n<li>输入注入 → 每个输入框、每个 Header、每个排序/分页参数，都要有一条\"特殊字符\"用例</li>\n<li>身份会话 → 每个涉及资源 ID 的接口，都要有一条\"换一个账号的 ID\"用例</li>\n<li>服务端请求 → 每个\"填 URL\"的功能，都要有一条\"填内网地址\"用例</li>\n</ul>\n<p><strong>常见误用</strong>：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但<strong>越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现</strong>——工具不会知道\"这个订单不该被这个用户看到\"。</p>\n<blockquote>\n<p>更新：2026-09-28 针对这个误用，手段怎么按阶段组合（SAST/SCA/DAST/IAST + 手工业务逻辑测试）已单独成页，见 <span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span>；越权的旁路入口清单见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>。</p>\n</blockquote>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"CSRF跨站请求伪造测试\">CSRF跨站请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"CRLF注入测试\">CRLF注入测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/45-安全测试/Web安全测试地图.md"
    },
    {
@@ -507,6 +510,31 @@
     "source_path": "wiki/45-安全测试/XSS跨站脚本测试.md"
    },
    {
+    "id": "wiki/45-安全测试/安全测试的分层策略与手段组合",
+    "title": "安全测试的分层策略与手段组合",
+    "cat": "security-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "安全测试",
+    "updated": "2026-09-28",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "checklist",
+     "best-practice"
+    ],
+    "links": [
+     "SSRF服务端请求伪造测试",
+     "Web安全测试地图",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>不同安全测试手段能发现的问题类型完全不同——「发布前跑一次扫描器」效果差的根因是<strong>用单一工具覆盖所有层次</strong>；正确做法是按开发阶段组合 SAST / SCA / DAST / IAST，工具打底、人工补深。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>先建立共同语言：OWASP Top 10。</strong> 它的价值不在清单本身，而在于让风险等级与整改优先级有公认依据，避免测试与开发在严重性上扯皮。使用方式：</p>\n<ul>\n<li>每个新需求上线前，把相关条目过一遍当评审 checklist；</li>\n<li>缺陷报告里用 A01~A10 编号标注，便于统计与跟踪趋势；</li>\n<li><strong>别当穷举清单</strong>——它覆盖「常见」而非「全部」，业务逻辑漏洞永远是最大盲区（A04 不安全设计只有懂业务的人能测，这是测试工程师相对扫描器的最大优势领域）。</li>\n</ul>\n<p>高频条目的测试落点速记：</p>\n<table>\n<thead>\n<tr>\n<th>条目</th>\n<th>测试动作要点</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>A01 失效的访问控制（长期第一）</td>\n<td>换身份重放、替换资源 ID、批量接口夹带他人 ID、遍历旁路入口——见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></td>\n</tr>\n<tr>\n<td>A03 注入</td>\n<td>单引号+布尔差异初判、时间盲注验证无回显、重点测动态排序字段</td>\n</tr>\n<tr>\n<td>A07 认证失败</td>\n<td>暴力破解、会话固定、Token 失效、用户枚举（错误提示是否区分账号存在）</td>\n</tr>\n<tr>\n<td>A09 日志与监控失效</td>\n<td>敏感操作后断言审计日志含操作人/时间/对象/结果；故意触发异常断言告警真的到人</td>\n</tr>\n<tr>\n<td>A10 SSRF</td>\n<td>URL 换内网地址、云元数据地址、DNS 重绑定——见 <span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></td>\n</tr>\n</tbody>\n</table>\n<p><strong>四类手段各管一层：</strong></p>\n<table>\n<thead>\n<tr>\n<th>手段</th>\n<th>原理</th>\n<th>擅长发现</th>\n<th>关键局限</th>\n<th>代表工具</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>SAST</strong> 静态</td>\n<td>不运行代码，分析源码找危险模式</td>\n<td>硬编码密钥、拼接 SQL、命令注入、弱加密</td>\n<td>误报率高需人工过滤；看不到运行时与配置问题</td>\n<td>Semgrep、SonarQube、CodeQL、Bandit</td>\n</tr>\n<tr>\n<td><strong>DAST</strong> 动态</td>\n<td>像攻击者一样从外部发请求观察响应</td>\n<td>注入、XSS、SSRF、错误配置、部分越权</td>\n<td>依赖爬虫质量（认证后深层页面爬不到）；<strong>测不出业务逻辑漏洞</strong>；可能污染数据</td>\n<td>OWASP ZAP、Burp、Nuclei</td>\n</tr>\n<tr>\n<td><strong>IAST</strong> 交互式</td>\n<td>运行时插桩，边跑测试边观测数据流</td>\n<td>定位精确到代码行、误报极低，<strong>最适合内联进接口自动化</strong></td>\n<td>需部署 Agent（生产通常不允许）、影响性能</td>\n<td>Contrast、Seeker、洞态</td>\n</tr>\n<tr>\n<td><strong>SCA</strong> 成分分析</td>\n<td>识别依赖库版本，比对漏洞库</td>\n<td>已披露组件 CVE（Log4Shell 这类）</td>\n<td>只管已知漏洞</td>\n<td>Trivy、Dependency-Check、Snyk</td>\n</tr>\n</tbody>\n</table>\n<p><strong>按阶段组合（参考策略）：</strong></p>\n<ol>\n<li><strong>提交阶段</strong>：SAST 只跑增量 + 高危规则，加 gitleaks 密钥扫描——此时修复成本几乎为零；</li>\n<li><strong>CI 阶段</strong>：SCA 依赖扫描阻断高危，单元测试内联 IAST；</li>\n<li><strong>测试环境部署后</strong>：DAST 被动扫描随功能回归一起跑（不加压），再对认证态做主动扫描——<strong>数据敏感环境绝不盲目跑主动扫描</strong>；</li>\n<li><strong>发布前</strong>：手工安全测试，聚焦业务逻辑漏洞（越权、并发、支付绕过、状态机、限流绕过）。</li>\n</ol>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>做方案先定<strong>范围与分级标准</strong>（引用 OWASP Top 10 建立共同语言），再动手测；</li>\n<li>工具跑完不等于测完：<strong>手工部分必做</strong>越权、并发超卖、状态机跳过、支付篡改、限流绕过、验证码防刷；</li>\n<li>任何安全测试交付都要带<strong>残留风险声明</strong>：哪些没测、风险多大；</li>\n<li>一句话：<strong>工具负责覆盖面与效率，人负责业务逻辑与攻击链组合。</strong></li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"SSRF服务端请求伪造测试\">SSRF服务端请求伪造测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/安全测试的分层策略与手段组合.md"
+   },
+   {
     "id": "wiki/45-安全测试/越权访问与IDOR",
     "title": "越权访问与IDOR",
     "cat": "security-testing",
@@ -514,7 +542,7 @@
     "level": "高级",
     "question": "越权漏洞你会怎么系统化测试？为什么返回 200 不能判定为越权成功？",
     "domain": "安全测试",
-    "updated": "2026-09-21",
+    "updated": "2026-09-28",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -526,10 +554,36 @@
      "SQL注入测试",
      "Web安全测试地图",
      "XSS跨站脚本测试",
+     "安全测试的分层策略与手段组合",
+     "限流与防刷机制的测试",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"2026-09-21\">服务端鉴权验证（2026-09-21 补）</h2>\n<blockquote>\n<p>更新：2026-09-21 源自 <code>raw/interview/2026-09-21.md</code>——把「怎么证明鉴权真的在服务端做」的验证动作系统化。</p>\n</blockquote>\n<p>立场先行：<strong>前端隐藏按钮只是体验优化，不是安全控制</strong>（即上文第 4 变体的正面验证法）。验证只有一个原则——<strong>绕过界面，直接打接口</strong>：</p>\n<ol>\n<li><strong>抓包改字段重放</strong>：普通账号正常操作后，把请求里的用户 id / 订单 id / 租户 id / 角色 code 改成别人的重放，看服务端是否拒绝；</li>\n<li><strong>低权限 token 直调高权限接口</strong>：前端有路由守卫、后端完全没校验是高频漏洞形态；</li>\n<li><strong>删掉前端限制</strong>：disabled 按钮改成可点、直接 URL 打开被隐藏菜单，验证「UI 不可见但接口可达」的路径；</li>\n<li><strong>看响应体泄露</strong>：即使返回 403，错误信息带出他人数据片段或敏感字段同样是缺陷。</li>\n</ol>\n<p><strong>矩阵化组织</strong>：「角色 × 资源归属 × 操作」三维矩阵（自己的 / 同租户他人 / 跨租户 × 查改删导出），每格一条断言，期望结果明确写成「403 或 404，且不返回任何业务数据」。矩阵化才能保证覆盖完整、后续版本可回归。</p>\n<p><strong>两个高频盲区</strong>：① <strong>多租户</strong>（同角色不同数据域——权限模型完全相同，差别只在数据归属）；② <strong>批量接口的部分执行</strong>——传 10 个 id、9 个自己的 1 个别人的，必须验证服务端是整体拒绝还是部分执行，而不是只测单条。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"idor\">越权访问与 IDOR</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>攻击者篡改请求里的资源标识符，访问到<strong>本不属于自己的数据或功能</strong>。水平越权是\"同级别之间横向跨越\"，垂直越权是\"低权限向高权限提升\"。</p>\n<table>\n<thead>\n<tr>\n<th>类型</th>\n<th>通俗说法</th>\n<th>核心危害</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>水平越权</td>\n<td>普通员工 A 看到员工 B 的工资条</td>\n<td>数据泄露</td>\n</tr>\n<tr>\n<td>垂直越权</td>\n<td>普通员工执行了管理员的删除操作</td>\n<td>功能滥用</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_2\">系统化测试方法</h2>\n<h3 id=\"_3\">水平越权</h3>\n<p><strong>双账号对比法（黄金标准）</strong>：同时登录 A 和 B → 用 A 抓取所有带资源 ID 的请求 → 把 ID 换成 B 的 → 用 <strong>A 的 Token</strong> 重放。</p>\n<blockquote>\n<p><strong>关键判断：返回 200 ≠ 越权成功。</strong> 必须对比响应体内容，确认返回的确实是 B 的数据。很多接口在无权限时返回 200 但内容为空或为占位数据，只看状态码会误报。</p>\n</blockquote>\n<p><strong>ID 遍历策略</strong>：自增 ID 直接递增；雪花算法 ID 分析时间戳+机器 ID 缩小范围；UUID 从列表接口、历史记录、分享链接收集已知值当种子。</p>\n<p><strong>⚠️ \"用了 UUID 就安全\"是误区。</strong> UUID 只是增加猜测难度，一旦从列表接口、分享链接、邮件通知或前端 JS 源码暴露，照样可被利用。</p>\n<h3 id=\"_4\">垂直越权</h3>\n<ul>\n<li><strong>权限矩阵枚举法</strong>：列出所有角色 × 所有接口，逐格验证实际访问结果是否符合预期</li>\n<li><strong>接口发现优先于权限测试</strong>：爬前端 JS / Swagger / OpenAPI 提取全部路径，关注 <code>/admin/*</code>、<code>/internal/*</code>、<code>/manage/*</code>、<code>/config/*</code>，用目录爆破找未文档化接口</li>\n<li><strong>降级测试</strong>：用高权限账号抓请求，逐步降低 Token 权限重放，看在哪一级开始返回 403——确认权限边界是否清晰</li>\n<li><strong>区分功能级与数据级</strong>：能调用接口 vs 只能操作自己管辖范围的数据，两者要分别测</li>\n</ul>\n<h2 id=\"_5\">容易被漏掉的四种变体</h2>\n<ol>\n<li><strong>参数位置</strong>：不只测 Query，还要测 JSON Body、XML Body、自定义 Header、Cookie 里的标识符</li>\n<li><strong>批量赋值</strong>：<code>PUT /api/user/profile</code> 里额外传 <code>user_id</code>、<code>role</code>、<code>is_verified</code>，若服务端自动绑定就中招</li>\n<li><strong>二阶 IDOR</strong>：A 无权直接访问 B 的订单，但能访问自己的收货地址，而收货地址接口返回了关联的 <code>order_id</code> → 间接拿到 B 的订单</li>\n<li><strong>前端隐藏 ≠ 后端校验</strong>：<code>v-if=\"user.role === 'admin'\"</code> 只是 UX，攻击者直接构造 HTTP 请求即可</li>\n</ol>\n<h2 id=\"_6\">测试心法</h2>\n<p><strong>越权测试的核心不是工具，是业务理解。</strong> 测试前必须画出用户角色图、数据实体关系图、业务流程图——<strong>不知道\"应该怎样\"，就无法发现\"不该怎样\"</strong>。</p>\n<p>水平越权测试<strong>务必用两个真实账号</strong>，单账号无法区分\"正常返回自己的数据\"和\"越权返回他人的数据\"。</p>\n<p><strong>越权漏洞往往成群出现</strong>：发现一个点，说明整个模块的权限模型可能有系统性缺陷，应扩大测试范围，报告写\"权限模型问题\"而不是\"这一个接口问题\"。</p>\n<h2 id=\"2026-09-21\">服务端鉴权验证（2026-09-21 补）</h2>\n<blockquote>\n<p>更新：2026-09-21 源自 <code>raw/interview/2026-09-21.md</code>——把「怎么证明鉴权真的在服务端做」的验证动作系统化。</p>\n</blockquote>\n<p>立场先行：<strong>前端隐藏按钮只是体验优化，不是安全控制</strong>（即上文第 4 变体的正面验证法）。验证只有一个原则——<strong>绕过界面，直接打接口</strong>：</p>\n<ol>\n<li><strong>抓包改字段重放</strong>：普通账号正常操作后，把请求里的用户 id / 订单 id / 租户 id / 角色 code 改成别人的重放，看服务端是否拒绝；</li>\n<li><strong>低权限 token 直调高权限接口</strong>：前端有路由守卫、后端完全没校验是高频漏洞形态；</li>\n<li><strong>删掉前端限制</strong>：disabled 按钮改成可点、直接 URL 打开被隐藏菜单，验证「UI 不可见但接口可达」的路径；</li>\n<li><strong>看响应体泄露</strong>：即使返回 403，错误信息带出他人数据片段或敏感字段同样是缺陷。</li>\n</ol>\n<p><strong>矩阵化组织</strong>：「角色 × 资源归属 × 操作」三维矩阵（自己的 / 同租户他人 / 跨租户 × 查改删导出），每格一条断言，期望结果明确写成「403 或 404，且不返回任何业务数据」。矩阵化才能保证覆盖完整、后续版本可回归。</p>\n<p><strong>两个高频盲区</strong>：① <strong>多租户</strong>（同角色不同数据域——权限模型完全相同，差别只在数据归属）；② <strong>批量接口的部分执行</strong>——传 10 个 id、9 个自己的 1 个别人的，必须验证服务端是整体拒绝还是部分执行，而不是只测单条。</p>\n<h2 id=\"2026-09-28\">旁路入口与解析不一致（2026-09-28 补）</h2>\n<blockquote>\n<p>更新：2026-09-28 源自 <code>raw/interview/2026-09-27.md</code>——补齐水平越权必测的五类入口里，上文尚未覆盖的部分。</p>\n</blockquote>\n<p><strong>只测「查详情」远远不够</strong>，水平越权必测的五类入口按优先级：</p>\n<ol>\n<li><strong>写操作（改、删）</strong>——危害最大，优先级最高先测；</li>\n<li><strong>批量接口</strong>——即上文「批量接口的部分执行」盲区，手法是传 <code>[自己的ID, 别人的ID]</code> 看是否两条都成功；</li>\n<li><strong>导出接口</strong>——直接按查询条件出数据，绕过列表页的权限过滤，最经典的重灾区；</li>\n<li><strong>旁路入口</strong>——分享链接、附件下载 URL、消息跳转、图片直链、打印页、二维码：<strong>经常压根不做鉴权，只靠「URL 猜不到」当安全</strong>；</li>\n<li><strong>二次入口</strong>——列表页过滤了、详情页没过滤；详情页过滤了、编辑页没过滤。顺着资源 ID 遍历所有能访问它的接口。</li>\n</ol>\n<p><strong>参数污染</strong>：同参数传两次（<code>id=1&amp;id=2</code>）、传数组、加空格与编码变形。成因是<strong>校验逻辑只作用于第一个参数，而业务逻辑取了最后一个值</strong>（解析不一致）。配合小范围 ID 遍历（连续扫 100 个）判断是偶发还是批量泄露。</p>\n<p><strong>效率工具</strong>：Burp Autorize 插件可自动重放全部请求并替换为低权限身份，越权测试效率提升一个量级——但判定仍要人工比对响应体。</p>\n<p><strong>根因层面的整改建议（写进报告）</strong>：越权反复出现几乎都是因为<strong>鉴权写在控制层、数据归属校验写在业务层，两层没对齐</strong>。正确做法是所有带资源 ID 的接口在数据访问层强制附加「当前用户 ID」条件（<strong>行级权限</strong>），而不是依赖业务代码记得判断。</p>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"SQL注入测试\">SQL注入测试</span></li>\n<li><span class=\"wl\" data-page=\"XSS跨站脚本测试\">XSS跨站脚本测试</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/45-安全测试/越权访问与IDOR.md"
+   },
+   {
+    "id": "wiki/45-安全测试/限流与防刷机制的测试",
+    "title": "限流与防刷机制的测试",
+    "cat": "security-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "限流与防刷怎么测？只测「超过阈值返回 429」够不够？",
+    "domain": "安全测试",
+    "updated": "2026-09-28",
+    "confidence": "high",
+    "tags": [
+     "security-testing",
+     "interview",
+     "checklist"
+    ],
+    "links": [
+     "Web安全测试地图",
+     "性能瓶颈的分层模型",
+     "越权访问与IDOR",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>只验证「超过阈值返回 429」是典型的测了表面、没测机制——核心是验证<strong>拦得准不准、兜得住兜不住、被绕过时损失有多大</strong>，共五个层次。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>层次一：阈值准确性。</strong> 打到第 N 次、第 N+1 次看是否被拦，并额外验三件事：</p>\n<ul>\n<li><strong>计数窗口边界</strong>：固定窗口在切换瞬间可能放过 2 倍请求，滑动窗口不会——重要验证点；</li>\n<li><strong>计数维度</strong>：按用户 / 按 IP / 按接口 / 按用户+接口组合，配置了哪个维度就验哪个；</li>\n<li><strong>限流粒度优先级</strong>：单接口限流与全局限流同时命中时哪条先生效。</li>\n</ul>\n<p><strong>层次二：绕过尝试（最有安全价值）。</strong> 攻击者不会老老实实从一个 IP 一个账号发请求：</p>\n<ul>\n<li><strong>换 IP</strong>：只按 IP 限流 + 代理池即可绕过 → 高危发现；</li>\n<li><strong>换用户标识 / 不带登录态</strong>：未登录路径的限流最常被漏；</li>\n<li><strong>伪造头部</strong>：系统若信任客户端传的 <code>X-Forwarded-For</code>，攻击者可随便伪造 IP 绕过——非常经典的高危缺陷，必测；</li>\n<li><strong>换入口</strong>：同一业务能力有 H5 / APP / 小程序 / 开放接口 / 内部接口多个入口，往往只在主入口做了限流。</li>\n</ul>\n<p><strong>层次三：降级与体验。</strong> 正确行为是 429 + <code>Retry-After</code> 头 + 明确文案，而不是 500 或静默失败；还必须验<strong>正常用户会不会被误伤</strong>——按 IP 限流时同一出口 IP 下的公司/学校用户会互相拖累，这是上线后投诉的主要来源。</p>\n<p><strong>层次四：高并发下的准确性（真正难点）。</strong> 用 200 并发同时打，实际通过数是否接近阈值？远超阈值说明计数器有竞态（如 Redis get-then-set 非原子）——隐蔽但很常见。同时验<strong>限流器自己不能成为瓶颈或单点</strong>：它挂了应降级为放行而非阻断。这层已跨入性能域，排查思路见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>。</p>\n<p><strong>层次五：防刷的业务侧兜底（必测）。</strong></p>\n<ul>\n<li><strong>短信/验证码接口</strong>（被刷直接资损）：有效期、一次性使用、同号/同 IP 频率、图形验证码触发策略；</li>\n<li><strong>登录接口</strong>：失败锁定、锁定后能否改大小写/加空格绕过、<strong>锁定机制能否被用来恶意锁定他人账号（拒绝服务）</strong>；</li>\n<li><strong>下单/领券</strong>：并发下超卖或超领（并发+限流交叉场景，必须单独测）；</li>\n<li><strong>接口枚举</strong>：遍历 ID 能否批量获取数据（绕过手法同 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>）。</li>\n</ul>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>工具选择：JMeter / k6 / Locust 做精确计数与并发验证，<strong>k6 的 constant-arrival-rate 执行器最适合「严格每秒 N 次」</strong>；Burp Intruder 做绕过试探；</li>\n<li>压测执行纪律：<strong>先小并发验证脚本与计数口径，再逐步加压</strong>；</li>\n<li>验收标准一句话：<strong>拦住攻击者的同时不误伤正常用户，并且被绕过时有第二道防线</strong>。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/45-安全测试/限流与防刷机制的测试.md"
    },
    {
     "id": "wiki/50-AI测试/Agent任务成功率的分层口径",
