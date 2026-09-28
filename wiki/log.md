@@ -281,3 +281,10 @@
 **索引**：45 目录增 2 行（越权行更新时间同步刷新）；标签索引 #interview/#security-testing/#checklist/#best-practice 更新；lint 缺口行标记部分补齐；规模 42 → 44 页。
 
 **归档短键说明**：源 09-27 条目 cat 为 sec / agent / db / devops。编译落点按 8.2 映射：sec → security-testing → 45-安全测试；agent / db / devops 条目本次未编译（留后续），无 python / scene / soft 短键出现，无需记待复查。
+
+## [2026-09-28] lint | 每周体检
+- 全量机检 45 页：A1–A9 + B1/B4/B6 全过，自动修复 0 处（连续第二周干净）
+- 反向核查归档 cat 键：15 类全短键合规；wiki 页 interview.cat 全部长键
+- 待确认 3 项：① Web安全测试地图未回链两页新安全内容（B5）；② 两页决策的「事后验证」标记 18 天未复核（B7）；③ 加密与签名安全专项页仍缺
+- 报告：[[体检报告-2026-09-28]]（已挂 index 00-总览）
+- 机检脚本重建于 /tmp/lint_wiki.py：修复两类旧误报（行内代码排除、index/log 入链计入），sources 解析支持含空格路径
