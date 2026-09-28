@@ -3,8 +3,8 @@ title: Web安全测试地图
 type: concept
 domain: 安全测试
 created: 2026-09-10
-updated: 2026-09-14
-sources: [raw/legacy/笔记/02-测试技能/SQL注入测试.md, raw/legacy/笔记/02-测试技能/XSS跨站脚本测试.md, raw/legacy/笔记/02-测试技能/CSRF跨站请求伪造测试.md, raw/legacy/笔记/02-测试技能/SSRF服务端请求伪造测试.md, raw/legacy/笔记/02-测试技能/越权访问与IDOR.md, raw/legacy/笔记/02-测试技能/CRLF注入测试.md]
+updated: 2026-09-28
+sources: [raw/legacy/笔记/02-测试技能/SQL注入测试.md, raw/legacy/笔记/02-测试技能/XSS跨站脚本测试.md, raw/legacy/笔记/02-测试技能/CSRF跨站请求伪造测试.md, raw/legacy/笔记/02-测试技能/SSRF服务端请求伪造测试.md, raw/legacy/笔记/02-测试技能/越权访问与IDOR.md, raw/legacy/笔记/02-测试技能/CRLF注入测试.md, raw/interview/2026-09-27.md]
 tags: [security-testing, interview, checklist]
 confidence: high
 status: active
@@ -47,6 +47,8 @@ interview:
 - 服务端请求 → 每个"填 URL"的功能，都要有一条"填内网地址"用例
 
 **常见误用**：只在功能测试阶段用现成的扫描器跑一遍。扫描器能覆盖输入注入类的大部分，但**越权和业务逻辑类的漏洞几乎全靠人工理解业务才能发现**——工具不会知道"这个订单不该被这个用户看到"。
+
+> 更新：2026-09-28 针对这个误用，手段怎么按阶段组合（SAST/SCA/DAST/IAST + 手工业务逻辑测试）已单独成页，见 [[安全测试的分层策略与手段组合]]；越权的旁路入口清单见 [[越权访问与IDOR]]。
 
 ## 相关
 - [[SQL注入测试]]
