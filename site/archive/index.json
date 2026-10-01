@@ -1,11 +1,11 @@
 {
- "version": "2026-09-30",
- "updatedAt": "2026-09-30",
- "latest": "2026-09-30",
+ "version": "2026-10-01",
+ "updatedAt": "2026-10-01",
+ "latest": "2026-10-01",
  "days": [
   {
    "date": "2026-09-12",
-   "file": "2026-09-12.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 75,
@@ -18,7 +18,7 @@
   },
   {
    "date": "2026-09-14",
-   "file": "2026-09-14.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -31,7 +31,7 @@
   },
   {
    "date": "2026-09-15",
-   "file": "2026-09-15.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -44,7 +44,7 @@
   },
   {
    "date": "2026-09-16",
-   "file": "2026-09-16.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -57,7 +57,7 @@
   },
   {
    "date": "2026-09-17",
-   "file": "2026-09-17.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -70,7 +70,7 @@
   },
   {
    "date": "2026-09-18",
-   "file": "2026-09-18.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -83,7 +83,7 @@
   },
   {
    "date": "2026-09-19",
-   "file": "2026-09-19.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -96,7 +96,7 @@
   },
   {
    "date": "2026-09-20",
-   "file": "2026-09-20.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -109,7 +109,7 @@
   },
   {
    "date": "2026-09-21",
-   "file": "2026-09-21.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -122,7 +122,7 @@
   },
   {
    "date": "2026-09-22",
-   "file": "2026-09-22.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -135,7 +135,7 @@
   },
   {
    "date": "2026-09-23",
-   "file": "2026-09-23.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -148,7 +148,7 @@
   },
   {
    "date": "2026-09-26",
-   "file": "2026-09-26.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -161,7 +161,7 @@
   },
   {
    "date": "2026-09-27",
-   "file": "2026-09-27.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -174,7 +174,7 @@
   },
   {
    "date": "2026-09-28",
-   "file": "2026-09-28.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -187,7 +187,7 @@
   },
   {
    "date": "2026-09-29",
-   "file": "2026-09-29.json",
+   "file": "2026-09.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -200,7 +200,20 @@
   },
   {
    "date": "2026-09-30",
-   "file": "2026-09-30.json",
+   "file": "2026-09.json",
+   "groupCount": 3,
+   "counts": {
+    "questions": 36,
+    "knowledge": 18,
+    "skills": 15,
+    "pitfalls": 15,
+    "exam": 30,
+    "github": 40
+   }
+  },
+  {
+   "date": "2026-10-01",
+   "file": "2026-10-01.json",
    "groupCount": 3,
    "counts": {
     "questions": 36,
@@ -212,13 +225,13 @@
    }
   }
  ],
- "dayCount": 16,
+ "dayCount": 17,
  "totalCounts": {
-  "questions": 615,
-  "knowledge": 308,
-  "skills": 241,
-  "pitfalls": 242,
-  "exam": 492,
-  "github": 640
+  "questions": 651,
+  "knowledge": 326,
+  "skills": 256,
+  "pitfalls": 257,
+  "exam": 522,
+  "github": 680
  }
 }
