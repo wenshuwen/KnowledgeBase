@@ -3,8 +3,8 @@ title: 自动化测试分层架构与Fixture作用域
 type: concept
 domain: 自动化测试
 created: 2026-09-10
-updated: 2026-09-10
-sources: [raw/legacy/笔记/04-自动化测试/Web与API自动化测试概览.md]
+updated: 2026-10-05
+sources: [raw/legacy/笔记/04-自动化测试/Web与API自动化测试概览.md, raw/notes/2026-10-05 移动端App自动化闭环方案会话要点.md]
 tags: [automation-testing, interview, framework, best-practice]
 confidence: high
 status: active
@@ -58,6 +58,7 @@ interview:
 ## 与其他领域的关系
 - API 自动化里最麻烦的一块是**鉴权态的处理**（登录一次拿到 Token，在多个用例间复用还是每次重登），见 [[接口鉴权机制-Token与Cookie与Session]]
 - 依赖没就绪时需要桩服务，见 [[Mock接口桩的设计模式]]
+- **移动端的四层是另一套**：驱动层 → 定位/页面对象层 → 流程编排层 → 断言与证据层。它多出一个 Web/API 端没有的维度——**事件注入走哪条通道**（无障碍 / 调试注入），这个通道选择直接决定方案可行性，见 [[移动端App自动化的三条技术路线]]；移动端的"用例层"对应的是**闭环阶段**，划分方式见 [[移动端自动化闭环的七阶段]]
 
 ## 相关
 - [[接口鉴权机制-Token与Cookie与Session]]
