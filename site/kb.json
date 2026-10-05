@@ -1,23 +1,23 @@
 {
- "contentHash": "3867ed47",
- "version": "kb-2026.09.28-3867ed47",
- "updatedAt": "2026-09-28",
- "generatedAt": "2026-09-28T21:13:07",
- "summary": "知识库共 29 条，覆盖 7 个分类",
+ "contentHash": "3560e6cf",
+ "version": "kb-2026.10.05-3560e6cf",
+ "updatedAt": "2026-10-05",
+ "generatedAt": "2026-10-05T17:43:26",
+ "summary": "知识库共 33 条，覆盖 7 个分类",
  "stats": {
-  "total": 29,
+  "total": 33,
   "byCat": {
    "theory": 2,
    "api-testing": 7,
    "performance-testing": 2,
-   "automation-testing": 1,
+   "automation-testing": 5,
    "security-testing": 9,
    "ai-agent-testing": 3,
    "database-linux": 5
   },
   "byKind": {
-   "knowledge": 18,
-   "skill": 6,
+   "knowledge": 21,
+   "skill": 7,
    "question": 5
   }
  },
@@ -40,7 +40,7 @@
   {
    "cat": "automation-testing",
    "label": "自动化测试",
-   "count": 1
+   "count": 5
   },
   {
    "cat": "security-testing",
@@ -91,7 +91,7 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-09-28",
+    "updated": "2026-10-05",
     "confidence": "high",
     "tags": [
      "interview",
@@ -101,11 +101,15 @@
      "Agent任务成功率的分层口径",
      "Agent工具调用测试",
      "Harness工程",
+     "WebDriverAgent",
      "假阴性漏测的六大来源",
      "安全测试的分层策略与手段组合",
+     "移动端App自动化的三条技术路线",
+     "移动端自动化稳定性的六层验证",
+     "移动端自动化闭环的七阶段",
      "限流与防刷机制的测试"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域 3 页、测试理论 2 页、安全域 9 页，最近 2026-09-28）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（AI 域 3 页、测试理论 2 页、安全域 9 页、<strong>自动化域 4 页</strong>，最近 2026-10-05）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -337,6 +341,103 @@
     "source_path": "wiki/30-性能测试/性能瓶颈的分层模型.md"
    },
    {
+    "id": "wiki/90-实体/WebDriverAgent",
+    "title": "WebDriverAgent",
+    "cat": "automation-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "实体",
+    "updated": "2026-10-05",
+    "confidence": "medium",
+    "tags": [
+     "automation-testing",
+     "interview",
+     "tooling"
+    ],
+    "links": [
+     "移动端App自动化的三条技术路线",
+     "移动端自动化闭环的七阶段"
+    ],
+    "body": "<table>\n<thead>\n<tr>\n<th>项</th>\n<th>内容</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>定位</td>\n<td>iOS 侧自动化的<strong>唯一入口</strong>：它把 Apple 的 XCTest/XCUIApplication 能力包成 HTTP 服务，供 Appium 等客户端驱动</td>\n</tr>\n<tr>\n<td>类型</td>\n<td>框架 / 设备端代理程序（一个 XCUITest target）</td>\n</tr>\n<tr>\n<td>官方地址</td>\n<td><code>https://github.com/appium/WebDriverAgent</code>（Appium 维护的上游分支；另有各厂商分叉）</td>\n</tr>\n<tr>\n<td>当前使用版本</td>\n<td>未建立（本页为方案推演阶段的知识整理，尚未实施）</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_1\">我为什么关注它</h2>\n<p>因为 iOS 自动化的<strong>绝大多数失败都不是脚本写错</strong>，而是落在 WDA 这一层：\n签名过期、证书未信任、会话崩溃后拉不起来。理解这一层，才知道哪些失败是\"再试一次能好\"、\n哪些是\"必须有人做点什么\"。</p>\n<h2 id=\"_2\">关键能力</h2>\n<ul>\n<li><strong>把 XCUITest 变成 HTTP 服务</strong>：客户端（Appium 等）通过 HTTP 发指令，WDA 在设备上调用 Apple 的 UI 自动化 API。Appium 在 iOS 上不是另一套引擎，而是 XCUITest 外面套了一层。</li>\n<li><strong>可脱离 Mac、但不可脱离主机</strong>：在 Mac 上构建安装一次之后，设备可以交给 Windows / Linux 上的 Agent 使用。脱离的是 <strong>Mac</strong>，不是主机。</li>\n<li><strong>支持预装与外部托管</strong>：Appium 的 XCUITest 驱动提供 <code>usePreinstalledWDA</code>（设备已预装）与 <code>webDriverAgentUrl</code>（外部已运行）两种模式。非 macOS 主机<strong>必须</strong>走这两种之一，因为非 macOS 上无法用 xcodebuild 构建 WDA。</li>\n</ul>\n<h2 id=\"_3\">踩过的坑</h2>\n<blockquote>\n<p>⚠️ 待验证：以下三条来自公开文档与社区资料的一致描述，<strong>本机未实际验证</strong>。</p>\n</blockquote>\n<ul>\n<li><strong>签名有效期</strong>：免费 Apple ID 签出的 WDA 构建 <strong>7 天过期</strong>，届时需重新签名并重新信任；且最多签 3 台设备。付费开发者账号（99 美元/年）解除这两个限制。</li>\n<li><strong>首次必须人工信任</strong>：设备上要在「设置 → 通用 → VPN 与设备管理」里信任开发者证书，否则会话起不来。</li>\n<li><strong>无人值守的死穴</strong>：WDA 会话会崩溃或过期，重启机制只在<strong>设备无锁屏密码</strong>时能生效；有密码时会停在锁屏页面等人解锁。所以无人值守机型通常要去掉密码（代价是失去 Face ID / Apple Pay 等）。</li>\n</ul>\n<h2 id=\"_4\">上手最小示例</h2>\n<pre><code class=\"language-bash\"># 用 Mac 把 WDA 构建到设备（Sonic 部署文档给出的形式）\nxcodebuild -project &lt;WebDriverAgent.xcodeproj 路径&gt; \\\n  -scheme WebDriverAgentRunner \\\n  -destination 'id=&lt;设备 UDID&gt;' test\n</code></pre>\n<pre><code class=\"language-yaml\"># 设备已预装 WDA 时，Appium 侧的连接方式（非 macOS 主机的唯一路径）\nplatformName: ios\nappium:automationName: xcuitest\nappium:platformVersion: &quot;&lt;版本&gt;&quot;\nappium:udid: &quot;&lt;设备 UDID&gt;&quot;\nappium:usePreinstalledWDA: true\n</code></pre>\n<blockquote>\n<p>以上为可跑通形态的<strong>结构示意</strong>，版本号、Bundle ID 后缀等取值需按实际环境确认，属<strong>待人工复核</strong>内容。</p>\n</blockquote>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n</ul>",
+    "source_path": "wiki/90-实体/WebDriverAgent.md"
+   },
+   {
+    "id": "wiki/20-自动化测试/移动端App自动化的三条技术路线",
+    "title": "移动端App自动化的三条技术路线",
+    "cat": "automation-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "自动化测试",
+    "updated": "2026-10-05",
+    "confidence": "medium",
+    "tags": [
+     "automation-testing",
+     "interview",
+     "tooling"
+    ],
+    "links": [
+     "WebDriverAgent",
+     "移动端自动化稳定性的六层验证",
+     "移动端自动化闭环的七阶段",
+     "自动化测试分层架构与Fixture作用域",
+     "限流与防刷机制的测试"
+    ],
+    "body": "<h1 id=\"app\">移动端 App 自动化的三条技术路线</h1>\n<h2 id=\"_1\">结论</h2>\n<p>移动端自动化不是「选一个框架」的问题，而是<strong>先选驱动躺在哪里</strong>。按驱动位置只有三条路线：\nPC 侧驱动、设备内驻留、云真机托管。三者的差别不在 API 好不好用，而在\n<strong>能不能脱离主机长期跑</strong>——这一个维度就直接把可选项砍掉一半。</p>\n<p>三条路线的可达上限并不对等：</p>\n<table>\n<thead>\n<tr>\n<th>路线</th>\n<th>Android</th>\n<th>iOS</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>PC 侧驱动</td>\n<td>✅</td>\n<td>✅（WDA 必须先用 Mac 签名构建一次）</td>\n</tr>\n<tr>\n<td><strong>设备内驻留</strong></td>\n<td>✅ 可打包 APK 脱离主机</td>\n<td>❌ 非越狱下不成立</td>\n</tr>\n<tr>\n<td>云真机托管</td>\n<td>✅</td>\n<td>✅</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p><strong>iOS 侧的硬边界</strong>：非越狱 iOS 下，一个 App 无法操作另一个 App 的 UI——这是沙箱的设计前提。\n现成方案的实质是「Mac 构建一次 WDA + 主机持续发指令」。Sonic 文档只说「构建成功后可以脱离\n<strong>Mac</strong>」，脱离的是 Mac，不是主机。</p>\n<p>出处：Sonic 部署文档（iOS device access）、Mobilerun iOS 指南、Appium XCUITest 驱动\nSystem Requirements——三处对「WDA 必须由 macOS 构建」以及「免费 Apple ID 签名 7 天过期、\n最多 3 台设备；付费开发者账号解限」的描述一致。</p>\n</blockquote>\n<h2 id=\"_2\">对比表</h2>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>PC 侧驱动</th>\n<th>设备内驻留</th>\n<th>云真机托管</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>代表实现</td>\n<td>adb + uiautomator2；Appium 2/3（UiAutomator2 / XCUITest 驱动）</td>\n<td>AutoJs6 / AutoX.js；自研 AccessibilityService App</td>\n<td>机架 + ATX / WDA，远程调度</td>\n</tr>\n<tr>\n<td>驱动位置</td>\n<td>主机进程 → 设备端服务</td>\n<td>完全在设备内</td>\n<td>厂商机房</td>\n</tr>\n<tr>\n<td>能否脱离主机常驻</td>\n<td>❌</td>\n<td>✅（Android）</td>\n<td>❌（但主机在厂商侧）</td>\n</tr>\n<tr>\n<td>事件注入通道</td>\n<td>无障碍 / 调试注入</td>\n<td>无障碍</td>\n<td>无障碍 / 调试注入</td>\n</tr>\n<tr>\n<td>首次构建成本</td>\n<td>低（插线即用）</td>\n<td>中（要打包签名）</td>\n<td>低（托管）</td>\n</tr>\n<tr>\n<td>长期运维成本</td>\n<td>主机必须在线、设备固定</td>\n<td>要对抗厂商省电策略</td>\n<td>成本、网络延迟、数据合规</td>\n</tr>\n<tr>\n<td>多机并发</td>\n<td>要自己搭调度</td>\n<td>天然分散</td>\n<td>开箱即用</td>\n</tr>\n<tr>\n<td>主要风险</td>\n<td>主机故障即全线停</td>\n<td>保活失败、无障碍被检测</td>\n<td>数据出域</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">各自的适用场景</h2>\n<ul>\n<li><strong>PC 侧驱动</strong>适合：进 CI 做回归、需要看 UI 层级调试、双端要一套代码。这是<strong>唯一一套代码跑双端</strong>的路线（Appium 的价值就在这里）。</li>\n<li><strong>设备内驻留</strong>适合：要长期无人值守、要脱离电脑、只覆盖 Android。<strong>这是 Android 上唯一能真正做到\"装完就走\"的路线。</strong></li>\n<li><strong>云真机托管</strong>适合：机型矩阵覆盖、大规模并发、团队没有设备运维能力。</li>\n</ul>\n<h2 id=\"_4\">我的实际选择</h2>\n<p>尚未实施。本篇结论来自方案推演，<strong>没有在任何设备上跑过</strong>，因此 <code>confidence: medium</code>。\n选定路线并跑通后，本节回填真实结论（选了哪条、哪里和预期不符）。</p>\n<h2 id=\"_5\">反例与陷阱</h2>\n<ul>\n<li><strong>把「图像识别」当成第三条事件通道</strong>：图像识别只是\"找目标\"的方法，找到之后仍要落到\n  无障碍或调试注入通道之一。用它绕开无障碍检测是<strong>做不到</strong>的。</li>\n<li><strong>把「离线」当成一个词</strong>：设备本地跑、主机常驻调度、云真机托管是三档不同的目标，\n  混在一起谈会得出互相矛盾的结论。</li>\n<li><strong>只看框架能力，不看签名/证书期限</strong>：iOS 侧的失败通常不是脚本写错，而是签名过期或\n  会话中断后无法自动拉起。</li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n<li><span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n</ul>",
+    "source_path": "wiki/20-自动化测试/移动端App自动化的三条技术路线.md"
+   },
+   {
+    "id": "wiki/20-自动化测试/移动端自动化稳定性的六层验证",
+    "title": "移动端自动化稳定性的六层验证",
+    "cat": "automation-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "自动化测试",
+    "updated": "2026-10-05",
+    "confidence": "medium",
+    "tags": [
+     "automation-testing",
+     "interview",
+     "checklist",
+     "metric"
+    ],
+    "links": [
+     "Agent任务成功率的分层口径",
+     "假阴性漏测的六大来源",
+     "移动端App自动化的三条技术路线",
+     "移动端自动化闭环的七阶段"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p><strong>「跑一次通过」不叫稳定。</strong> 稳定性要一级一级加压力来证明：从单动作能不能重复执行，\n一直到异常注入后脚本能不能自愈。跳过中间层级直接宣称稳定，等于什么都没证明。</p>\n<h2 id=\"_2\">展开</h2>\n<table>\n<thead>\n<tr>\n<th>层级</th>\n<th>要回答的问题</th>\n<th>通过标准</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>L1 单动作验证</strong></td>\n<td>定位器与单步动作能不能重复稳定执行？</td>\n<td>同一动作连续 N 次结果一致</td>\n</tr>\n<tr>\n<td><strong>L2 单流程冒烟</strong></td>\n<td>最短主路径能不能一次跑通？</td>\n<td>串联逻辑无断点，无人工干预</td>\n</tr>\n<tr>\n<td><strong>L3 全链路端到端</strong></td>\n<td>完整闭环 + 终态断言，结果真的一致吗？</td>\n<td>终态业务断言通过，不只是界面到位</td>\n</tr>\n<tr>\n<td><strong>L4 长稳运行</strong></td>\n<td>连续 N 小时 / M 轮之后还稳吗？</td>\n<td>成功率与耗时无累积漂移</td>\n</tr>\n<tr>\n<td><strong>L5 异常注入</strong></td>\n<td>断网、杀进程、弹窗、来电、切后台、低电之后能自愈吗？</td>\n<td>自动恢复成功率达到预设线</td>\n</tr>\n<tr>\n<td><strong>L6 覆盖度核对</strong></td>\n<td>主要路径真的都覆盖了吗？</td>\n<td>无空白格，缺口显式列出</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"l4\">L4 要看的六个指标口径</h3>\n<table>\n<thead>\n<tr>\n<th>指标</th>\n<th>定义</th>\n<th>为什么要单列</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>全链路成功率</td>\n<td>成功轮次 / 总轮次</td>\n<td><strong>必须区分业务失败与脚本失败</strong>，混在一起算等于没算</td>\n</tr>\n<tr>\n<td>无故障连续轮次</td>\n<td>中途不人工干预的最长连续成功轮次</td>\n<td>比成功率更能暴露累积性漂移（页面栈、内存、登录态）</td>\n</tr>\n<tr>\n<td>假失败率（flaky）</td>\n<td>同一用例重跑结果不一致的比例</td>\n<td>这个数高说明<strong>等待策略</strong>有问题，不是被测对象有问题</td>\n</tr>\n<tr>\n<td>单步 P95 耗时</td>\n<td>每个动作从发起到确认的耗时分布</td>\n<td>只看均值会漏掉卡顿型问题</td>\n</tr>\n<tr>\n<td>自动恢复成功率</td>\n<td>异常注入后脚本能自愈的比例</td>\n<td>直接决定要不要人守着</td>\n</tr>\n<tr>\n<td>定位漂移率</td>\n<td>元素定位失败次数 / 总定位次数</td>\n<td>版本迭代后<strong>第一个恶化</strong>的指标，是回归预警</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"l6\">L6 覆盖度怎么证明</h3>\n<ol>\n<li><strong>建页面-状态图</strong>：每个页面指纹 = 一个节点，每个动作 = 一条边。<strong>先画图再写脚本</strong>，不是写完脚本再补文档。</li>\n<li><strong>做需求↔步骤映射矩阵</strong>：每条业务需求 → 对应脚本步骤号 → 对应断言点。缺口在矩阵里是空白格，必须显式列出而不是等别人发现。</li>\n<li><strong>三方交叉验证</strong>：脚本日志 vs App 埋点/服务端日志 vs 录屏抽检。<strong>三者对不上，就是脚本在骗你</strong>——最典型的形态是脚本一路绿、服务端根本没收到请求。</li>\n</ol>\n<h2 id=\"_3\">落地到测试动作</h2>\n<h3 id=\"_4\">阈值怎么定</h3>\n<table>\n<thead>\n<tr>\n<th>环节</th>\n<th>口径与依据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>依据/假设</strong></td>\n<td>指标定义与分级来自本页方法论推演；具体数值<strong>没有在任何真实环境跑过</strong>，属于量级建议。</td>\n</tr>\n<tr>\n<td><strong>建议值</strong></td>\n<td>就绪等待超时 <strong>3–10 秒区间</strong>；界面快照一致次数 <strong>2 次</strong>；单步重试上限 K <strong>2 次</strong>；L4 长稳先跑 <strong>2 小时 × 20 轮</strong>作基线再逐步延长。<strong>以上全部需实测确认。</strong></td>\n</tr>\n<tr>\n<td><strong>待复核</strong></td>\n<td>① 四个数值都是口径建议而非实测结论；② 长稳时长与业务周期强相关，无通用值；③ 自动恢复成功率的合格线取决于被测对象的关键程度，需按业务定。</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"_5\">判断脚本质量的三个反常识点</h3>\n<ul>\n<li><strong>成功率漂亮但假失败率高</strong> → 优先修等待策略，不要先怀疑被测对象。</li>\n<li><strong>L1 不过就直接搭闭环</strong> → 后面所有层级都会在\"定位失败\"上反复翻车，且无法区分是谁的问题。</li>\n<li><strong>不做 L5 就上生产定时任务</strong> → 一次弹窗就能让整晚的任务空跑。</li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n</ul>",
+    "source_path": "wiki/20-自动化测试/移动端自动化稳定性的六层验证.md"
+   },
+   {
+    "id": "wiki/20-自动化测试/移动端自动化闭环的七阶段",
+    "title": "移动端自动化闭环的七阶段",
+    "cat": "automation-testing",
+    "kind": "skill",
+    "level": "高级",
+    "question": "",
+    "domain": "自动化测试",
+    "updated": "2026-10-05",
+    "confidence": "medium",
+    "tags": [
+     "automation-testing",
+     "interview",
+     "best-practice"
+    ],
+    "links": [
+     "WebDriverAgent",
+     "假阴性漏测的六大来源",
+     "移动端App自动化的三条技术路线",
+     "移动端自动化稳定性的六层验证",
+     "自动化测试分层架构与Fixture作用域"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>把「点击 → 跳转 → 返回」串成闭环，真正决定它能不能长期稳定跑的<strong>不是点击动作本身</strong>，\n而是每个阶段后面跟着的两行：<strong>校验点</strong>（怎么知道这一步真的成功了）和\n<strong>失败处理</strong>（失败了往哪退）。缺任一行，都不算闭环。</p>\n<h2 id=\"_2\">展开</h2>\n<pre><code class=\"language-text\">前置检查 → 冷启动 → 就绪判定 → 单步动作 → 跳转与返回 → 异常分支 → 收尾与证据\n             ↑                                                    ↓\n             └──────────── 失败时从最近稳定锚点重入 ←──────────────┘\n</code></pre>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>校验点</th>\n<th>失败处理</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1 前置检查</td>\n<td>设备在线、App 已安装、账号已登录、网络可达、系统时间已同步</td>\n<td>任一项不满足即中止告警，<strong>不消耗重试次数</strong></td>\n</tr>\n<tr>\n<td>2 冷启动</td>\n<td>强杀进程后冷启，确认包名与入口 Activity 正确，记录启动耗时</td>\n<td>重启设备或清应用缓存后重试一次</td>\n</tr>\n<tr>\n<td>3 就绪判定</td>\n<td>关键锚点元素出现，<strong>且界面快照连续两次一致</strong>，才开始动作</td>\n<td>超时即抓截图与 UI 层级树，判为「页面未就绪」</td>\n</tr>\n<tr>\n<td>4 单步动作</td>\n<td>定位 → 可见可点判定 → 点击/输入 → 结果校验，四步齐全才算成功</td>\n<td>定位失败先降级到备选定位器，再降级到图像识别</td>\n</tr>\n<tr>\n<td>5 跳转与返回</td>\n<td>用<strong>页面指纹</strong>（包名 + 关键控件集合）确认到达，返回后再次校验指纹</td>\n<td>指纹不符判为栈错乱，退回最近稳定锚点重建页面栈</td>\n</tr>\n<tr>\n<td>6 异常分支</td>\n<td>弹窗、版本升级、登录失效、网络超时、崩溃各有独立处理器</td>\n<td>识别后关闭或恢复，从最近锚点重入，最多重试 K 次</td>\n</tr>\n<tr>\n<td>7 收尾与证据</td>\n<td>终态断言 + 业务数据校验，落盘截图、UI 树、日志与关键耗时</td>\n<td>失败自动重跑一次，用于区分偶发失败与必现缺陷</td>\n</tr>\n</tbody>\n</table>\n<p><strong>为什么第 3 阶段要「连续两次一致」</strong>：单次快照一致只是\"这一刻长这样\"，页面还在渲染时\n也会满足。连续两次一致才能排除\"正在渲染中\"这个最常见的假就绪状态。</p>\n<p><strong>为什么第 5 阶段必须重校指纹</strong>：返回是最容易静默出错的动作——它可能回到的不是你以为的\n那一页。不校验就会带着错误的起点继续往下跑，一路绿灯、结果全错。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<p>支撑这七个阶段稳定重入的，是五条工程约定——<strong>它们比选哪套框架重要得多</strong>：</p>\n<ol>\n<li><strong>不写死 <code>sleep</code></strong>：改成「锚点元素出现 <strong>且</strong> 界面快照连续两次一致」才动作。固定等待是假失败的最大来源。</li>\n<li><strong>定位优先级固定</strong>：<code>resource-id</code> / <code>accessibilityIdentifier</code> &gt; 文本 &gt; XPath &gt; 图像/OCR 兜底。每层都要有明确的兜底路径，不能只有一条。</li>\n<li><strong>每步都要\"到达确认\"</strong>：动作后必须有一次页面指纹或业务断言。不确认等于放弃判断权。</li>\n<li><strong>返回用系统 back，不盲点坐标</strong>：每次返回后重新校验指纹。坐标点击在分辨率/刘海/字体变化时全线失效。</li>\n<li><strong>步骤幂等 + 从最近锚点重入</strong>：重试有上限 K，超限即判定\"必现失败\"并留存证据，<strong>绝不无限重试</strong>。</li>\n</ol>\n<h3 id=\"_4\">支撑闭环的依赖条件</h3>\n<table>\n<thead>\n<tr>\n<th>层面</th>\n<th>Android 路线</th>\n<th>iOS 路线</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>主机</td>\n<td>任意系统 + adb（设备内驻留路线不需要）</td>\n<td><strong>必须 macOS + Xcode</strong> 完成首次构建</td>\n</tr>\n<tr>\n<td>设备侧开关</td>\n<td>开发者选项 + USB 调试；设备内驻留另需无障碍权限</td>\n<td>开发者模式 + 信任证书 + 关闭自动锁屏（无人值守需去密码）</td>\n</tr>\n<tr>\n<td>账号/签名</td>\n<td>无</td>\n<td>免费 Apple ID：7 天过期、最多 3 台；付费账号解限</td>\n</tr>\n<tr>\n<td>驱动组件</td>\n<td>设备端 uiautomator2 服务，或 Appium UiAutomator2 驱动</td>\n<td><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span> 预装到设备</td>\n</tr>\n<tr>\n<td>应用侧配合</td>\n<td>稳定的 <code>testID</code>、可绕过的验证码/风控、干净且可清理的测试数据</td>\n<td>同左 + 稳定的 <code>accessibilityIdentifier</code></td>\n</tr>\n<tr>\n<td>常驻与运维</td>\n<td>前台服务 + 忽略电池优化；主机侧用 launchd / systemd / 计划任务守护</td>\n<td>只能靠 WDA 会话守护，会话崩溃后若无去密码则需人工介入</td>\n</tr>\n</tbody>\n</table>\n<p><strong>对人的能力要求</strong>：Python 或 JS 熟练；会看 UI 层级树、会写 XPath；懂前台服务与进程守护；\n会读日志、会做截图与 UI 树归档；能调图像识别/OCR 的参数。这四项里，「会写点击」是最容易的一环。</p>\n<h3 id=\"_5\">常见误用</h3>\n<ul>\n<li><strong>用固定 <code>sleep</code> 代替就绪判定</strong>：本机跑通、机器一换就全线失败，且失败点看起来毫无规律。</li>\n<li><strong>只做动作不做断言</strong>：脚本全程绿色，业务结果其实是错的。这类问题的性质与 <span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span> 同源。</li>\n<li><strong>把重试当成万能药</strong>：没有上限的重试会把\"必现缺陷\"淹成\"偶发失败\"，最终没人信这份报告。</li>\n<li><strong>忽略前置检查</strong>：把账号未登录、网络不可达这类环境问题算成脚本失败，污染成功率口径。</li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n</ul>",
+    "source_path": "wiki/20-自动化测试/移动端自动化闭环的七阶段.md"
+   },
+   {
     "id": "wiki/20-自动化测试/自动化测试分层架构与Fixture作用域",
     "title": "自动化测试分层架构与Fixture作用域",
     "cat": "automation-testing",
@@ -344,7 +445,7 @@
     "level": "高级",
     "question": "",
     "domain": "自动化测试",
-    "updated": "2026-09-10",
+    "updated": "2026-10-05",
     "confidence": "high",
     "tags": [
      "automation-testing",
@@ -355,9 +456,11 @@
     "links": [
      "Mock接口桩的设计模式",
      "接口鉴权机制-Token与Cookie与Session",
+     "移动端App自动化的三条技术路线",
+     "移动端自动化闭环的七阶段",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"fixture\">自动化测试分层架构与 Fixture 作用域</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>框架设计的两个核心决策：<strong>代码怎么分层</strong>（改动影响面）和 <strong>fixture 作用域怎么定</strong>（性能与隔离的平衡）。这两件事定了，框架就定了。</p>\n<h2 id=\"_2\">技术栈组合</h2>\n<ul>\n<li><strong>Web 自动化</strong>：Pytest + Playwright + Excel（数据驱动）+ Allure（报告）+ PO 模式 + 关键字驱动</li>\n<li><strong>API 自动化</strong>：Pytest + Requests + YAML/Excel（数据驱动）+ Allure</li>\n</ul>\n<h2 id=\"_3\">四层架构</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>职责</th>\n<th>关键约束</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Base 层</strong></td>\n<td>封装底层驱动方法（点击、输入、发请求）</td>\n<td>只做原子操作，不含业务</td>\n</tr>\n<tr>\n<td><strong>Page / API 层</strong></td>\n<td>对应具体页面元素或接口定义</td>\n<td>元素定位、接口路径只在这里出现</td>\n</tr>\n<tr>\n<td><strong>Case 层</strong></td>\n<td>纯业务逻辑的测试用例</td>\n<td><strong>不含任何实现细节</strong>——这是分层是否成功的判据</td>\n</tr>\n<tr>\n<td><strong>Data 层</strong></td>\n<td>测试数据与代码分离（YAML/JSON/Excel）</td>\n<td>同一用例换数据即可复用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>PO 模式的本质是依赖注入</strong>：把 Playwright 的 Page 对象注入到页面对象里，让页面对象持有操作入口。这样 Case 层只调业务方法，不碰定位器——UI 改版时只改 Page 层。</p>\n<h2 id=\"fixture_1\">Fixture 作用域：性能与隔离的平衡点</h2>\n<p>这是最容易被写错、也最能体现设计水平的一处：</p>\n<table>\n<thead>\n<tr>\n<th>Fixture</th>\n<th>作用域</th>\n<th>为什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Browser</strong></td>\n<td><code>session</code></td>\n<td>启动 Chromium/Firefox 进程要<strong>几秒</strong>。几百个用例只启动 1 次</td>\n</tr>\n<tr>\n<td><strong>Page</strong></td>\n<td><code>function</code></td>\n<td>新建无痕上下文 + 页面只要<strong>毫秒级</strong>。每个用例一个全新、无 Cookie、无缓存的页面</td>\n</tr>\n</tbody>\n</table>\n<p><strong>收益</strong>：性能上省掉几百次进程启动，隔离上保证 A 用例的登录状态绝不会污染 B 用例。</p>\n<p><strong>反过来做会怎样</strong>：把 Browser 设成 function，测试套件慢到不可接受；把 Page 设成 session，用例之间互相污染，偶发失败（flaky）开始出现且极难定位。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<ul>\n<li><strong>判断分层是否合格</strong>：随便改一个页面的元素定位，如果只改了一个文件就够，分层是对的</li>\n<li><strong>判断 fixture 是否合理</strong>：跑一次全量，如果耗时集中在 setup 阶段，多半是重资源 fixture 的作用域写小了</li>\n<li><strong>数据驱动的边界</strong>：适合参数组合多的接口用例；不适合流程强依赖、步骤间有状态传递的场景</li>\n</ul>\n<h2 id=\"_5\">与其他领域的关系</h2>\n<ul>\n<li>API 自动化里最麻烦的一块是<strong>鉴权态的处理</strong>（登录一次拿到 Token，在多个用例间复用还是每次重登），见 <span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li>依赖没就绪时需要桩服务，见 <span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"fixture\">自动化测试分层架构与 Fixture 作用域</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>框架设计的两个核心决策：<strong>代码怎么分层</strong>（改动影响面）和 <strong>fixture 作用域怎么定</strong>（性能与隔离的平衡）。这两件事定了，框架就定了。</p>\n<h2 id=\"_2\">技术栈组合</h2>\n<ul>\n<li><strong>Web 自动化</strong>：Pytest + Playwright + Excel（数据驱动）+ Allure（报告）+ PO 模式 + 关键字驱动</li>\n<li><strong>API 自动化</strong>：Pytest + Requests + YAML/Excel（数据驱动）+ Allure</li>\n</ul>\n<h2 id=\"_3\">四层架构</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>职责</th>\n<th>关键约束</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Base 层</strong></td>\n<td>封装底层驱动方法（点击、输入、发请求）</td>\n<td>只做原子操作，不含业务</td>\n</tr>\n<tr>\n<td><strong>Page / API 层</strong></td>\n<td>对应具体页面元素或接口定义</td>\n<td>元素定位、接口路径只在这里出现</td>\n</tr>\n<tr>\n<td><strong>Case 层</strong></td>\n<td>纯业务逻辑的测试用例</td>\n<td><strong>不含任何实现细节</strong>——这是分层是否成功的判据</td>\n</tr>\n<tr>\n<td><strong>Data 层</strong></td>\n<td>测试数据与代码分离（YAML/JSON/Excel）</td>\n<td>同一用例换数据即可复用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>PO 模式的本质是依赖注入</strong>：把 Playwright 的 Page 对象注入到页面对象里，让页面对象持有操作入口。这样 Case 层只调业务方法，不碰定位器——UI 改版时只改 Page 层。</p>\n<h2 id=\"fixture_1\">Fixture 作用域：性能与隔离的平衡点</h2>\n<p>这是最容易被写错、也最能体现设计水平的一处：</p>\n<table>\n<thead>\n<tr>\n<th>Fixture</th>\n<th>作用域</th>\n<th>为什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Browser</strong></td>\n<td><code>session</code></td>\n<td>启动 Chromium/Firefox 进程要<strong>几秒</strong>。几百个用例只启动 1 次</td>\n</tr>\n<tr>\n<td><strong>Page</strong></td>\n<td><code>function</code></td>\n<td>新建无痕上下文 + 页面只要<strong>毫秒级</strong>。每个用例一个全新、无 Cookie、无缓存的页面</td>\n</tr>\n</tbody>\n</table>\n<p><strong>收益</strong>：性能上省掉几百次进程启动，隔离上保证 A 用例的登录状态绝不会污染 B 用例。</p>\n<p><strong>反过来做会怎样</strong>：把 Browser 设成 function，测试套件慢到不可接受；把 Page 设成 session，用例之间互相污染，偶发失败（flaky）开始出现且极难定位。</p>\n<h2 id=\"_4\">测试视角的落点</h2>\n<ul>\n<li><strong>判断分层是否合格</strong>：随便改一个页面的元素定位，如果只改了一个文件就够，分层是对的</li>\n<li><strong>判断 fixture 是否合理</strong>：跑一次全量，如果耗时集中在 setup 阶段，多半是重资源 fixture 的作用域写小了</li>\n<li><strong>数据驱动的边界</strong>：适合参数组合多的接口用例；不适合流程强依赖、步骤间有状态传递的场景</li>\n</ul>\n<h2 id=\"_5\">与其他领域的关系</h2>\n<ul>\n<li>API 自动化里最麻烦的一块是<strong>鉴权态的处理</strong>（登录一次拿到 Token，在多个用例间复用还是每次重登），见 <span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li>依赖没就绪时需要桩服务，见 <span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><strong>移动端的四层是另一套</strong>：驱动层 → 定位/页面对象层 → 流程编排层 → 断言与证据层。它多出一个 Web/API 端没有的维度——<strong>事件注入走哪条通道</strong>（无障碍 / 调试注入），这个通道选择直接决定方案可行性，见 <span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span>；移动端的\"用例层\"对应的是<strong>闭环阶段</strong>，划分方式见 <span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/20-自动化测试/自动化测试分层架构与Fixture作用域.md"
    },
    {
@@ -569,7 +672,7 @@
     "level": "高级",
     "question": "限流与防刷怎么测？只测「超过阈值返回 429」够不够？",
     "domain": "安全测试",
-    "updated": "2026-09-28",
+    "updated": "2026-10-05",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -579,10 +682,11 @@
     "links": [
      "Web安全测试地图",
      "性能瓶颈的分层模型",
+     "移动端App自动化的三条技术路线",
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>只验证「超过阈值返回 429」是典型的测了表面、没测机制——核心是验证<strong>拦得准不准、兜得住兜不住、被绕过时损失有多大</strong>，共五个层次。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>层次一：阈值准确性。</strong> 打到第 N 次、第 N+1 次看是否被拦，并额外验三件事：</p>\n<ul>\n<li><strong>计数窗口边界</strong>：固定窗口在切换瞬间可能放过 2 倍请求，滑动窗口不会——重要验证点；</li>\n<li><strong>计数维度</strong>：按用户 / 按 IP / 按接口 / 按用户+接口组合，配置了哪个维度就验哪个；</li>\n<li><strong>限流粒度优先级</strong>：单接口限流与全局限流同时命中时哪条先生效。</li>\n</ul>\n<p><strong>层次二：绕过尝试（最有安全价值）。</strong> 攻击者不会老老实实从一个 IP 一个账号发请求：</p>\n<ul>\n<li><strong>换 IP</strong>：只按 IP 限流 + 代理池即可绕过 → 高危发现；</li>\n<li><strong>换用户标识 / 不带登录态</strong>：未登录路径的限流最常被漏；</li>\n<li><strong>伪造头部</strong>：系统若信任客户端传的 <code>X-Forwarded-For</code>，攻击者可随便伪造 IP 绕过——非常经典的高危缺陷，必测；</li>\n<li><strong>换入口</strong>：同一业务能力有 H5 / APP / 小程序 / 开放接口 / 内部接口多个入口，往往只在主入口做了限流。</li>\n</ul>\n<p><strong>层次三：降级与体验。</strong> 正确行为是 429 + <code>Retry-After</code> 头 + 明确文案，而不是 500 或静默失败；还必须验<strong>正常用户会不会被误伤</strong>——按 IP 限流时同一出口 IP 下的公司/学校用户会互相拖累，这是上线后投诉的主要来源。</p>\n<p><strong>层次四：高并发下的准确性（真正难点）。</strong> 用 200 并发同时打，实际通过数是否接近阈值？远超阈值说明计数器有竞态（如 Redis get-then-set 非原子）——隐蔽但很常见。同时验<strong>限流器自己不能成为瓶颈或单点</strong>：它挂了应降级为放行而非阻断。这层已跨入性能域，排查思路见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>。</p>\n<p><strong>层次五：防刷的业务侧兜底（必测）。</strong></p>\n<ul>\n<li><strong>短信/验证码接口</strong>（被刷直接资损）：有效期、一次性使用、同号/同 IP 频率、图形验证码触发策略；</li>\n<li><strong>登录接口</strong>：失败锁定、锁定后能否改大小写/加空格绕过、<strong>锁定机制能否被用来恶意锁定他人账号（拒绝服务）</strong>；</li>\n<li><strong>下单/领券</strong>：并发下超卖或超领（并发+限流交叉场景，必须单独测）；</li>\n<li><strong>接口枚举</strong>：遍历 ID 能否批量获取数据（绕过手法同 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>）。</li>\n</ul>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>工具选择：JMeter / k6 / Locust 做精确计数与并发验证，<strong>k6 的 constant-arrival-rate 执行器最适合「严格每秒 N 次」</strong>；Burp Intruder 做绕过试探；</li>\n<li>压测执行纪律：<strong>先小并发验证脚本与计数口径，再逐步加压</strong>；</li>\n<li>验收标准一句话：<strong>拦住攻击者的同时不误伤正常用户，并且被绕过时有第二道防线</strong>。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>只验证「超过阈值返回 429」是典型的测了表面、没测机制——核心是验证<strong>拦得准不准、兜得住兜不住、被绕过时损失有多大</strong>，共五个层次。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>层次一：阈值准确性。</strong> 打到第 N 次、第 N+1 次看是否被拦，并额外验三件事：</p>\n<ul>\n<li><strong>计数窗口边界</strong>：固定窗口在切换瞬间可能放过 2 倍请求，滑动窗口不会——重要验证点；</li>\n<li><strong>计数维度</strong>：按用户 / 按 IP / 按接口 / 按用户+接口组合，配置了哪个维度就验哪个；</li>\n<li><strong>限流粒度优先级</strong>：单接口限流与全局限流同时命中时哪条先生效。</li>\n</ul>\n<p><strong>层次二：绕过尝试（最有安全价值）。</strong> 攻击者不会老老实实从一个 IP 一个账号发请求：</p>\n<ul>\n<li><strong>换 IP</strong>：只按 IP 限流 + 代理池即可绕过 → 高危发现；</li>\n<li><strong>换用户标识 / 不带登录态</strong>：未登录路径的限流最常被漏；</li>\n<li><strong>伪造头部</strong>：系统若信任客户端传的 <code>X-Forwarded-For</code>，攻击者可随便伪造 IP 绕过——非常经典的高危缺陷，必测；</li>\n<li><strong>换入口</strong>：同一业务能力有 H5 / APP / 小程序 / 开放接口 / 内部接口多个入口，往往只在主入口做了限流。</li>\n</ul>\n<p><strong>层次三：降级与体验。</strong> 正确行为是 429 + <code>Retry-After</code> 头 + 明确文案，而不是 500 或静默失败；还必须验<strong>正常用户会不会被误伤</strong>——按 IP 限流时同一出口 IP 下的公司/学校用户会互相拖累，这是上线后投诉的主要来源。</p>\n<p><strong>层次四：高并发下的准确性（真正难点）。</strong> 用 200 并发同时打，实际通过数是否接近阈值？远超阈值说明计数器有竞态（如 Redis get-then-set 非原子）——隐蔽但很常见。同时验<strong>限流器自己不能成为瓶颈或单点</strong>：它挂了应降级为放行而非阻断。这层已跨入性能域，排查思路见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>。</p>\n<p><strong>层次五：防刷的业务侧兜底（必测）。</strong></p>\n<ul>\n<li><strong>短信/验证码接口</strong>（被刷直接资损）：有效期、一次性使用、同号/同 IP 频率、图形验证码触发策略；</li>\n<li><strong>登录接口</strong>：失败锁定、锁定后能否改大小写/加空格绕过、<strong>锁定机制能否被用来恶意锁定他人账号（拒绝服务）</strong>；</li>\n<li><strong>下单/领券</strong>：并发下超卖或超领（并发+限流交叉场景，必须单独测）；</li>\n<li><strong>接口枚举</strong>：遍历 ID 能否批量获取数据（绕过手法同 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>）。</li>\n</ul>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>工具选择：JMeter / k6 / Locust 做精确计数与并发验证，<strong>k6 的 constant-arrival-rate 执行器最适合「严格每秒 N 次」</strong>；Burp Intruder 做绕过试探；</li>\n<li>压测执行纪律：<strong>先小并发验证脚本与计数口径，再逐步加压</strong>；</li>\n<li>验收标准一句话：<strong>拦住攻击者的同时不误伤正常用户，并且被绕过时有第二道防线</strong>。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span> —— <strong>客户端侧</strong>的同一场对抗：服务端在这里判\"请求像不像机器\"，App 端判\"操作来没来自无障碍/调试通道\"，两者读的信号不同但目的一致</li>\n</ul>\n<blockquote>\n<p>更新：2026-10-05 相关段补入移动端自动化一条（客户端对抗视角），sources 追加本次会话要点。</p>\n</blockquote>",
     "source_path": "wiki/45-安全测试/限流与防刷机制的测试.md"
    },
    {
