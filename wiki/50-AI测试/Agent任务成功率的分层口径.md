@@ -3,8 +3,8 @@ title: Agent任务成功率的分层口径
 type: concept
 domain: AI测试
 created: 2026-09-21
-updated: 2026-09-21
-sources: [raw/interview/2026-09-21.md]
+updated: 2026-10-12
+sources: [raw/interview/2026-09-21.md, raw/interview/2026-10-07.md]
 tags: [ai-testing, interview, metric, best-practice]
 confidence: high
 status: active
@@ -42,6 +42,10 @@ interview:
 
 与 [[Agent工具调用测试]] 的衔接：过程级正确性正是其「四层测试法」中①②层的判定结果；「编造的成功」对应其异常处理层的「诚实性」检查——两者是同一套 trace 在「判定口径」与「测试方法」两个视角的展开。
 
+**为什么「跑多次、报比例」不是权宜之计**：随机性有三个来源（采样参数、上下文变化、上游模型版本），都不在测试的控制面上。来源与对策的系统展开见 [[大模型输出的非确定性与断言分层]]——参数与模型版本不固定，成功率这个数字本身也不可比。
+
+> 更新：2026-10-12 补入「比例判定」口径的来源页链接；sources 追加 `raw/interview/2026-10-07.md`。
+
 ## 落地到测试动作
 
 - 评测脚本按四层分别出数：任务成功率对外、归因分布对内、效率成本做容量与选型依据；
@@ -52,4 +56,5 @@ interview:
 ## 相关
 - [[Agent工具调用测试]]
 - [[Harness工程]]
+- [[大模型输出的非确定性与断言分层]]
 - [[面试助手题库索引]]
