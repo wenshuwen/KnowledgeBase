@@ -3,8 +3,8 @@ title: 接口鉴权机制-Token与Cookie与Session
 type: concept
 domain: 接口测试
 created: 2026-09-10
-updated: 2026-09-10
-sources: [raw/legacy/笔记/01-测试理论/Token与Cookie与Session.md]
+updated: 2026-10-19
+sources: [raw/legacy/笔记/01-测试理论/Token与Cookie与Session.md, raw/interview/2026-10-18.md]
 tags: [api-testing, interview, checklist]
 confidence: high
 status: active
@@ -58,11 +58,28 @@ HTTP 是无状态的，服务端要靠这三样东西"记住"你是谁。**它�
 - **Token 体系** → 必测**签名篡改**（改 payload 后签名是否失效）、算法混淆（`alg: none`）、过期策略、刷新令牌竞态
 - **通用** → 无凭证访问、改他人凭证、凭证在最外层被剥离后接口是否仍然放行
 
+## JWT 的五个实现缺陷（2026-10-19 补）
+
+> 更新：2026-10-19 源自 `raw/interview/2026-10-18.md`——上文把「签名篡改、alg 混淆、过期策略」压在一行里，这里展开成可逐条造用例的清单。
+
+| # | 缺陷 | 攻击形态 | 必测动作 |
+|---|---|---|---|
+| 1 | **alg 混淆** | header 的 `alg` 改成 `none`；或 RS256 换成 HS256，用公钥当 HMAC 密钥自签 | 改 `alg` 后重放，必须被拒；服务端要固定期望算法，不信任客户端声明 |
+| 2 | **密钥弱** | HS256 短密钥可离线爆破，爆开即可伪造任意身份 | 与开发确认密钥长度与来源（是否硬编码、是否随环境不同） |
+| 3 | **无法主动失效** | 签发后在到期前一直有效：改密码、封号、退出登录后旧 token 仍可用 | 退出登录/改密码后立刻用旧 token 请求，必须失效 |
+| 4 | **payload 明文** | 仅 base64 编码，任何人可解开；放了手机号、身份证、内部角色标识就等于泄露 | 解 payload，检查是否含个人信息与内部标识 |
+| 5 | **过期与签发者校验缺失** | 不校验 `exp` / `nbf` / `iss` / `aud`，token 可跨系统串用 | 造过期 token、改 `iss` 后重放 |
+
+**工程解法**：短 access token（15~30 分钟）+ 可吊销的 refresh token（服务端存储），或维护 `jti` 黑名单。测试视角的关键判断是——**「登出后旧 token 还能用」不是配置问题，是设计缺陷**，报缺陷时按安全缺陷定级，不按功能 bug。
+
+与 [[越权访问与IDOR]] 的衔接：JWT 的 `role` / `tenantId` 声明一旦被信任而不回查，改 payload 就成了垂直越权的最短路径；判定口径仍是「返回的数据是否属于当前身份」。
+
 ## 相关
 - [[接口测试知识地图]]
 - [[HTTP协议要点与状态码]]
 - [[HTTP与HTTPS的核心差异]]
 - [[CSRF跨站请求伪造测试]]
 - [[Web安全测试地图]]
+- [[越权访问与IDOR]]
 - [[自动化测试分层架构与Fixture作用域]]
 - [[面试助手题库索引]]
