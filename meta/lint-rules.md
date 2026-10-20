@@ -15,6 +15,7 @@
 | A7 | **死链**：`[[链接]]` 指向不存在的页面 | 链接名不在全库文件名集合中 | 修正链接名，或补建目标页；**代码块内的示例写法要排除** |
 | A8 | **问答沉淀索引页命名错误** | `wiki/76-问答沉淀/` 下的索引页被命名为 `index.md` | 改名为 `问答沉淀索引.md`，并修正全库对它的引用。`build_kb.py` 的 `SKIP_FILENAMES`（`{index.md, log.md}`）会**静默跳过**它，导致该目录所有条目在站点上变成点不通的孤页 |
 | A9 | **两套 cat 词汇混用** | wiki 页 frontmatter 的 `interview.cat` 写成归档**短键**（`api`/`perf`/`auto`/`sec`/`ai`/`llm`/`agent`/`aitools`/`env`/`db`/`scene`/`devops`/`soft`/`python`/`theory`，唯一定义在 `site/tools/archive.py` 的 `SITE_CATS`） | 按 WIKI-SCHEMA §8.2 的映射表改回**长键**（`api-testing`…）。反向也要查：归档条目误用长键 → 交每日任务修，不在本任务直接改归档 |
+| A10 | **归档 `scenes` 形态退化** | 扫 `site/archive/*.json`（含月包的 `days` 字典），`groups[].skills[].scenes[]` 元素为**纯字符串**，或对象缺 `b` / `b` 短于 20 字 | 归档契约是 `[{"t": 场景名, "b": 具体示例说明}]`；字符串形态会让前端卡片只剩标题（2026-10-20 用户报障的根因）。`archive.py validate` **只查字段存在性、查不出形态漂移**，必须按此条单独扫。处理：**不在 lint 里批量改写**（要重写内容），列出退化日期与条数，交每日任务按「`b` 落到输入/操作 → 期望结果或判断标准」补齐 |
 
 ## B. 内容类（必须人工确认）
 
@@ -56,5 +57,21 @@
 
 - 默认每周一次（见自动化任务）
 - **A7 死链与孤页已做进构建脚本**（`build_kb.py`），每次构建都会报，不必等每周体检；死链会导致构建退出码为 1
+- **A10 `scenes` 形态**不在构建脚本里，每周体检必扫；每日任务若改动了归档，也应在写完后顺手扫一遍（见下）
+  ```python
+  # 期望输出「仍缺说明 0 条」；非 0 说明该日包 scenes 退化成纯字符串，卡片会只剩标题
+  import json, glob
+  tot = bad = 0
+  for f in glob.glob("site/archive/*.json"):
+      d = json.load(open(f))
+      packs = d if isinstance(d, list) else (list(d["days"].values()) if isinstance(d.get("days"), dict) else [d])
+      for p in packs:
+          for g in (p.get("groups") or []):
+              for s in (g.get("skills") or []):
+                  for x in (s.get("scenes") or []):
+                      tot += 1
+                      if isinstance(x, str) or not x.get("b"): bad += 1
+  print(f"场景 {tot} 条，仍缺说明 {bad} 条")
+  ```
 - 单次 ingest 超过 10 个源后，建议手动补跑一次
 - 连续两周无新增内容时，报告以「数据缺口 + 建议投喂主题」为主，避免空转
