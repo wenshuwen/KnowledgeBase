@@ -1624,9 +1624,14 @@ function openSkillDetailObj(s, dateStr){
     </div>
     <div class="sd-sec">
       <div class="sd-sec-title">🎯 应用示例场景</div>
-      ${(s.scenes||[]).map(sc=>`
-        <div class="sd-scene"><b>${esc(sc.t)}</b><div>${sc.b}</div></div>
-      `).join("")}
+      ${(s.scenes||[]).map(sc=>{
+        /* scenes 历史上存在两种形态：纯字符串（场景名）与 {t,b}（场景名+说明）。
+           两种都要渲染，否则字符串条目会取到 undefined。 */
+        const o = (typeof sc === "string") ? {t: sc, b: ""} : (sc || {});
+        const t = o.t || "", b = o.b || "";
+        if(!t && !b) return "";
+        return `<div class="sd-scene">${t?`<b>${esc(t)}</b>`:""}${b?`<div>${b}</div>`:""}</div>`;
+      }).join("")}
     </div>
     <div class="sd-sec">
       <div class="sd-sec-title">🧠 核心知识点</div>
