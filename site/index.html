@@ -269,6 +269,8 @@
   }
   .chip:hover{border-color:#cfd3ea;color:var(--text)}
   .chip.active{background:var(--primary-soft);border-color:transparent;color:var(--primary)}
+  .chip .chip-num{font-size:11px;font-weight:700;opacity:.6;margin-left:5px}
+  .chip.active .chip-num{opacity:.8}
 
   /* ---------- Cards ---------- */
   /* 注意 minmax(0,1fr) 不能简写成 1fr：1fr 等价于 minmax(auto,1fr)，其中 auto 下限
@@ -280,9 +282,39 @@
     background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
     padding:20px;box-shadow:var(--shadow);transition:box-shadow .18s ease,transform .18s ease;
     min-width:0;max-width:100%;
+    position:relative;
   }
   .card:hover{box-shadow:0 2px 4px rgba(30,34,60,.05),0 16px 34px -16px rgba(30,34,60,.18)}
   .card-header{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 12px;margin-bottom:10px}
+
+  /* ---------- 收藏星标 ---------- */
+  /* 五个模块的卡片首行结构各不相同（.card-header / .skill-top / .exam-q-cat），
+     绝对定位是唯一不需要逐类改结构就能把星标统一钉在右上角的做法。
+     已核实卡片内部没有其它绝对定位子元素，给 .card 加 position:relative 无副作用。
+     首行右侧留出 34px：.kp-title 是 flex:1 1 auto、.skill-name 也吃剩余宽度，
+     不留白会被星标压住标题尾部。 */
+  .card-header,.skill-top,.exam-q-cat{padding-right:34px}
+  .fav-btn{
+    position:absolute;top:10px;right:10px;width:30px;height:30px;padding:0;
+    display:grid;place-items:center;border:none;border-radius:9px;background:transparent;
+    color:#b3b9cf;font-size:17px;line-height:1;cursor:pointer;z-index:2;
+    transition:color .15s ease,background .15s ease,transform .12s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .fav-btn:hover{background:#f5f4ff;color:#f0a020}
+  .fav-btn:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+  .fav-btn.on{color:#f59e0b}
+  .fav-btn.on:hover{background:#fffaeb;color:#d97706}
+  .fav-btn:active{transform:scale(.88)}
+  .tab-badge{
+    min-width:18px;height:18px;padding:0 5px;border-radius:9px;
+    display:inline-grid;place-items:center;font-size:11px;font-weight:700;line-height:1;
+    background:var(--primary-soft);color:var(--primary);
+  }
+  .tab.active .tab-badge{background:var(--primary);color:#fff}
+  /* 必须显式写：UA 的 [hidden]{display:none} 打不过上面的 display:inline-grid，
+     否则计数为 0 时徽标仍会露出一个「0」。 */
+  .tab-badge[hidden]{display:none}
   .tag{
     font-size:11.5px;font-weight:700;border-radius:7px;padding:3px 9px;flex:none;
     letter-spacing:.3px;
@@ -626,6 +658,8 @@
     .tab.active::after{left:9px;right:9px}
     .card{padding:15px}
     .exam-card{padding:18px}
+    .fav-btn{top:7px;right:7px;width:27px;height:27px;font-size:16px}
+    .card-header,.skill-top,.exam-q-cat{padding-right:30px}
     /* 移动端内容卡片紧凑化 + 防溢出 */
     .grid{gap:12px}
     .card-header{gap:6px 9px;margin-bottom:8px}
@@ -742,6 +776,7 @@
       <button class="tab" data-tab="kb" id="tabBtnKb" style="display:none">📚 知识库</button>
       <button class="tab" data-tab="github" id="tabBtnGithub">🐙 GitHub 热点</button>
       <button class="tab" data-tab="review">🔍 知识回顾</button>
+      <button class="tab" data-tab="fav">⭐ 收藏夹<span class="tab-badge" id="favBadge" hidden>0</span></button>
     </nav>
   </div>
 </header>
@@ -857,6 +892,16 @@
       <button class="btn btn-ghost" id="btnClearSearch">清除</button>
     </div>
     <div id="reviewResult"></div>
+  </section>
+
+  <!-- 收藏夹（纯本地：收藏时存条目快照，不依赖归档网络；渲染复用 moduleCard） -->
+  <section id="tab-fav">
+    <div class="section-head">
+      <h2>收藏夹</h2>
+      <p id="favSummary">按来源模块自动分类归档；点击卡片右上角的 ★ 可取消收藏。</p>
+    </div>
+    <div class="chips" id="favChips"></div>
+    <div id="favList"></div>
   </section>
 </main>
 
@@ -1482,7 +1527,7 @@ function renderQuestions(filter){
     return;
   }
   $("#qList").innerHTML = list.map(q=>`
-    <div class="card">
+    <div class="card">${favBtn("q", q, state.date)}
       <div class="card-header">${catTag(q.cat)}</div>
       <div class="q-title">${esc(q.q)}</div>
       <div class="q-answer">${q.a}</div>
@@ -1500,7 +1545,7 @@ function renderKnowledge(filter){
     return;
   }
   $("#kList").innerHTML = list.map(k=>`
-    <div class="card">
+    <div class="card">${favBtn("k", k, state.date)}
       <div class="card-header">${catTag(k.cat)}<span class="kp-title" style="margin:0">${esc(k.t)}</span></div>
       <div class="kp-body">${k.body}</div>
     </div>
@@ -1515,7 +1560,7 @@ function renderSkills(){
   }
   /* data-skill-idx 是「组内下标」——详情弹窗据此回查当前组，而不是全量列表 */
   $("#skillList").innerHTML = list.map((s,i)=>`
-    <div class="card skill-card" data-skill-idx="${i}">
+    <div class="card skill-card" data-skill-idx="${i}">${favBtn("s", s, state.date)}
       <div class="skill-top"><div class="skill-emoji">${s.e||"🧰"}</div><div class="skill-name">${esc(s.t)}</div></div>
       <div class="skill-desc">${esc(s.d)}</div>
       <div class="skill-tools">${(s.tools||[]).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
@@ -1662,7 +1707,7 @@ function renderPitfalls(){
     return;
   }
   $("#pitList").innerHTML = pool.map((p,i)=>`
-    <div class="card">
+    <div class="card">${favBtn("p", p, state.date)}
       <div class="card-header"><span class="pit-num">${i+1}</span><span class="pit-title">${esc(p.t)}</span></div>
       <div class="pit-desc">${esc(p.d)}</div>
       <div class="pit-tip"><b>破解：</b>${esc(p.tip)}</div>
@@ -1698,7 +1743,7 @@ function renderExam(){
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="count">${s.idx+1} / ${total}</div>
     </div>
-    <div class="card exam-card">
+    <div class="card exam-card">${favBtn("e", q, state.date)}
       <div class="exam-q-cat">${catTag(q.cat)}</div>
       <div class="exam-q">${esc(q.q)}</div>
       <div class="opts">
@@ -1770,10 +1815,21 @@ function switchTab(tab){
     }catch(e){ nav.scrollLeft = Math.max(0, activeBtn.offsetLeft - 40); }
   }
   if(tab==="exam" && !examState) startExam();
+  if(tab==="fav"){ safe(()=>{ renderFav(); }); }
 }
 $$("#tabs .tab").forEach(t=>t.addEventListener("click", ()=>switchTab(t.dataset.tab)));
 
 document.addEventListener("click", e=>{
+  /* 收藏星标必须放在最前面：技能卡片的星标在 [data-skill-idx] 容器内部，
+     不先拦下来，同一次点击会继续冒泡成「打开技能详情」。
+     return 而不是 break —— 这里要终止整条委托链的后续分支。 */
+  const favBtnEl = e.target.closest("[data-fav-id]");
+  if(favBtnEl){
+    e.preventDefault();
+    e.stopPropagation();
+    handleFavClick(favBtnEl);
+    return;
+  }
   // 技能卡片：打开详情弹窗（组内下标 → 回查当前组）
   const skillCard = e.target.closest("[data-skill-idx]");
   if(skillCard){
@@ -1808,6 +1864,7 @@ document.addEventListener("click", e=>{
     if(wrap.id==="qChips") renderQuestions(cat);
     if(wrap.id==="kChips") renderKnowledge(cat);
     if(wrap.id==="kbChips") renderKb(cat);
+    if(wrap.id==="favChips"){ favFilter = cat; renderFav(); }
   }
   const close = e.target.closest("[data-close]");
   if(close){ const m=document.getElementById(close.dataset.close); if(m) m.classList.remove("show"); }
@@ -1839,6 +1896,8 @@ function rebuildChips(){
 }
 
 function rerenderAll(){
+  /* 整页换了一批条目（换日期/换组），旧的 id→原文映射不再代表页面内容 */
+  FAV_POOL.clear();
   safe(()=>{ rebuildChips(); });
   safe(()=>{ renderDaily(); });
   safe(()=>{ renderQuestions(activeCat("#qChips")); });   // 保持当前筛选
@@ -1847,6 +1906,10 @@ function rerenderAll(){
   safe(()=>{ renderPitfalls(); });
   safe(()=>{ renderGithub(); });
   safe(()=>{ renderKb(activeCat("#kbChips")); });
+  /* 收藏夹卡片是本地快照，内容不随日期变；但 FAV_POOL 刚被清空，
+     必须重渲染一次把 id→原文映射补回来，否则在收藏夹里点星会提示「信息已失效」。 */
+  safe(()=>{ renderFav(); });
+  safe(()=>{ syncFavBadge(); });
   // 模拟考试：作废当前作答进度，若正停在考试页就用新组重新出题
   safe(()=>{
     examState = null;
@@ -2004,6 +2067,264 @@ function stripHtml(html){
   const out = key.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
   if(stripCache.size < 4000) stripCache.set(key, out);
   return out;
+}
+
+/* =====================================================================
+ *  收藏夹：条目快照 + 本地存档
+ *
+ *  为什么存「内容快照」而不是只存引用：
+ *    1) 五个模块的条目都没有 id 字段（归档只有 cat/q/a 这类业务字段），
+ *       只存引用就得每次打开收藏夹去 archive 里反查，前端没有全量索引、
+ *       只能逐文件扫，且必然依赖网络；
+ *    2) 归档是不可变历史，快照不会随日期切换而失效，收藏夹可离线秒开。
+ *
+ *  主键：模块键 + 内容哈希。已核实全历史 3836 条条目主文本无重复，
+ *  用内容做键不会把两条不同内容并成一条；也不会因归档重跑而漂移
+ *  （用「日期+组+下标」做键则重跑必错位）。
+ * ===================================================================== */
+const FAV_KEY = "ia_favorites_v1";                 // 与 LS 同前缀，独立常量避免动 LS 结构
+const FAV_MAX = 500;                               // 约 0.5MB，远低于 localStorage 常见配额
+const FAV = { loaded:false, writable:true, map:new Map(), set:new Set() };
+/* id -> {m, d, it}。点击星标时只能拿到 id，需要原文才能写快照；
+   把整段 HTML 塞进 data 属性既撑大 DOM 又难转义，所以用这张表回查。 */
+const FAV_POOL = new Map();
+
+/* 收藏夹的五个来源模块。刻意不复用 REVIEW_MODULES：后者的 name 供
+   「知识回顾」分节使用（e 叫「选择题」），文案口径不同，共用数组会让
+   两个页面互相牵着走；色值保持一致即可。 */
+const FAV_MODULES = [
+  { key:"q", name:"面试题库", color:"#7c3aed", soft:"#f5f3ff" },
+  { key:"k", name:"知识点",   color:"#10b981", soft:"#ecfdf5" },
+  { key:"e", name:"模拟考试", color:"#0284c7", soft:"#f0f9ff" },
+  { key:"s", name:"测试技能", color:"#f59e0b", soft:"#fffbeb" },
+  { key:"p", name:"面试坑点", color:"#ef4444", soft:"#fef2f2" }
+];
+
+/* FNV-1a 32 位：同步、无依赖、够快。碰撞概率按 3836 条量级约 1.7e-3，
+   真撞了也只是两条同名内容共用一次收藏，不会丢内容。 */
+function fnv1a(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h + ((h<<1)+(h<<4)+(h<<7)+(h<<8)+(h<<24))) >>> 0;
+  }
+  return ("0000000" + h.toString(16)).slice(-8);
+}
+/* 主文本字段：题目类取题干 q，其余取标题 t */
+function favText(m, it){
+  const raw = (m === "q" || m === "e") ? (it && it.q) : (it && it.t);
+  return stripHtml(raw || "").replace(/\s+/g, " ").trim();
+}
+function favId(m, it){
+  const k = favText(m, it);
+  return k ? (m + ":" + fnv1a(k)) : "";
+}
+
+function loadFav(){
+  FAV.loaded = true;
+  FAV.map = new Map(); FAV.set = new Set();
+  try{
+    const probe = "__ia_fav_probe__";
+    window.localStorage.setItem(probe, "1");
+    window.localStorage.removeItem(probe);
+    FAV.writable = true;
+  }catch(e){ FAV.writable = false; }
+  let raw = "";
+  try{ raw = store.get(FAV_KEY, ""); }catch(e){ raw = ""; }
+  if(!raw) return;
+  try{
+    const obj = JSON.parse(raw);
+    const items = (obj && obj.items) || {};
+    Object.keys(items).forEach(function(id){
+      const rec = items[id];
+      if(!rec || !rec.m || !rec.it) return;
+      FAV.map.set(id, rec); FAV.set.add(id);
+    });
+  }catch(e){ /* 结构损坏就按空收藏夹显示，但不清空存储，避免把用户数据洗掉 */ }
+}
+
+/* 写入并回读校验：store.set 内部会吞掉 QuotaExceededError（降级写内存），
+   所以必须回读比对，才能区分「真落盘」与「只进了本次会话的内存」。 */
+function saveFav(){
+  const items = {};
+  FAV.map.forEach(function(v,k){ items[k] = v; });
+  const payload = JSON.stringify({ v:1, items:items });
+  try{ store.set(FAV_KEY, payload); }catch(e){ return false; }
+  try{ return store.get(FAV_KEY, "") === payload; }catch(e){ return false; }
+}
+
+function toggleFav(m, d, it){
+  const id = favId(m, it);
+  if(!id) return { ok:false, reason:"empty" };
+  if(FAV.set.has(id)){
+    const old = FAV.map.get(id);
+    FAV.map.delete(id); FAV.set.delete(id);
+    if(!saveFav()){ FAV.map.set(id, old); FAV.set.add(id); return { ok:false, reason:"write" }; }
+    return { ok:true, on:false, id:id };
+  }
+  if(FAV.map.size >= FAV_MAX) return { ok:false, reason:"full" };
+  const rec = { m:m, d:d || "", ts:Date.now(), it:it };
+  FAV.map.set(id, rec); FAV.set.add(id);
+  if(!saveFav()){ FAV.map.delete(id); FAV.set.delete(id); return { ok:false, reason:"write" }; }
+  return { ok:true, on:true, id:id };
+}
+
+/* 卡片右上角的星标。渲染时顺手把条目原文登记进 FAV_POOL。 */
+function favBtn(m, it, d){
+  const id = favId(m, it);
+  if(!id) return "";
+  FAV_POOL.set(id, { m:m, d:d || "", it:it });
+  const on = FAV.set.has(id);
+  const label = on ? "取消收藏" : "收藏";
+  return '<button type="button" class="fav-btn' + (on ? " on" : "") + '"'
+    + ' data-fav-id="' + esc(id) + '" aria-pressed="' + (on ? "true" : "false") + '"'
+    + ' aria-label="' + label + '" title="' + label + '">★</button>';
+}
+
+function syncFavBadge(){
+  const badge = document.getElementById("favBadge");
+  if(!badge) return;
+  const n = FAV.map.size;
+  badge.textContent = n > 99 ? "99+" : String(n);
+  badge.hidden = (n === 0);
+}
+
+/* 同一条内容可能在页面上出现多次（模块页 / 知识回顾各渲染一份），
+   状态切换按 id 全量同步，不依赖被点的那一个按钮。 */
+function syncFavBtns(id, on){
+  const list = document.querySelectorAll('[data-fav-id="' + id + '"]');
+  for(let i=0;i<list.length;i++){
+    const b = list[i];
+    b.classList.toggle("on", !!on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    const label = on ? "取消收藏" : "收藏";
+    b.setAttribute("title", label);
+    b.setAttribute("aria-label", label);
+  }
+}
+
+function handleFavClick(btn){
+  const id = btn.dataset.favId;
+  const pool = FAV_POOL.get(id);
+  if(!pool){ toast("这条内容的收藏信息已失效，刷新页面后再试"); return; }
+  const r = toggleFav(pool.m, pool.d, pool.it);
+  if(!r.ok){
+    if(r.reason === "full") toast("收藏夹已满（上限 " + FAV_MAX + " 条），先取消一些再收藏");
+    else toast("保存失败：当前环境不支持本地存储，或空间已满");
+    return;
+  }
+  syncFavBtns(id, r.on);
+  syncFavBadge();
+  toast(r.on ? "★ 已加入收藏夹" : "已取消收藏");
+  /* 在收藏夹里取消 → 卡片应当立即消失。整块重渲染最简单可靠，
+     代价是滚动位置会跳，所以先记下再还原。 */
+  const favSec = document.getElementById("tab-fav");
+  if(!r.on && favSec && favSec.classList.contains("active")){
+    const y = window.pageYOffset || 0;
+    renderFav();
+    try{ window.scrollTo(0, y); }catch(e){}
+  }
+}
+
+/* 收藏夹视图：纯本地渲染，不发请求。
+   分节与卡片全部复用知识回顾那套（secHead / moduleCard），
+   不为收藏夹再写一份卡片样式与字段口径。 */
+/* 收藏夹的分类检索标签。
+ *
+ *  分类口径直接取条目自带的 cat（面试题库 / 知识点 / 测试技能 / 模拟考试
+ *  四类都有该字段，取值恰好覆盖 CAT_DICT 全部 15 个键）。
+ *  **坑点是唯一例外**：497 条历史坑点全部没有 cat 字段，只能给一个兜底键，
+ *  否则这部分收藏在任何分类标签下都会消失。
+ *
+ *  标签只列「当前收藏里真实存在」的分类，不把 15 个分类全铺出来：
+ *  收藏夹通常十几条，全列会有大半点了是空页，比不列更糟。
+ *  顺序固定按 CAT_DICT，不随收藏先后跳动。
+ */
+const FAV_NOCAT = "__nocat";
+let favFilter = "all";                              /* "all" | 分类键 | FAV_NOCAT */
+
+function favCatOf(rec){
+  const c = (rec && rec.it && rec.it.cat) ? rec.it.cat : "";
+  return c || FAV_NOCAT;
+}
+function favCatLabel(k){
+  if(k === FAV_NOCAT) return "面试坑点";            /* 坑点无分类字段，用模块名兜底 */
+  return CAT_LABEL[k] || k;
+}
+
+function renderFavChips(){
+  const box = document.getElementById("favChips");
+  if(!box) return;
+  const counts = new Map();
+  FAV.map.forEach(function(rec){
+    const c = favCatOf(rec);
+    counts.set(c, (counts.get(c) || 0) + 1);
+  });
+  if(!counts.size){ box.innerHTML = ""; return; }
+  /* 选中的分类若已不存在（刚取消掉最后一条），回落到「全部」 */
+  if(favFilter !== "all" && !counts.has(favFilter)) favFilter = "all";
+
+  const order = Object.keys(CAT_DICT).filter(function(k){ return counts.has(k); });
+  if(counts.has(FAV_NOCAT)) order.push(FAV_NOCAT);
+
+  const html = ['<button class="chip' + (favFilter === "all" ? " active" : "")
+    + '" data-cat="all">全部<span class="chip-num">' + FAV.map.size + '</span></button>'];
+  order.forEach(function(k){
+    html.push('<button class="chip' + (favFilter === k ? " active" : "") + '" data-cat="' + k + '">'
+      + esc(favCatLabel(k)) + '<span class="chip-num">' + counts.get(k) + '</span></button>');
+  });
+  box.innerHTML = html.join("");
+}
+
+/* 收藏夹视图：纯本地渲染，不发请求。
+   分节与卡片全部复用知识回顾那套（secHead / moduleCard），
+   不为收藏夹再写一份卡片样式与字段口径。 */
+function renderFav(){
+  const box = document.getElementById("favList");
+  if(!box) return;
+  renderFavChips();
+  const sum = document.getElementById("favSummary");
+  const total = FAV.map.size;
+  if(!total){
+    if(sum) sum.textContent = "按来源模块自动分类归档；点击卡片右上角的 ★ 可取消收藏。";
+    box.innerHTML = emptyBlock("⭐", "还没有收藏。在面试题库、知识点、模拟考试、测试技能、面试坑点里，点卡片右上角的 ★ 即可收藏到这里。");
+    return;
+  }
+
+  const rowsAll = [];
+  FAV.map.forEach(function(rec, id){
+    if(favFilter !== "all" && favCatOf(rec) !== favFilter) return;
+    rowsAll.push({ id:id, rec:rec });
+  });
+
+  if(sum){
+    sum.textContent = (favFilter === "all")
+      ? ("共收藏 " + total + " 条，按来源模块自动分类；点击卡片右上角的 ★ 可取消收藏。")
+      : ("共收藏 " + total + " 条，分类「" + favCatLabel(favFilter) + "」下 " + rowsAll.length
+         + " 条；点击卡片右上角的 ★ 可取消收藏。");
+  }
+  if(!rowsAll.length){
+    box.innerHTML = emptyBlock("🔍", "该分类下暂无收藏内容，换个标签看看。");
+    return;
+  }
+
+  let html = "";
+  if(!FAV.writable){
+    html += '<div style="background:#fff7e6;border:1px solid #f6d99a;color:#8a5a00;'
+      + 'font-size:12.5px;line-height:1.6;border-radius:10px;padding:10px 14px;margin-bottom:14px">'
+      + '当前浏览器不支持本地持久化（隐私模式或内置浏览器限制），这次收藏只在本次打开期间有效。</div>';
+  }
+  reviewSkillRefs = [];               /* moduleCard("s") 依赖它生成 data-skill-ref，必须先重置 */
+  FAV_MODULES.forEach(function(def){
+    const rows = rowsAll.filter(function(o){ return o.rec.m === def.key; });
+    if(!rows.length) return;
+    rows.sort(function(a,b){ return (b.rec.ts || 0) - (a.rec.ts || 0); });   /* 最近收藏在前 */
+    html += secHead(def.name, def.color, def.soft, rows.length);
+    html += rows.map(function(o){
+      return moduleCard(def.key, { it:o.rec.it, date:o.rec.d || "" }, !!o.rec.d);
+    }).join("");
+  });
+  box.innerHTML = html;
 }
 
 const DAY_SECTION_LIMIT = 6;                      // 每节默认展开的条数（其余折叠）
@@ -2410,28 +2731,28 @@ function moduleCard(key, entry, withDate){
   const it = entry.it, date = entry.date;
   const d = withDate ? dTag(date) : "";
   if(key === "q"){
-    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${d}</div>`
+    return `<div class="card" style="margin-bottom:12px">${favBtn("q", it, date)}<div class="card-header">${catTag(it.cat)}${d}</div>`
       + `<div class="q-title">${esc(it.q)}</div><div class="q-answer">${it.a}</div></div>`;
   }
   if(key === "k"){
-    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}`
+    return `<div class="card" style="margin-bottom:12px">${favBtn("k", it, date)}<div class="card-header">${catTag(it.cat)}`
       + `<span class="kp-title" style="margin:0">${esc(it.t)}</span>${d}</div><div class="kp-body">${it.body}</div></div>`;
   }
   if(key === "s"){
     const ref = reviewSkillRefs.push({s:it, date:date}) - 1;
-    return `<div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}">`
+    return `<div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}">${favBtn("s", it, date)}`
       + `<div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${esc(it.t)}</div>${d}</div>`
       + `<div class="skill-desc">${esc(it.d)}</div>`
       + `<div class="skill-tools">${(it.tools||[]).map(x=>`<span class="tool-pill">${esc(x)}</span>`).join("")}</div>`
       + `<div class="skill-more">查看详情 →</div></div>`;
   }
   if(key === "p"){
-    return `<div class="card" style="margin-bottom:12px"><div class="card-header"><span class="pit-num">!</span>`
+    return `<div class="card" style="margin-bottom:12px">${favBtn("p", it, date)}<div class="card-header"><span class="pit-num">!</span>`
       + `<span class="pit-title">${esc(it.t)}</span>${d}</div><div class="pit-desc">${esc(it.d)}</div>`
       + `<div class="pit-tip"><b>破解：</b>${esc(it.tip)}</div></div>`;
   }
   if(key === "e"){
-    return `<div class="card" style="margin-bottom:12px"><div class="card-header">${catTag(it.cat)}${d}</div>`
+    return `<div class="card" style="margin-bottom:12px">${favBtn("e", it, date)}<div class="card-header">${catTag(it.cat)}${d}</div>`
       + `<div class="q-title">${esc(it.q)}</div>`
       + `<div class="q-answer"><b>答案：${"ABCD"[it.a]}。</b>${it.x||""}</div></div>`;
   }
@@ -2547,6 +2868,12 @@ async function renderReview(kw){
  *  初始化
  * ===================================================================== */
 function init(){
+  // ---------- 收藏夹：先读本地存档 ----------
+  // 必须早于首屏渲染：卡片上的星标要根据 FAV.set 决定是否高亮，
+  // 放在 loadArchive 之后会出现「先灰后亮」的闪动。
+  safe(()=>{ loadFav(); });
+  safe(()=>{ syncFavBadge(); });
+
   // ---------- 微信 / QQ 内置浏览器兼容层 ----------
   safe(()=>{
     try{
