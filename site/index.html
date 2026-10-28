@@ -67,7 +67,9 @@
   /* 日期选择控件（页头与知识回顾页共用）：样式统一收敛到下方 .daypicker 段。
      页头原先用的是原生 <input type="date">，已换成同一套自绘月历，
      所以不再需要这边单独的 .date-pick 外壳与 input 样式。 */
-  .review-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+  /* 筛选条：知识回顾与收藏夹共用同一套布局与控件尺寸（收藏夹多了个日期筛选），
+     两处写进同一条选择器，避免以后改一处忘一处。 */
+  .review-scope,.fav-scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
   /* 模块筛选下拉：与日期按钮成对，同高同圆角，选中后整体转成紫调「生效态」 */
   .mod-pick{
     position:relative;display:inline-flex;align-items:center;flex:none;
@@ -99,7 +101,7 @@
   /* 选择器限定在 .review-scope 内：页头的日期控件也带 .daypicker-btn，
      但它与 .btn 按钮并排，尺寸得由 .btn 决定（见下方 .head-daypicker），
      不能被这里的 40px / 144px 一起套住。 */
-  .review-scope .daypicker-btn,.mod-pick{height:40px;width:144px}
+  .review-scope .daypicker-btn,.fav-scope .daypicker-btn,.mod-pick{height:40px;width:144px}
   /* 页头实例：与「提醒设置」「刷新内容」并排，三只控件要看上去一样高。
      做法是不写死 height —— 触发按钮直接复用 .btn.btn-ghost，padding / 字号 / 圆角
      与旁边两只同源，高度天然对齐（移动端 .btn 会整体换成 10px/13px，跟着走即可；
@@ -154,12 +156,17 @@
   }
   .dp-day.active.today::after{background:#fff}
   .dp-day.blank{visibility:hidden}
+  /* 底部一行：图例 + 一到两个快捷按钮。收藏夹那只多一个「全部日期」，
+     375 宽的弹层里三样放不下 —— 允许换行，图例独占一行、按钮另起一行，
+     比把图例压成三行窄柱（「高亮＝当 / 天有收藏」）可读得多。 */
   .dp-foot{
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;
     margin-top:8px;padding-top:8px;border-top:1px solid var(--border);
   }
-  .dp-legend{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted)}
+  .dp-legend{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);white-space:nowrap}
   .dp-legend i{width:9px;height:9px;border-radius:3px;background:var(--primary-soft);border:1px solid #ded7fb}
+  /* 底部按钮成组：换行时整组一起下去，不会被拆成「一只在上一行右、一只在下一行左」 */
+  .dp-acts{display:inline-flex;align-items:center;gap:8px;margin-left:auto}
   .scope-hint{font-size:12.5px;color:var(--muted)}
 
   /* ---------- GitHub 热点 ---------- */
@@ -329,6 +336,8 @@
   .tag.skill{background:#eef2ff;color:#4338ca}
   .tag.pit{background:#fef2f2;color:#b91c1c}
   .tag.hist-tag{background:#f5f3ff;color:#6d28d9;border:1px dashed #c4b5fd}
+  /* 收藏时间：与「来自哪天」的归档标签并排，区分「内容属于哪天」与「哪天收的」 */
+  .tag.fav-ts{background:#fffbeb;color:#b45309;border:1px dashed #fcd34d}
 
   /* 关键：长英文标识符/代码片段必须允许断行，否则窄屏会把卡片撑出视口 */
   .q-title,.q-answer,.kp-title,.kp-body,.skill-desc{
@@ -451,7 +460,9 @@
   .sd-scene b{display:block;margin-bottom:4px;color:var(--text)}
   .sd-points{padding-left:20px;font-size:13.5px;line-height:2;color:var(--text)}
   .sd-points li::marker{color:var(--primary)}
-  .skill-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  /* 一行里要放下「图标 + 名称 + 归档日期 + 收藏时间」，窄屏放不下时让标签换行：
+     不加 flex-wrap 的话中文名会被压成一行一个字（min-content 只有一个汉字宽）。 */
+  .skill-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:9px}
   .skill-emoji{width:38px;height:38px;border-radius:10px;background:var(--primary-soft);display:grid;place-items:center;font-size:19px;flex:none}
   .skill-name{font-weight:700;font-size:15px}
   .skill-desc{color:var(--muted);font-size:13px;flex:1}
@@ -900,6 +911,16 @@
       <h2>收藏夹</h2>
       <p id="favSummary">按来源模块自动分类归档；点击卡片右上角的 ★ 可取消收藏。</p>
     </div>
+    <div class="fav-scope">
+      <div class="daypicker" id="favDayPicker">
+        <button class="btn btn-ghost btn-xs daypicker-btn" type="button"
+                aria-haspopup="dialog" aria-expanded="false" title="按收藏日期筛选">
+          <span class="dp-ico" aria-hidden="true">📅</span><span class="daypicker-label">全部日期</span><span class="dp-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="daypicker-pop" id="favDayPickerPop" role="dialog" aria-label="按收藏日期筛选" hidden></div>
+      </div>
+      <span class="scope-hint" id="favScopeHint"></span>
+    </div>
     <div class="chips" id="favChips"></div>
     <div id="favList"></div>
   </section>
@@ -1043,6 +1064,24 @@ const FALLBACK_PACK = {
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* 卡片正文允许出现的轻量行内标签白名单。
+   归档内容由每日生成任务写入，历史上确实带 <b> / <br> / <code> / <li> 这类标记
+   （仅坑点 tip 就 900 多处），一律按纯文本转义会把这些标记原样印成「<b>…</b>」，
+   看上去就是「标签没转义」。
+   做法是「先整体转义，再把白名单标签还原」而不是「直接放行原字符串」：
+   带属性的标签（<b onclick=…>）转义后无法与白名单精确匹配，因此不会被还原，
+   也就不会成为注入通道。属性值、URL 这类位置仍然只用 esc()。 */
+const RICH_TAGS = ["b","strong","i","em","u","br","code","pre","ul","ol","li"];
+const RICH_RE = new RegExp("&lt;(/?)(" + RICH_TAGS.join("|") + ")\\s*/?&gt;", "gi");
+function richText(s){
+  if(s === null || s === undefined) return "";
+  return esc(s).replace(RICH_RE, function(m, close, tag){
+    tag = tag.toLowerCase();
+    if(tag === "br") return "<br>";
+    return "<" + close + tag + ">";
+  });
+}
 
 /* ---------- 安全存储（兼容隐私模式 / 微信/QQ WebView 等 localStorage 受限环境） ---------- */
 const store = (function(){
@@ -1529,7 +1568,7 @@ function renderQuestions(filter){
   $("#qList").innerHTML = list.map(q=>`
     <div class="card">${favBtn("q", q, state.date)}
       <div class="card-header">${catTag(q.cat)}</div>
-      <div class="q-title">${esc(q.q)}</div>
+      <div class="q-title">${richText(q.q)}</div>
       <div class="q-answer">${q.a}</div>
     </div>
   `).join("");
@@ -1546,7 +1585,7 @@ function renderKnowledge(filter){
   }
   $("#kList").innerHTML = list.map(k=>`
     <div class="card">${favBtn("k", k, state.date)}
-      <div class="card-header">${catTag(k.cat)}<span class="kp-title" style="margin:0">${esc(k.t)}</span></div>
+      <div class="card-header">${catTag(k.cat)}<span class="kp-title" style="margin:0">${richText(k.t)}</span></div>
       <div class="kp-body">${k.body}</div>
     </div>
   `).join("");
@@ -1561,8 +1600,8 @@ function renderSkills(){
   /* data-skill-idx 是「组内下标」——详情弹窗据此回查当前组，而不是全量列表 */
   $("#skillList").innerHTML = list.map((s,i)=>`
     <div class="card skill-card" data-skill-idx="${i}">${favBtn("s", s, state.date)}
-      <div class="skill-top"><div class="skill-emoji">${s.e||"🧰"}</div><div class="skill-name">${esc(s.t)}</div></div>
-      <div class="skill-desc">${esc(s.d)}</div>
+      <div class="skill-top"><div class="skill-emoji">${s.e||"🧰"}</div><div class="skill-name">${richText(s.t)}</div></div>
+      <div class="skill-desc">${richText(s.d)}</div>
       <div class="skill-tools">${(s.tools||[]).map(t=>`<span class="tool-pill">${esc(t)}</span>`).join("")}</div>
       <div class="skill-more">查看详情 →</div>
     </div>
@@ -1662,7 +1701,7 @@ function openSkillDetailObj(s, dateStr){
   if(!body) return;
   body.innerHTML = `
     <div class="sd-cat">${catTag(s.cat)}${dateStr?`<span class="tag hist-tag" style="margin-left:6px">📅 ${esc(dateLabel(dateStr))}</span>`:""}</div>
-    <div class="sd-desc">${esc(s.d)}</div>
+    <div class="sd-desc">${richText(s.d)}</div>
     <div class="sd-sec">
       <div class="sd-sec-title">📚 知识内容介绍</div>
       <div class="sd-intro">${s.intro||""}</div>
@@ -1708,9 +1747,9 @@ function renderPitfalls(){
   }
   $("#pitList").innerHTML = pool.map((p,i)=>`
     <div class="card">${favBtn("p", p, state.date)}
-      <div class="card-header"><span class="pit-num">${i+1}</span><span class="pit-title">${esc(p.t)}</span></div>
-      <div class="pit-desc">${esc(p.d)}</div>
-      <div class="pit-tip"><b>破解：</b>${esc(p.tip)}</div>
+      <div class="card-header"><span class="pit-num">${i+1}</span><span class="pit-title">${richText(p.t)}</span></div>
+      <div class="pit-desc">${richText(p.d)}</div>
+      <div class="pit-tip"><b>破解：</b>${richText(p.tip)}</div>
     </div>
   `).join("");
 }
@@ -1745,7 +1784,7 @@ function renderExam(){
     </div>
     <div class="card exam-card">${favBtn("e", q, state.date)}
       <div class="exam-q-cat">${catTag(q.cat)}</div>
-      <div class="exam-q">${esc(q.q)}</div>
+      <div class="exam-q">${richText(q.q)}</div>
       <div class="opts">
         ${q.o.map((opt,i)=>`
           <button class="opt" data-i="${i}"><span class="key">${"ABCD"[i]}</span><span>${esc(opt)}</span></button>
@@ -1772,7 +1811,7 @@ function answerExam(i){
   if(!correct) opts[i].classList.add("wrong");
   const ex = $("#explain");
   ex.classList.add("show");
-  ex.innerHTML = (correct ? "✅ <b>回答正确！</b>" : "❌ <b>回答错误。</b>") + " " + esc(q.x);
+  ex.innerHTML = (correct ? "✅ <b>回答正确！</b>" : "❌ <b>回答错误。</b>") + " " + richText(q.x);
   const btn = $("#btnNext");
   btn.style.visibility = "visible";
   btn.textContent = s.idx+1 >= s.qs.length ? "查看结果" : "下一题 →";
@@ -2084,7 +2123,10 @@ function stripHtml(html){
  * ===================================================================== */
 const FAV_KEY = "ia_favorites_v1";                 // 与 LS 同前缀，独立常量避免动 LS 结构
 const FAV_MAX = 500;                               // 约 0.5MB，远低于 localStorage 常见配额
-const FAV = { loaded:false, writable:true, map:new Map(), set:new Set() };
+/* tomb：本次会话里被取消的 id。合并写入时要用它把这些条目压掉，
+   否则「从存储读回来合并」会把刚取消的那条又请回来。 */
+const FAV = { loaded:false, writable:true, map:new Map(), set:new Set(),
+              tomb:new Set(), drop:0 };
 /* id -> {m, d, it}。点击星标时只能拿到 id，需要原文才能写快照；
    把整段 HTML 塞进 data 属性既撑大 DOM 又难转义，所以用这张表回查。 */
 const FAV_POOL = new Map();
@@ -2120,37 +2162,74 @@ function favId(m, it){
   return k ? (m + ":" + fnv1a(k)) : "";
 }
 
+/* 旧存档若缺 m 字段，按条目形态反推来源模块。
+   缺 m 的记录过去会被 loadFav 直接 return 掉 —— 用户看到的现象就是
+   「前几天收的都不见了」，而存储里其实还在。能认出来的就认回来。 */
+function guessModule(it){
+  if(!it || typeof it !== "object") return "";
+  if(Array.isArray(it.o) && it.a !== undefined) return "e";
+  if(typeof it.tip === "string") return "p";
+  if(Array.isArray(it.tools)) return "s";
+  if(typeof it.body === "string") return "k";
+  if(typeof it.q === "string") return "q";
+  if(typeof it.name === "string") return "g";
+  return "";
+}
+
+/* 直接从存储解析出 id -> 记录。用于「写入前先合并」，也用于跨标签页同步。 */
+function readStoredFav(){
+  const out = new Map();
+  let raw = "";
+  try{ raw = store.get(FAV_KEY, ""); }catch(e){ return out; }
+  if(!raw) return out;
+  try{
+    const obj = JSON.parse(raw);
+    const items = (obj && obj.items) || {};
+    Object.keys(items).forEach(function(id){
+      const rec = items[id];
+      if(rec && rec.it) out.set(id, rec);
+    });
+  }catch(e){ /* 结构损坏：当作空，但绝不拿空表回写覆盖 */ }
+  return out;
+}
+
 function loadFav(){
   FAV.loaded = true;
-  FAV.map = new Map(); FAV.set = new Set();
+  FAV.map = new Map(); FAV.set = new Set(); FAV.tomb = new Set(); FAV.drop = 0;
   try{
     const probe = "__ia_fav_probe__";
     window.localStorage.setItem(probe, "1");
     window.localStorage.removeItem(probe);
     FAV.writable = true;
   }catch(e){ FAV.writable = false; }
-  let raw = "";
-  try{ raw = store.get(FAV_KEY, ""); }catch(e){ raw = ""; }
-  if(!raw) return;
-  try{
-    const obj = JSON.parse(raw);
-    const items = (obj && obj.items) || {};
-    Object.keys(items).forEach(function(id){
-      const rec = items[id];
-      if(!rec || !rec.m || !rec.it) return;
-      FAV.map.set(id, rec); FAV.set.add(id);
-    });
-  }catch(e){ /* 结构损坏就按空收藏夹显示，但不清空存储，避免把用户数据洗掉 */ }
+  readStoredFav().forEach(function(rec, id){
+    const m = rec.m || guessModule(rec.it);
+    if(!m){ FAV.drop++; return; }
+    FAV.map.set(id, { m:m, d:rec.d || "", ts:rec.ts || 0, it:rec.it });
+    FAV.set.add(id);
+  });
 }
 
 /* 写入并回读校验：store.set 内部会吞掉 QuotaExceededError（降级写内存），
-   所以必须回读比对，才能区分「真落盘」与「只进了本次会话的内存」。 */
+   所以必须回读比对，才能区分「真落盘」与「只进了本次会话的内存」。
+
+   写法是「读 → 合并 → 写」，不是「把内存里的表整块序列化出去」。
+   原因：同一个人经常开着两个标签页（或手机与电脑各一份），两边各持
+   打开那一刻的快照。整块覆盖时，后写的那个页面会把另一边新加的收藏
+   全部冲掉 —— 表现出来正是「以前收的都不见了，只剩今天这几条」。
+   合并写入把这类互相覆盖收敛到「同一条并发修改」这一种情况。 */
 function saveFav(){
+  const merged = readStoredFav();
+  FAV.map.forEach(function(v,k){ merged.set(k, v); });
+  FAV.tomb.forEach(function(k){ merged.delete(k); });
   const items = {};
-  FAV.map.forEach(function(v,k){ items[k] = v; });
+  merged.forEach(function(v,k){ items[k] = v; });
   const payload = JSON.stringify({ v:1, items:items });
   try{ store.set(FAV_KEY, payload); }catch(e){ return false; }
-  try{ return store.get(FAV_KEY, "") === payload; }catch(e){ return false; }
+  let ok = false;
+  try{ ok = store.get(FAV_KEY, "") === payload; }catch(e){ ok = false; }
+  if(ok){ FAV.map = merged; FAV.set = new Set(merged.keys()); }
+  return ok;
 }
 
 function toggleFav(m, d, it){
@@ -2158,12 +2237,16 @@ function toggleFav(m, d, it){
   if(!id) return { ok:false, reason:"empty" };
   if(FAV.set.has(id)){
     const old = FAV.map.get(id);
-    FAV.map.delete(id); FAV.set.delete(id);
-    if(!saveFav()){ FAV.map.set(id, old); FAV.set.add(id); return { ok:false, reason:"write" }; }
+    FAV.map.delete(id); FAV.set.delete(id); FAV.tomb.add(id);
+    if(!saveFav()){
+      FAV.map.set(id, old); FAV.set.add(id); FAV.tomb.delete(id);
+      return { ok:false, reason:"write" };
+    }
     return { ok:true, on:false, id:id };
   }
   if(FAV.map.size >= FAV_MAX) return { ok:false, reason:"full" };
   const rec = { m:m, d:d || "", ts:Date.now(), it:it };
+  FAV.tomb.delete(id);                    /* 重新收藏：撤销同一条的墓碑 */
   FAV.map.set(id, rec); FAV.set.add(id);
   if(!saveFav()){ FAV.map.delete(id); FAV.set.delete(id); return { ok:false, reason:"write" }; }
   return { ok:true, on:true, id:id };
@@ -2229,6 +2312,32 @@ function handleFavClick(btn){
 /* 收藏夹视图：纯本地渲染，不发请求。
    分节与卡片全部复用知识回顾那套（secHead / moduleCard），
    不为收藏夹再写一份卡片样式与字段口径。 */
+/* 页面上所有星标按当前 FAV.set 重刷一遍。
+   跨标签页同步时整页卡片可能是旧的，逐个别同步不如整体对齐。 */
+function refreshAllFavBtns(){
+  const list = document.querySelectorAll("[data-fav-id]");
+  for(let i = 0; i < list.length; i++){
+    const b = list[i], on = FAV.set.has(b.dataset.favId);
+    b.classList.toggle("on", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    const label = on ? "取消收藏" : "收藏";
+    b.setAttribute("title", label);
+    b.setAttribute("aria-label", label);
+  }
+}
+
+/* storage 事件只在「别的标签页 / 别的窗口」写入时触发，自己写自己不触发。
+   没有这段，两个页面会长期各持一份旧表，一旦在其中一边收藏就互相覆盖。 */
+window.addEventListener("storage", function(e){
+  if(!e || e.key !== FAV_KEY) return;
+  safe(function(){
+    loadFav();
+    syncFavBadge();
+    refreshAllFavBtns();
+    renderFav();
+  });
+});
+
 /* 收藏夹的分类检索标签。
  *
  *  分类口径直接取条目自带的 cat（面试题库 / 知识点 / 测试技能 / 模拟考试
@@ -2242,6 +2351,11 @@ function handleFavClick(btn){
  */
 const FAV_NOCAT = "__nocat";
 let favFilter = "all";                              /* "all" | 分类键 | FAV_NOCAT */
+/* 日期筛选："" = 全部日期（默认），否则只看「内容属于该归档日期」的收藏。
+   默认给全部，是因为收藏夹的用途就是回溯 —— 一进来只看到今天收的几条，
+   等于把历史藏起来了。 */
+let favDate = "";
+let favPicker = null;                               /* 收藏夹那只日期控件（见下方 createDayPicker） */
 
 function favCatOf(rec){
   const c = (rec && rec.it && rec.it.cat) ? rec.it.cat : "";
@@ -2252,12 +2366,48 @@ function favCatLabel(k){
   return CAT_LABEL[k] || k;
 }
 
+/* 有收藏的归档日期集合 —— 日期控件只高亮这些天。
+   注意与 dpArchived()（有归档的日期）区分：那天有归档不等于那天收过藏。 */
+function favDates(){
+  const s = new Set();
+  FAV.map.forEach(function(rec){ if(rec.d) s.add(rec.d); });
+  return s;
+}
+/* 当前日期筛选下可见的收藏（不含分类筛选） */
+function favRows(){
+  const rows = [];
+  FAV.map.forEach(function(rec, id){
+    if(favDate && rec.d !== favDate) return;
+    rows.push({ id:id, rec:rec });
+  });
+  return rows;
+}
+/* 收藏时间标签：与「来自哪天」并列。用户要回溯的是「我哪天收的」，
+   光有归档日期答不了这个问题（内容日期与收藏日期常常不是同一天）。 */
+function favTsTag(ts){
+  if(!ts) return "";
+  const t = new Date(ts);
+  if(isNaN(t.getTime())) return "";
+  return '<span class="tag fav-ts" title="收藏时间">⭐ ' + (t.getMonth() + 1) + "月" + t.getDate() + "日收藏</span>";
+}
+
+function syncFavHint(){
+  const el = document.getElementById("favScopeHint");
+  if(!el) return;
+  const days = favDates().size, total = FAV.map.size;
+  el.textContent = !total ? ""
+    : (favDate ? ("仅看该日期 · " + favRows().length + " 条 / 共 " + total + " 条")
+               : (days + " 天有收藏 · 共 " + total + " 条"));
+}
+
 function renderFavChips(){
   const box = document.getElementById("favChips");
   if(!box) return;
+  /* 计数跟随日期筛选：选了某一天就只统计那天的，否则标签数字与下面列表对不上 */
+  const rows = favRows();
   const counts = new Map();
-  FAV.map.forEach(function(rec){
-    const c = favCatOf(rec);
+  rows.forEach(function(o){
+    const c = favCatOf(o.rec);
     counts.set(c, (counts.get(c) || 0) + 1);
   });
   if(!counts.size){ box.innerHTML = ""; return; }
@@ -2268,7 +2418,7 @@ function renderFavChips(){
   if(counts.has(FAV_NOCAT)) order.push(FAV_NOCAT);
 
   const html = ['<button class="chip' + (favFilter === "all" ? " active" : "")
-    + '" data-cat="all">全部<span class="chip-num">' + FAV.map.size + '</span></button>'];
+    + '" data-cat="all">全部<span class="chip-num">' + rows.length + '</span></button>'];
   order.forEach(function(k){
     html.push('<button class="chip' + (favFilter === k ? " active" : "") + '" data-cat="' + k + '">'
       + esc(favCatLabel(k)) + '<span class="chip-num">' + counts.get(k) + '</span></button>');
@@ -2282,9 +2432,14 @@ function renderFavChips(){
 function renderFav(){
   const box = document.getElementById("favList");
   if(!box) return;
-  renderFavChips();
-  const sum = document.getElementById("favSummary");
   const total = FAV.map.size;
+  /* 选中日期下已没有收藏（刚取消掉最后一条）→ 回落到全部日期，
+     否则会停在「这天没有收藏」的空页上，看着像功能坏了。 */
+  if(favDate && !favDates().has(favDate)) favDate = "";
+  renderFavChips();
+  safe(function(){ if(favPicker) favPicker.sync(); });
+  syncFavHint();
+  const sum = document.getElementById("favSummary");
   if(!total){
     if(sum) sum.textContent = "按来源模块自动分类归档；点击卡片右上角的 ★ 可取消收藏。";
     box.innerHTML = emptyBlock("⭐", "还没有收藏。在面试题库、知识点、模拟考试、测试技能、面试坑点里，点卡片右上角的 ★ 即可收藏到这里。");
@@ -2293,18 +2448,28 @@ function renderFav(){
 
   const rowsAll = [];
   FAV.map.forEach(function(rec, id){
+    if(favDate && rec.d !== favDate) return;
     if(favFilter !== "all" && favCatOf(rec) !== favFilter) return;
     rowsAll.push({ id:id, rec:rec });
   });
 
   if(sum){
-    sum.textContent = (favFilter === "all")
-      ? ("共收藏 " + total + " 条，按来源模块自动分类；点击卡片右上角的 ★ 可取消收藏。")
-      : ("共收藏 " + total + " 条，分类「" + favCatLabel(favFilter) + "」下 " + rowsAll.length
-         + " 条；点击卡片右上角的 ★ 可取消收藏。");
+    const catTxt = (favFilter === "all") ? "" : ("，分类「" + favCatLabel(favFilter) + "」下 " + rowsAll.length + " 条");
+    if(favDate){
+      sum.textContent = "「" + dateLabel(favDate) + "」这天的收藏共 " + rowsAll.length
+        + " 条" + catTxt + "（全部收藏 " + total + " 条）；点卡片右上角 ★ 可取消收藏。";
+    }else{
+      const ds = Array.from(favDates()).sort();
+      const span = ds.length > 1
+        ? ("，覆盖 " + ds.length + " 天（" + dateLabel(ds[0]) + " 至 " + dateLabel(ds[ds.length - 1]) + "）")
+        : "";
+      sum.textContent = "共收藏 " + total + " 条" + span + catTxt + "；默认展示全部，可按日期筛选。";
+    }
   }
   if(!rowsAll.length){
-    box.innerHTML = emptyBlock("🔍", "该分类下暂无收藏内容，换个标签看看。");
+    box.innerHTML = favDate
+      ? emptyBlock("📅", "「" + dateLabel(favDate) + "」这天没有收藏，点日期控件选「全部日期」可看全部 " + total + " 条。")
+      : emptyBlock("🔍", "该分类下暂无收藏内容，换个标签看看。");
     return;
   }
 
@@ -2314,6 +2479,12 @@ function renderFav(){
       + 'font-size:12.5px;line-height:1.6;border-radius:10px;padding:10px 14px;margin-bottom:14px">'
       + '当前浏览器不支持本地持久化（隐私模式或内置浏览器限制），这次收藏只在本次打开期间有效。</div>';
   }
+  if(FAV.drop){
+    html += '<div style="background:#fff7e6;border:1px solid #f6d99a;color:#8a5a00;'
+      + 'font-size:12.5px;line-height:1.6;border-radius:10px;padding:10px 14px;margin-bottom:14px">'
+      + '本地存档里有 ' + FAV.drop + ' 条记录无法识别，已跳过显示（不会被删除）。'
+      + '如果收藏数目对不上，多半是先前的版本写入格式不一致。</div>';
+  }
   reviewSkillRefs = [];               /* moduleCard("s") 依赖它生成 data-skill-ref，必须先重置 */
   FAV_MODULES.forEach(function(def){
     const rows = rowsAll.filter(function(o){ return o.rec.m === def.key; });
@@ -2321,7 +2492,7 @@ function renderFav(){
     rows.sort(function(a,b){ return (b.rec.ts || 0) - (a.rec.ts || 0); });   /* 最近收藏在前 */
     html += secHead(def.name, def.color, def.soft, rows.length);
     html += rows.map(function(o){
-      return moduleCard(def.key, { it:o.rec.it, date:o.rec.d || "" }, !!o.rec.d);
+      return moduleCard(def.key, { it:o.rec.it, date:o.rec.d || "", ts:o.rec.ts || 0 }, !!o.rec.d);
     }).join("");
   });
   box.innerHTML = html;
@@ -2415,8 +2586,16 @@ function dpCanNav(view, step){
 const DAY_PICKERS = [];
 
 /* 弹层内部结构。全部用 data-dp-* 定位而不是 id —— 一个页面上有两个实例，id 会撞。 */
-const DP_POP_HTML =
-  '<div class="dp-head">'
+/* 弹层结构随实例配置变化（图例文案、底部按钮），所以做成函数而不是常量：
+   收藏夹那只高亮的是「有收藏的日期」，页头与知识回顾高亮的是「有归档的日期」。 */
+function dpPopHtml(cfg){
+  cfg = cfg || {};
+  const legend = cfg.legend || "高亮＝当日有归档";
+  const latest = cfg.latestLabel || "最近归档";
+  const allBtn = cfg.allLabel
+    ? '<button class="btn btn-ghost btn-xs" type="button" data-dp-all title="不按日期筛选">' + esc(cfg.allLabel) + '</button>'
+    : '';
+  return '<div class="dp-head">'
   + '<button class="dp-nav" type="button" data-dp-nav="-1" aria-label="上一个月">\u2039</button>'
   + '<span class="dp-month" data-dp-month></span>'
   + '<button class="dp-nav" type="button" data-dp-nav="1" aria-label="下一个月">\u203a</button>'
@@ -2426,9 +2605,13 @@ const DP_POP_HTML =
   + '</div>'
   + '<div class="dp-grid" data-dp-grid></div>'
   + '<div class="dp-foot">'
-  + '<span class="dp-legend"><i aria-hidden="true"></i>高亮＝当日有归档</span>'
-  + '<button class="btn btn-ghost btn-xs" type="button" data-dp-latest title="选中最近一天有归档的日期">最近归档</button>'
+  + '<span class="dp-legend"><i aria-hidden="true"></i>' + esc(legend) + '</span>'
+  + '<span class="dp-acts">'
+  + allBtn
+  + '<button class="btn btn-ghost btn-xs" type="button" data-dp-latest title="选中最新的日期">' + esc(latest) + '</button>'
+  + '</span>'
   + '</div>';
+}
 
 /* cfg: { rootId, getSelected(), onPick(iso) }
    getSelected() 返回该实例当前选中的日期（YYYY-MM-DD，可能为空串）；
@@ -2440,11 +2623,14 @@ function createDayPicker(cfg){
   const label = root.querySelector(".daypicker-label");
   const pop = root.querySelector(".daypicker-pop");
   if(!btn || !label || !pop) return null;
-  if(!pop.dataset.built){ pop.innerHTML = DP_POP_HTML; pop.dataset.built = "1"; }
+  if(!pop.dataset.built){ pop.innerHTML = dpPopHtml(cfg); pop.dataset.built = "1"; }
   const grid = pop.querySelector("[data-dp-grid]");
   const monthEl = pop.querySelector("[data-dp-month]");
   const prevBtn = pop.querySelector('[data-dp-nav="-1"]');
   const nextBtn = pop.querySelector('[data-dp-nav="1"]');
+  /* 哪些日期可选：默认是「有归档的日期」，收藏夹传入「有收藏的日期」。
+     传函数而不是集合，是因为收藏会实时变化，必须在打开弹层那一刻现算。 */
+  const dateSet = typeof cfg.dates === "function" ? cfg.dates : dpArchived;
 
   // 视图月与展开态是「实例私有」的 —— 这正是不能沿用单例状态的原因：
   // 页头那只看的是 9 月，不该把知识回顾那只的视图月也带着跑。
@@ -2463,7 +2649,7 @@ function createDayPicker(cfg){
   function renderMonth(){
     const y = view.y, mm = view.m;
     monthEl.textContent = y + "年" + (mm + 1) + "月";
-    const archived = dpArchived(), today = dpTodayISO();
+    const archived = dateSet(), today = dpTodayISO();
     const picked = cfg.getSelected() || "";
     const offset = (new Date(y, mm, 1).getDay() + 6) % 7;      // 周一放在第一列
     const total = new Date(y, mm + 1, 0).getDate();
@@ -2524,11 +2710,15 @@ function createDayPicker(cfg){
   /* 同步触发按钮的文案 / 禁用态 / 选中态；弹层开着时顺带重画，让选中项即时反映。
      幂等，任何渲染流程里都能随手调用。 */
   function sync(){
-    const has = dpDays().length > 0;
+    const set = dateSet();
     const date = cfg.getSelected() || "";
-    label.textContent = date ? dateLabel(date) : "选日期";
-    btn.disabled = !has;
-    btn.title = has ? "按日期查看：月历里高亮的日期当天有归档" : "暂无归档";
+    label.textContent = date ? dateLabel(date) : (cfg.allLabel || "选日期");
+    /* 有「全部日期」这一档的实例，只要还有任意一条可选日期就不能禁用 ——
+       否则用户清掉某天的最后一条收藏后，控件会变灰且再也点不开。 */
+    btn.disabled = cfg.allLabel ? (set.size === 0 && !date) : set.size === 0;
+    btn.title = set.size
+      ? (cfg.btnTitle || "按日期查看：月历里高亮的日期当天有归档")
+      : (cfg.emptyTitle || "暂无归档");
     if(open) renderMonth();
   }
 
@@ -2553,8 +2743,13 @@ function createDayPicker(cfg){
     const day = e.target.closest("[data-dp-day]");
     if(day){ pick(day.dataset.dpDay); return; }
     if(e.target.closest("[data-dp-latest]")){
-      const ds = dpDays();
-      if(ds.length) pick(ds[ds.length - 1].date);
+      const ds = Array.from(dateSet()).sort();
+      if(ds.length) pick(ds[ds.length - 1]);
+      return;
+    }
+    if(e.target.closest("[data-dp-all]")){
+      setOpen(false);
+      if(typeof cfg.onAll === "function") cfg.onAll();
     }
   });
 
@@ -2584,6 +2779,20 @@ createDayPicker({
     // 选完立刻按新日期重检索（搜索词保留）——「搜完想换一天再看」不必先清空搜索框
     renderReview($("#reviewSearch") ? $("#reviewSearch").value : "");
   }
+});
+/* 收藏夹的日期筛选：可选日期是「有收藏的日期」，与那天归档有没有内容无关。
+   默认不选中（= 全部日期），历史收藏不会被默认的当天挡在外面。 */
+favPicker = createDayPicker({
+  rootId: "favDayPicker",
+  getSelected: function(){ return favDate || ""; },
+  onPick: function(iso){ favDate = iso; renderFav(); },
+  dates: favDates,
+  allLabel: "全部日期",
+  legend: "高亮＝当天有收藏",
+  latestLabel: "最近收藏",
+  btnTitle: "按收藏日期筛选：月历里高亮的日期当天有收藏",
+  emptyTitle: "还没有收藏",
+  onAll: function(){ favDate = ""; renderFav(); }
 });
 
 function setReviewDate(date){
@@ -2729,31 +2938,33 @@ function collectModuleItems(packs){
 /* 单个条目的卡片。跨日期浏览/检索时 withDate=true，打上「来自哪天」的标签。 */
 function moduleCard(key, entry, withDate){
   const it = entry.it, date = entry.date;
-  const d = withDate ? dTag(date) : "";
+  /* 两个标签各说一件事：date 是内容所属的归档日期，ts 是这条收藏的入库时间。
+     收藏夹会把两者都传进来，知识回顾/检索路径只有 date。 */
+  const d = (withDate ? dTag(date) : "") + (entry.ts ? favTsTag(entry.ts) : "");
   if(key === "q"){
     return `<div class="card" style="margin-bottom:12px">${favBtn("q", it, date)}<div class="card-header">${catTag(it.cat)}${d}</div>`
-      + `<div class="q-title">${esc(it.q)}</div><div class="q-answer">${it.a}</div></div>`;
+      + `<div class="q-title">${richText(it.q)}</div><div class="q-answer">${it.a}</div></div>`;
   }
   if(key === "k"){
     return `<div class="card" style="margin-bottom:12px">${favBtn("k", it, date)}<div class="card-header">${catTag(it.cat)}`
-      + `<span class="kp-title" style="margin:0">${esc(it.t)}</span>${d}</div><div class="kp-body">${it.body}</div></div>`;
+      + `<span class="kp-title" style="margin:0">${richText(it.t)}</span>${d}</div><div class="kp-body">${it.body}</div></div>`;
   }
   if(key === "s"){
     const ref = reviewSkillRefs.push({s:it, date:date}) - 1;
     return `<div class="card" style="margin-bottom:12px;cursor:pointer" data-skill-ref="${ref}">${favBtn("s", it, date)}`
-      + `<div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${esc(it.t)}</div>${d}</div>`
-      + `<div class="skill-desc">${esc(it.d)}</div>`
+      + `<div class="skill-top"><div class="skill-emoji">${it.e||"🧰"}</div><div class="skill-name">${richText(it.t)}</div>${d}</div>`
+      + `<div class="skill-desc">${richText(it.d)}</div>`
       + `<div class="skill-tools">${(it.tools||[]).map(x=>`<span class="tool-pill">${esc(x)}</span>`).join("")}</div>`
       + `<div class="skill-more">查看详情 →</div></div>`;
   }
   if(key === "p"){
     return `<div class="card" style="margin-bottom:12px">${favBtn("p", it, date)}<div class="card-header"><span class="pit-num">!</span>`
-      + `<span class="pit-title">${esc(it.t)}</span>${d}</div><div class="pit-desc">${esc(it.d)}</div>`
-      + `<div class="pit-tip"><b>破解：</b>${esc(it.tip)}</div></div>`;
+      + `<span class="pit-title">${richText(it.t)}</span>${d}</div><div class="pit-desc">${richText(it.d)}</div>`
+      + `<div class="pit-tip"><b>破解：</b>${richText(it.tip)}</div></div>`;
   }
   if(key === "e"){
     return `<div class="card" style="margin-bottom:12px">${favBtn("e", it, date)}<div class="card-header">${catTag(it.cat)}${d}</div>`
-      + `<div class="q-title">${esc(it.q)}</div>`
+      + `<div class="q-title">${richText(it.q)}</div>`
       + `<div class="q-answer"><b>答案：${"ABCD"[it.a]}。</b>${it.x||""}</div></div>`;
   }
   if(key === "g"){
