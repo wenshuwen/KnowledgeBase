@@ -74,6 +74,30 @@ SITE_CATS: Final[frozenset[str]] = frozenset({
     "soft", "python", "env", "llm", "agent", "aitools",
 })
 
+#: 卡片正文允许出现的行内标签白名单 —— 与前端 richText() 的白名单严格一致。
+#: 为什么要在数据侧拦：这些字段前端会当 HTML 渲染，写错标签名（<bf>）会被
+#: 转义成可见文字，而把示例文本里的 <input type=file> 原样写进正文，浏览器
+#: 会真的渲染出一个文件选择控件、把卡片布局撑坏。两种都不是结构错误，
+#: 只有用户看得到，所以必须在这里报出来。
+RICH_TAG_ALLOW: Final[frozenset[str]] = frozenset({
+    "b", "strong", "i", "em", "u", "br", "code", "pre", "ul", "ol", "li",
+})
+
+#: 参与标签校验的字段（前端把这些字段当 HTML 渲染；其余字段走 esc）。
+TAG_CHECK_FIELDS: Final[dict[str, tuple[str, ...]]] = {
+    "questions": ("q", "a"),
+    "knowledge": ("t", "body"),
+    "skills": ("t", "d", "intro"),
+    "pitfalls": ("t", "d", "tip"),
+    "exam": ("q", "x"),
+}
+
+#: 抓「像标签」的片段：必须以 > 收尾。不加这个约束的话，`i < n`、`P99 < 200ms`
+#: 这类比较式会被误判成标签 n / 200ms —— 真实标签一定闭合，所以这个约束是安全的。
+TAG_LIKE_RE: Final[re.Pattern[str]] = re.compile(
+    r"<(/?)([A-Za-z][A-Za-z0-9]*)(?:\s[^<>]*)?>"
+)
+
 #: 归档里哪些模块必须带 cat（pitfall 可省）
 CAT_REQUIRED_MODULES: Final[tuple[str, ...]] = ("questions", "knowledge", "skills", "exam")
 #: 每个模块条目里 cat 所在的字段名（exam 的选择题用的是 q/o/a/x，cat 同名）
@@ -314,6 +338,29 @@ def validate_pack(pack: dict[str, Any]) -> list[str]:
                     problems.append(
                         f"第 {gi} 组 {key}[{si}] cat 非法：{cat!r}（合法值见 archive.SITE_CATS）"
                     )
+
+    # 正文标签白名单：非白名单标签要么是笔误，要么是待转义的示例文本。
+    # 必须自己再遍历一遍 groups：这段在组循环之外，借用上面留下的 `g`
+    # 只会检查最后一组（曾因此漏掉前两组的注入用例）。
+    for gi, g in enumerate(groups):
+        if not isinstance(g, dict):
+            continue
+        for key, fields in TAG_CHECK_FIELDS.items():
+            for si, item in enumerate(g.get(key) or []):
+                item = item or {}
+                for fname in fields:
+                    text = item.get(fname)
+                    if not isinstance(text, str) or "<" not in text:
+                        continue
+                    for m in TAG_LIKE_RE.finditer(text):
+                        tag = m.group(2).lower()
+                        if tag in RICH_TAG_ALLOW:
+                            continue
+                        near = text[max(0, m.start() - 18): m.end() + 18]
+                        problems.append(
+                            f"第 {gi} 组 {key}[{si}].{fname} 含非白名单标签 <{tag}>：{near!r}"
+                            "（写错标签名请改正；示例文本请转义为 &lt;tag&gt;）"
+                        )
 
     gh = pack.get("github")
     if not isinstance(gh, dict):

@@ -178,6 +178,35 @@ def test_pitfalls_may_omit_cat() -> None:
 
 
 # --------------------------------------------------------------------------- #
+# 2c. 正文标签白名单（写错标签名 / 未转义的示例文本）
+#     这类问题不是结构错误，只有用户在页面上看得到：写错的标签会被转义成文字，
+#     未转义的示例（<input type=file>）会真的渲染出一个控件。
+# --------------------------------------------------------------------------- #
+
+
+def test_pack_with_misspelled_tag_is_rejected() -> None:
+    pack = _pack("2026-09-12")
+    pack["groups"][0]["pitfalls"][0]["tip"] = "最<bf>不</bf>推荐"
+    problems = arc.validate_pack(pack)
+    assert any("非白名单标签" in p and "<bf>" in p for p in problems)
+
+
+def test_pack_with_unescaped_example_tag_is_rejected() -> None:
+    pack = _pack("2026-09-12")
+    pack["groups"][1]["questions"][0]["a"] = "直接给 `<input type=file>` 赋值"
+    assert any("<input>" in p for p in arc.validate_pack(pack))
+
+
+def test_whitelisted_tags_and_comparisons_are_not_flagged() -> None:
+    """白名单标签放行；`P99 < 200ms`、`i < n` 这类比较式不能被误判成标签。"""
+    pack = _pack("2026-09-12")
+    pack["groups"][2]["knowledge"][0]["body"] = (
+        "P99 < 200ms 且 i < n；<b>加粗</b><br><code>x=1</code><ul><li>项</li></ul>"
+    )
+    assert [p for p in arc.validate_pack(pack) if "白名单" in p] == []
+
+
+# --------------------------------------------------------------------------- #
 # 2. GitHub 链接白名单
 # --------------------------------------------------------------------------- #
 

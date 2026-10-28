@@ -2122,7 +2122,10 @@ function stripHtml(html){
  *  （用「日期+组+下标」做键则重跑必错位）。
  * ===================================================================== */
 const FAV_KEY = "ia_favorites_v1";                 // 与 LS 同前缀，独立常量避免动 LS 结构
-const FAV_MAX = 500;                               // 约 0.5MB，远低于 localStorage 常见配额
+const FAV_MAX = 666;                               // 约 0.7MB（按单条约 1KB 估算），仍远低于 localStorage 常见 5MB 配额
+/* 上限从 500 提到 666 是用户指定值：历史收藏累积到 500 会被「收藏夹已满」挡住。
+   写入仍是整表序列化，真的撞配额时 store.set 会抛 QuotaExceededError，
+   saveFav 会回读失败并撤销本次收藏，不会静默丢历史 —— 这条路径不用改。 */
 /* tomb：本次会话里被取消的 id。合并写入时要用它把这些条目压掉，
    否则「从存储读回来合并」会把刚取消的那条又请回来。 */
 const FAV = { loaded:false, writable:true, map:new Map(), set:new Set(),
