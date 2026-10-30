@@ -168,6 +168,9 @@
   /* 底部按钮成组：换行时整组一起下去，不会被拆成「一只在上一行右、一只在下一行左」 */
   .dp-acts{display:inline-flex;align-items:center;gap:8px;margin-left:auto}
   .scope-hint{font-size:12.5px;color:var(--muted)}
+  /* 收藏夹工具条：导出 / 导入 / 恢复备份，靠右贴边，与日期控件同一行 */
+  .fav-acts{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .fav-acts .btn{white-space:nowrap}
 
   /* ---------- GitHub 热点 ---------- */
   .gh-block{margin-bottom:20px}
@@ -651,6 +654,9 @@
     .head-daypicker .daypicker-btn{width:auto;padding:10px 12px;gap:5px}
     .review-scope{gap:8px}
     .scope-hint{flex:1 1 auto}
+    /* 收藏夹的三个工具按钮在窄屏独占一行，等分宽度；否则会被 scope-hint 挤成竖排 */
+    .fav-acts{margin-left:0;width:100%}
+    .fav-acts .btn{flex:1 1 0%;min-width:0;white-space:nowrap;padding:8px 6px}
     .mod-pick{padding:0 9px}
     .mod-pick select{font-size:12px;padding:6px 12px 6px 0}
     .sec-title{font-size:14px}
@@ -920,6 +926,12 @@
         <div class="daypicker-pop" id="favDayPickerPop" role="dialog" aria-label="按收藏日期筛选" hidden></div>
       </div>
       <span class="scope-hint" id="favScopeHint"></span>
+      <span class="fav-acts">
+        <button type="button" class="btn btn-ghost btn-xs" id="favExport" title="把收藏导出成 JSON 文件，可换浏览器导入">导出</button>
+        <button type="button" class="btn btn-ghost btn-xs" id="favImport" title="从导出的 JSON 文件合并回来（不会覆盖已有收藏）">导入</button>
+        <button type="button" class="btn btn-ghost btn-xs" id="favRestore" title="把上一次写入前的自动备份合并回来" hidden>恢复备份</button>
+        <input type="file" id="favFile" accept=".json,application/json" hidden />
+      </span>
     </div>
     <div class="chips" id="favChips"></div>
     <div id="favList"></div>
@@ -2122,6 +2134,9 @@ function stripHtml(html){
  *  （用「日期+组+下标」做键则重跑必错位）。
  * ===================================================================== */
 const FAV_KEY = "ia_favorites_v1";                 // 与 LS 同前缀，独立常量避免动 LS 结构
+/* 写前快照：每次真正写入前，把「上一版」整份留在 .bak（单槽覆盖）。
+   用途是误覆盖后的抢救 —— 收藏只有本地一份，没有服务端副本。 */
+const FAV_BAK = FAV_KEY + ".bak";
 const FAV_MAX = 666;                               // 约 0.7MB（按单条约 1KB 估算），仍远低于 localStorage 常见 5MB 配额
 /* 上限从 500 提到 666 是用户指定值：历史收藏累积到 500 会被「收藏夹已满」挡住。
    写入仍是整表序列化，真的撞配额时 store.set 会抛 QuotaExceededError，
@@ -2235,6 +2250,27 @@ function loadFav(){
    打开那一刻的快照。整块覆盖时，后写的那个页面会把另一边新加的收藏
    全部冲掉 —— 表现出来正是「以前收的都不见了，只剩今天这几条」。
    合并写入把这类互相覆盖收敛到「同一条并发修改」这一种情况。 */
+/* 写前快照：把当前存储里的那一版整体存到 .bak。
+   三条约束，都是为了「别用垃圾冲掉好数据」：
+     1) 上一版必须存在且与本次要写的不同；
+     2) 上一版必须能解析、且 items 非空；
+     3) 只在真正写入前调用，写失败也不影响主数据的现状。 */
+function snapshotBeforeWrite(payload){
+  try{
+    const prev = window.localStorage.getItem(FAV_KEY);
+    if(!prev || prev === payload) return;
+    let ok = false;
+    try{
+      const o = JSON.parse(prev);
+      ok = !!(o && o.items && Object.keys(o.items).length);
+    }catch(e){ ok = false; }
+    if(ok) window.localStorage.setItem(FAV_BAK, prev);
+  }catch(e){ /* 快照失败不能拦住主写入 */ }
+}
+function hasFavBackup(){
+  try{ return !!window.localStorage.getItem(FAV_BAK); }catch(e){ return false; }
+}
+
 function saveFav(){
   const merged = readStoredFav();                 /* 含无法显示的记录：原样带回，不删 */
   FAV.map.forEach(function(v,k){ merged.set(k, v); });
@@ -2242,6 +2278,7 @@ function saveFav(){
   const items = {};
   merged.forEach(function(v,k){ items[k] = v; });
   const payload = JSON.stringify({ v:1, items:items });
+  snapshotBeforeWrite(payload);
   try{ store.set(FAV_KEY, payload); }catch(e){ return false; }
   /* 写后校验必须**直读 localStorage**，不能走 store.get：
      localStorage 不可用时 store 会降级到内存字典，自己写自己读必然一致，
@@ -2464,6 +2501,9 @@ function renderFav(){
   const box = document.getElementById("favList");
   if(!box) return;
   const total = FAV.map.size;
+  /* 有自动备份才显示「恢复备份」：平时不占位置，只在真出过事之后给一个出口 */
+  const restoreBtn = document.getElementById("favRestore");
+  if(restoreBtn) restoreBtn.hidden = !hasFavBackup();
   /* 选中日期下已没有收藏（刚取消掉最后一条）→ 回落到全部日期，
      否则会停在「这天没有收藏」的空页上，看着像功能坏了。 */
   if(favDate && !favDates().has(favDate)) favDate = "";
@@ -2535,6 +2575,118 @@ function renderFav(){
   });
   box.innerHTML = html;
 }
+
+/* =====================================================================
+ *  收藏的导出 / 导入 / 恢复备份
+ *
+ *  收藏只存在浏览器本地（localStorage），清缓存、换浏览器、换设备都拿不回来。
+ *  这里给三条出口：
+ *    导出 —— 整份（含暂时无法显示的旧记录）存成 JSON；
+ *    导入 —— 与现有收藏按 id 合并，同 id 取 ts 较新的一条，不删任何东西；
+ *    恢复备份 —— 写入前留的单槽快照，用途同导入。
+ *  三者都不做「清空后覆盖」，宁可少恢复几条，也不制造新的丢数据。
+ * ===================================================================== */
+function favAllItems(){
+  const merged = readStoredFav();                       /* 含结构不全的记录，保全量 */
+  FAV.map.forEach(function(v,k){ merged.set(k, v); });
+  const items = {};
+  merged.forEach(function(v,k){ items[k] = v; });
+  return items;
+}
+
+function favExport(){
+  const items = favAllItems();
+  const n = Object.keys(items).length;
+  if(!n){ toast("还没有收藏可导出"); return; }
+  const payload = JSON.stringify({
+    v:1,
+    kind:"interview-assistant-favorites",
+    exportedAt:new Date().toISOString(),
+    count:n,
+    items:items,
+  }, null, 2);
+  const stamp = new Date().toISOString().slice(0, 10);
+  try{
+    const blob = new Blob([payload], { type:"application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "面试助手收藏-" + stamp + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} }, 4000);
+    toast("已导出 " + n + " 条收藏");
+  }catch(e){
+    toast("导出失败：当前浏览器不支持文件下载");
+  }
+}
+
+/* 统一入口：把一份 items 合并进来。source 只用于提示文案。 */
+function favMergeItems(src, source){
+  if(!src || typeof src !== "object"){
+    toast("导入失败：文件里没有 items");
+    return;
+  }
+  const cur = readStoredFav();
+  let add = 0, skip = 0, bad = 0;
+  Object.keys(src).forEach(function(id){
+    const rec = src[id];
+    /* 只收「对象且带快照」的记录：没有 it 的进不了内存表，
+       但也不丢 —— 它们是旧版本的格式，导入后仍原样留在存储里等后续版本兼容。 */
+    if(!rec || typeof rec !== "object"){ bad++; return; }
+    const old = cur.get(id);
+    if(old && (old.ts || 0) >= (rec.ts || 0)){ skip++; return; }
+    cur.set(id, rec); add++;
+  });
+  if(!add){ toast("没有新增：" + source + "的 " + skip + " 条收藏已存在" + (bad ? "，" + bad + " 条格式不符" : "")); return; }
+  const items = {};
+  cur.forEach(function(v,k){ items[k] = v; });
+  const payload = JSON.stringify({ v:1, items:items });
+  snapshotBeforeWrite(payload);
+  let ok = false;
+  try{
+    window.localStorage.setItem(FAV_KEY, payload);
+    ok = (window.localStorage.getItem(FAV_KEY) === payload);
+  }catch(e){ ok = false; }
+  if(!ok){ toast("导入失败：当前环境无法写入本地存储"); return; }
+  loadFav(); syncFavBadge(); refreshAllFavBtns(); renderFav();
+  toast("已导入 " + add + " 条" + (skip ? "，跳过 " + skip + " 条已存在" : "") + (bad ? "，" + bad + " 条格式不符" : ""));
+}
+
+function favImportText(text, source){
+  let obj = null;
+  try{ obj = JSON.parse(text); }catch(e){ toast("导入失败：文件不是合法 JSON"); return; }
+  favMergeItems(obj && obj.items, source);
+}
+
+function favRestoreBackup(){
+  let raw = "";
+  try{ raw = window.localStorage.getItem(FAV_BAK) || ""; }catch(e){ raw = ""; }
+  if(!raw){ toast("没有可用的自动备份"); return; }
+  favImportText(raw, "备份");
+}
+
+(function bindFavTools(){
+  const exp = document.getElementById("favExport");
+  const imp = document.getElementById("favImport");
+  const res = document.getElementById("favRestore");
+  const file = document.getElementById("favFile");
+  if(exp) exp.addEventListener("click", favExport);
+  if(res) res.addEventListener("click", favRestoreBackup);
+  if(imp && file){
+    imp.addEventListener("click", function(){ file.value = ""; file.click(); });
+    file.addEventListener("change", function(){
+      const f = file.files && file.files[0];
+      if(!f) return;
+      const reader = new FileReader();
+      reader.onload = function(){ safe(function(){ favImportText(String(reader.result || ""), "文件"); }); };
+      reader.onerror = function(){ toast("读取文件失败"); };
+      reader.readAsText(f);
+    });
+  }
+})();
+
 
 const DAY_SECTION_LIMIT = 6;                      // 每节默认展开的条数（其余折叠）
 
