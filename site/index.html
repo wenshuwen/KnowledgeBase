@@ -2134,9 +2134,20 @@ function stripHtml(html){
  *  （用「日期+组+下标」做键则重跑必错位）。
  * ===================================================================== */
 const FAV_KEY = "ia_favorites_v1";                 // 与 LS 同前缀，独立常量避免动 LS 结构
-/* 写前快照：每次真正写入前，把「上一版」整份留在 .bak（单槽覆盖）。
-   用途是误覆盖后的抢救 —— 收藏只有本地一份，没有服务端副本。 */
-const FAV_BAK = FAV_KEY + ".bak";
+/* ---------- 存档加固（2026-11-02） ----------
+ * 此前只做到「读-合并-写」，仍留了三条能把历史清空的路：
+ *   1) 存档在、但 JSON 解析不出来 → 被当成空表，下一次写入以空基底覆盖整份历史；
+ *   2) 只有 .bak 单槽 → 连续两次写入就把唯一那份备份自己盖掉，救不回来；
+ *   3) 写后只比对字符串，不比对条数 → 写入被截断时也判成功。
+ * 现在：解析失败原串留档并拒绝破坏性写入；写前快照进环形槽（2 代 + .bak）；
+ * 写后校验条数；每次写入落一条审计记录；并暴露 __iaFavDiag() 供现场取证。
+ */
+const FAV_BAK = FAV_KEY + ".bak";                  // 上一版整份（兼容旧的「恢复备份」入口）
+const FAV_SNAP_PREFIX = FAV_KEY + ".snap.";        // 环形快照槽：两代历史版本
+const FAV_SNAP_SLOTS = 2;
+const FAV_AUDIT = FAV_KEY + ".audit";              // 最近 20 次写入的条数变化
+const FAV_CORRUPT_PREFIX = FAV_KEY + ".corrupt.";  // 解析失败的原串留档（最多 2 份）
+const FAV_AUDIT_MAX = 20;
 const FAV_MAX = 666;                               // 约 0.7MB（按单条约 1KB 估算），仍远低于 localStorage 常见 5MB 配额
 /* 上限从 500 提到 666 是用户指定值：历史收藏累积到 500 会被「收藏夹已满」挡住。
    写入仍是整表序列化，真的撞配额时 store.set 会抛 QuotaExceededError，
@@ -2144,7 +2155,10 @@ const FAV_MAX = 666;                               // 约 0.7MB（按单条约 1
 /* tomb：本次会话里被取消的 id。合并写入时要用它把这些条目压掉，
    否则「从存储读回来合并」会把刚取消的那条又请回来。 */
 const FAV = { loaded:false, writable:true, map:new Map(), set:new Set(),
-              tomb:new Set(), drop:0 };
+              tomb:new Set(), drop:0,
+              corrupt:false,      /* 存档存在但解析失败：禁止任何覆盖写入 */
+              storedCount:0,      /* 存储里的条数（含不可显示的），用于判断是否骤减 */
+              lastReason:"" };
 /* id -> {m, d, it}。点击星标时只能拿到 id，需要原文才能写快照；
    把整段 HTML 塞进 data 属性既撑大 DOM 又难转义，所以用这张表回查。 */
 const FAV_POOL = new Map();
@@ -2194,26 +2208,55 @@ function guessModule(it){
   return "";
 }
 
-/* 直接从存储解析出 id -> 记录。用于「写入前先合并」，也用于跨标签页同步。
- *
- *  这里**不再按可用性过滤**：过去只收 `rec.it` 存在的记录，而这份结果同时
- *  充当 saveFav 的合并基底 —— 等于「读的时候假装看不见，写的时候就顺手删掉」，
- *  结构不全的历史记录会在用户下一次点收藏时被永久清除。现在全量读回，
- *  能不能显示交给 favUsable 判断，写回时原样带回。 */
-function readStoredFav(){
-  const out = new Map();
-  let raw = "";
-  try{ raw = store.get(FAV_KEY, ""); }catch(e){ return out; }
+/* 解析一份存档串。ok=false 表示「串在、但解析不出来」——
+   这个状态必须与「串不存在」区分开：前者是待抢救的历史，后者才是真的空。 */
+function parseFavRaw(raw){
+  const out = { map:new Map(), ok:false, count:0 };
   if(!raw) return out;
   try{
     const obj = JSON.parse(raw);
     const items = (obj && obj.items) || {};
     Object.keys(items).forEach(function(id){
       const rec = items[id];
-      if(rec && typeof rec === "object") out.set(id, rec);
+      if(rec && typeof rec === "object") out.map.set(id, rec);
     });
-  }catch(e){ /* 结构损坏：当作空。store 里的原串不会被主动删除，见 saveFav 的写后校验 */ }
+    out.ok = true;
+    out.count = out.map.size;
+  }catch(e){ out.ok = false; }
   return out;
+}
+
+/* 全量读回：map + 原串 + 是否可解析 + 条数。
+ *  这里**不按可用性过滤**：过去只收 `rec.it` 存在的记录，而这份结果同时
+ *  充当 saveFav 的合并基底 —— 等于「读的时候假装看不见，写的时候就顺手删掉」，
+ *  结构不全的历史记录会在用户下一次点收藏时被永久清除。现在全量读回，
+ *  能不能显示交给 favUsable 判断，写回时原样带回。 */
+function readStoredFavFull(){
+  let raw = "";
+  try{ raw = store.get(FAV_KEY, "") || ""; }catch(e){ raw = ""; }
+  const r = parseFavRaw(raw);
+  r.raw = raw;
+  return r;
+}
+/* 兼容旧调用点：只要 id -> 记录这张表 */
+function readStoredFav(){ return readStoredFavFull().map; }
+
+/* 解析失败的原串单独留档：既避免后续写入把它顶掉，也留一份可以人工捞回的证据。
+   只保留最近 2 份，防止坏数据长期占配额。 */
+function quarantineCorrupt(raw){
+  try{
+    if(!raw) return "";
+    const key = FAV_CORRUPT_PREFIX + Date.now();
+    window.localStorage.setItem(key, raw);
+    const keys = [];
+    for(let i = 0; i < window.localStorage.length; i++){
+      const k = window.localStorage.key(i);
+      if(k && k.indexOf(FAV_CORRUPT_PREFIX) === 0) keys.push(k);
+    }
+    keys.sort();
+    while(keys.length > 2) window.localStorage.removeItem(keys.shift());
+    return key;
+  }catch(e){ return ""; }
 }
 
 /* 一条存储记录能否被渲染：必须有快照原文，且能定出来源模块。
@@ -2226,15 +2269,24 @@ function favUsable(rec){
 function loadFav(){
   FAV.loaded = true;
   FAV.map = new Map(); FAV.set = new Set(); FAV.tomb = new Set(); FAV.drop = 0;
+  FAV.corrupt = false; FAV.storedCount = 0;
   try{
     const probe = "__ia_fav_probe__";
     window.localStorage.setItem(probe, "1");
     window.localStorage.removeItem(probe);
     FAV.writable = true;
   }catch(e){ FAV.writable = false; }
-  readStoredFav().forEach(function(rec, id){
+  const stored = readStoredFavFull();
+  FAV.storedCount = stored.count;
+  /* 串在但解析不出来：留档并置标记。此时内存表是空的，但绝不能据此判断
+     「用户没有收藏」——见 commitFav 的第一条保护。 */
+  if(stored.raw && !stored.ok){
+    FAV.corrupt = true;
+    quarantineCorrupt(stored.raw);
+  }
+  stored.map.forEach(function(rec, id){
     /* 读进来的记录可能结构不全（历史版本字段差异）。这类不进内存表，
-       但也不会被删 —— saveFav 的合并基底是同一份全量读回结果。 */
+       但也不会被删 —— commitFav 的合并基底是同一份全量读回结果。 */
     if(!favUsable(rec)){ FAV.drop++; return; }
     const m = rec.m || guessModule(rec.it);
     FAV.map.set(id, { m:m, d:rec.d || "", ts:rec.ts || 0, it:rec.it });
@@ -2250,42 +2302,116 @@ function loadFav(){
    打开那一刻的快照。整块覆盖时，后写的那个页面会把另一边新加的收藏
    全部冲掉 —— 表现出来正是「以前收的都不见了，只剩今天这几条」。
    合并写入把这类互相覆盖收敛到「同一条并发修改」这一种情况。 */
-/* 写前快照：把当前存储里的那一版整体存到 .bak。
-   三条约束，都是为了「别用垃圾冲掉好数据」：
+/* 写前快照：把当前存储里的那一版整体存到 .bak，并轮转进环形槽。
+   四条约束，都是为了「别用垃圾冲掉好数据」：
      1) 上一版必须存在且与本次要写的不同；
      2) 上一版必须能解析、且 items 非空；
-     3) 只在真正写入前调用，写失败也不影响主数据的现状。 */
-function snapshotBeforeWrite(payload){
-  try{
-    const prev = window.localStorage.getItem(FAV_KEY);
-    if(!prev || prev === payload) return;
-    let ok = false;
+     3) 只在真正写入前调用，写失败也不影响主数据的现状；
+     4) 环形槽按最旧覆盖 —— 单靠 .bak 时，连续两次误写就把唯一备份也盖掉了。
+   配额不足时优先牺牲快照槽，绝不因为快照失败影响主写入。 */
+function writeFavSnap(raw, count){
+  let slot = 0, oldestTs = null;
+  for(let i = 0; i < FAV_SNAP_SLOTS; i++){
+    let ts = 0;
     try{
-      const o = JSON.parse(prev);
-      ok = !!(o && o.items && Object.keys(o.items).length);
-    }catch(e){ ok = false; }
-    if(ok) window.localStorage.setItem(FAV_BAK, prev);
-  }catch(e){ /* 快照失败不能拦住主写入 */ }
+      const o = JSON.parse(window.localStorage.getItem(FAV_SNAP_PREFIX + i) || "null");
+      ts = (o && o.ts) || 0;
+    }catch(e){ ts = 0; }
+    if(oldestTs === null || ts < oldestTs){ oldestTs = ts; slot = i; }
+  }
+  const body = JSON.stringify({ ts:Date.now(), count:count, raw:raw });
+  try{ window.localStorage.setItem(FAV_SNAP_PREFIX + slot, body); }
+  catch(e){
+    try{ window.localStorage.removeItem(FAV_SNAP_PREFIX + slot); }catch(e2){}
+  }
 }
-function hasFavBackup(){
-  try{ return !!window.localStorage.getItem(FAV_BAK); }catch(e){ return false; }
+function snapshotBeforeWrite(payload){
+  let prev = "";
+  try{ prev = window.localStorage.getItem(FAV_KEY) || ""; }catch(e){ return; }
+  if(!prev || prev === payload) return;
+  const p = parseFavRaw(prev);
+  if(!p.ok || !p.count) return;
+  try{ window.localStorage.setItem(FAV_BAK, prev); }catch(e){}
+  writeFavSnap(prev, p.count);
+}
+/* 所有可恢复的版本，按「条数降序、时间降序」排。
+   恢复时优先挑条数最多的那一版 —— 备份的价值在于保住历史，不是保住最新。 */
+function favSnapshots(){
+  const out = [];
+  try{
+    const bak = window.localStorage.getItem(FAV_BAK) || "";
+    const p = parseFavRaw(bak);
+    if(bak && p.ok && p.count) out.push({ name:"自动备份", ts:0, count:p.count, raw:bak });
+  }catch(e){}
+  for(let i = 0; i < FAV_SNAP_SLOTS; i++){
+    try{
+      const o = JSON.parse(window.localStorage.getItem(FAV_SNAP_PREFIX + i) || "null");
+      if(!o || !o.raw) continue;
+      const p = parseFavRaw(o.raw);
+      if(!p.ok || !p.count) continue;
+      out.push({ name:"快照 " + (i + 1), ts:o.ts || 0, count:p.count, raw:o.raw });
+    }catch(e){}
+  }
+  out.sort(function(a, b){
+    if(b.count !== a.count) return b.count - a.count;
+    return (b.ts || 0) - (a.ts || 0);
+  });
+  return out;
+}
+function hasFavBackup(){ return favSnapshots().length > 0; }
+
+/* 审计：只记条数变化，不记内容。出问题时能回答「是哪一步把 128 条变成了 0 条」。 */
+function logFavAudit(entry){
+  try{
+    let arr = [];
+    try{ arr = JSON.parse(window.localStorage.getItem(FAV_AUDIT) || "[]") || []; }catch(e){ arr = []; }
+    if(!Array.isArray(arr)) arr = [];
+    arr.push(entry);
+    if(arr.length > FAV_AUDIT_MAX) arr = arr.slice(arr.length - FAV_AUDIT_MAX);
+    window.localStorage.setItem(FAV_AUDIT, JSON.stringify(arr));
+  }catch(e){ /* 审计写不进去不能影响主流程 */ }
 }
 
-function saveFav(){
-  const merged = readStoredFav();                 /* 含无法显示的记录：原样带回，不删 */
-  FAV.map.forEach(function(v,k){ merged.set(k, v); });
-  FAV.tomb.forEach(function(k){ merged.delete(k); });
+/* 真正落盘的那一步。action 取 add / remove / import / restore / update。
+   两条保护都返回失败而不是硬写 —— 宁可这次收藏不成功，也不能拿空表覆盖历史。 */
+function commitFav(merged, action){
+  const stored = readStoredFavFull();
+  const prevCount = stored.count;
   const items = {};
   merged.forEach(function(v,k){ items[k] = v; });
+  const newCount = merged.size;
   const payload = JSON.stringify({ v:1, items:items });
+
+  /* 保护一：串在、但解析不出来。merged 的基底此时是空表，
+     写下去等于把一份可能完好的历史换成当前这几条。 */
+  if(!stored.ok && stored.raw){
+    quarantineCorrupt(stored.raw);
+    FAV.corrupt = true;
+    logFavAudit({ t:Date.now(), action:action, before:prevCount, after:newCount, ok:false, note:"corrupt-guard" });
+    return { ok:false, reason:"corrupt" };
+  }
+  /* 保护二：一次写入让条数腰斩。正常操作只增删一条，导入也是并集不会骤降。
+     真骤降说明内存表是空快照 —— 典型是两个标签页各持旧表互相覆盖后的余波。 */
+  if(action !== "remove" && prevCount >= 4 && newCount * 2 < prevCount){
+    logFavAudit({ t:Date.now(), action:action, before:prevCount, after:newCount, ok:false, note:"shrink-guard" });
+    return { ok:false, reason:"shrink" };
+  }
+
   snapshotBeforeWrite(payload);
-  try{ store.set(FAV_KEY, payload); }catch(e){ return false; }
+  try{ store.set(FAV_KEY, payload); }catch(e){
+    logFavAudit({ t:Date.now(), action:action, before:prevCount, after:newCount, ok:false, note:"store-throw" });
+    return { ok:false, reason:"write" };
+  }
   /* 写后校验必须**直读 localStorage**，不能走 store.get：
      localStorage 不可用时 store 会降级到内存字典，自己写自己读必然一致，
      于是「明明没落盘」也被判成功 —— 用户看到「已加入收藏夹」，刷新就没了。
-     直读拿不到或不等于 payload 就返回 false，由调用方回滚并提示。 */
+     直读拿不到、或落盘条数与预期不符，都按失败处理。 */
   let ok = false;
   try{ ok = (window.localStorage.getItem(FAV_KEY) === payload); }catch(e){ ok = false; }
+  if(ok){
+    const landed = readStoredFavFull();
+    if(landed.count !== newCount) ok = false;
+  }
   if(ok){
     /* 成功之后按可用性重建内存表：merged 里那些结构不全的记录只存在于存储，
        不参与计数与渲染。同时清空墓碑 —— 它们已经在本次写入中落到存储上，
@@ -2296,8 +2422,20 @@ function saveFav(){
       FAV.map.set(k, { m:(v.m || guessModule(v.it)), d:v.d || "", ts:v.ts || 0, it:v.it });
       FAV.set.add(k);
     });
+    FAV.storedCount = newCount;
+    FAV.corrupt = false;
   }
-  return ok;
+  logFavAudit({ t:Date.now(), action:action, before:prevCount, after:newCount, ok:ok });
+  return { ok:ok, reason: ok ? "" : "write" };
+}
+
+function saveFav(action){
+  const merged = readStoredFav();                 /* 含无法显示的记录：原样带回，不删 */
+  FAV.map.forEach(function(v,k){ merged.set(k, v); });
+  FAV.tomb.forEach(function(k){ merged.delete(k); });
+  const r = commitFav(merged, action || "update");
+  FAV.lastReason = r.reason;
+  return r.ok;
 }
 
 function toggleFav(m, d, it){
@@ -2306,9 +2444,9 @@ function toggleFav(m, d, it){
   if(FAV.set.has(id)){
     const old = FAV.map.get(id);
     FAV.map.delete(id); FAV.set.delete(id); FAV.tomb.add(id);
-    if(!saveFav()){
+    if(!saveFav("remove")){
       FAV.map.set(id, old); FAV.set.add(id); FAV.tomb.delete(id);
-      return { ok:false, reason:"write" };
+      return { ok:false, reason:FAV.lastReason || "write" };
     }
     return { ok:true, on:false, id:id };
   }
@@ -2316,7 +2454,10 @@ function toggleFav(m, d, it){
   const rec = { m:m, d:d || "", ts:Date.now(), it:it };
   FAV.tomb.delete(id);                    /* 重新收藏：撤销同一条的墓碑 */
   FAV.map.set(id, rec); FAV.set.add(id);
-  if(!saveFav()){ FAV.map.delete(id); FAV.set.delete(id); return { ok:false, reason:"write" }; }
+  if(!saveFav("add")){
+    FAV.map.delete(id); FAV.set.delete(id);
+    return { ok:false, reason:FAV.lastReason || "write" };
+  }
   return { ok:true, on:true, id:id };
 }
 
@@ -2361,6 +2502,8 @@ function handleFavClick(btn){
   const r = toggleFav(pool.m, pool.d, pool.it);
   if(!r.ok){
     if(r.reason === "full") toast("收藏夹已满（上限 " + FAV_MAX + " 条），先取消一些再收藏");
+    else if(r.reason === "corrupt") toast("本地存档解析失败，为免覆盖历史已停止写入；点「恢复备份」可找回");
+    else if(r.reason === "shrink") toast("本次操作会让收藏骤减，已拒绝写入；刷新页面后重试");
     else toast("保存失败：当前环境不支持本地存储，或空间已满");
     return;
   }
@@ -2403,6 +2546,31 @@ window.addEventListener("storage", function(e){
     syncFavBadge();
     refreshAllFavBtns();
     renderFav();
+  });
+});
+
+/* 回到前台时对一次账。
+ *  移动端（尤其 iOS Safari）切后台久了会回收页面，回来时脚本状态可能还是旧的；
+ *  更常见的是「后台期间另一个标签页改过数据」。两种情况都表现为
+ *  「我明明收过，打开却是空的」。这里只在「存储里比内存里多」时重读，
+ *  避免把用户刚点下的星标用旧数据冲掉。 */
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState !== "visible") return;
+  if(!FAV.loaded || !FAV.writable) return;
+  safe(function(){
+    const stored = readStoredFavFull();
+    if(!stored.ok && stored.raw){                 /* 存档坏了：重读一次把警示挂上 */
+      loadFav(); renderFav(); syncFavBadge(); refreshAllFavBtns(); return;
+    }
+    let usable = 0;
+    stored.map.forEach(function(rec){ if(favUsable(rec)) usable++; });
+    if(usable > FAV.map.size){
+      loadFav();
+      syncFavBadge();
+      refreshAllFavBtns();
+      renderFav();
+      toast("已同步其他页面的收藏（" + FAV.map.size + " 条）");
+    }
   });
 });
 
@@ -2527,6 +2695,12 @@ function renderFav(){
       + '本地存档里有 ' + FAV.drop + ' 条记录格式无法识别，已原样保留在本地、暂不显示（不会被删除）。'
       + '如果收藏数目对不上，多半是先前版本写入的格式不一致。</div>';
   }
+  if(FAV.corrupt){
+    banner += '<div style="background:#fdecec;border:1px solid #f3b4b4;color:#8c1d1d;'
+      + 'font-size:12.5px;line-height:1.6;border-radius:10px;padding:10px 14px;margin-bottom:14px">'
+      + '本地存档暂时解析不出来，已原样留档、且已停止任何写入（不会被覆盖）。'
+      + '点下方「恢复备份」可找回最近一版；若仍为空，说明这份存档在更早就已损坏。</div>';
+  }
   if(!total){
     if(sum) sum.textContent = "按来源模块自动分类归档；点击卡片右上角的 ★ 可取消收藏。";
     box.innerHTML = banner + (FAV.writable
@@ -2640,16 +2814,15 @@ function favMergeItems(src, source){
     cur.set(id, rec); add++;
   });
   if(!add){ toast("没有新增：" + source + "的 " + skip + " 条收藏已存在" + (bad ? "，" + bad + " 条格式不符" : "")); return; }
-  const items = {};
-  cur.forEach(function(v,k){ items[k] = v; });
-  const payload = JSON.stringify({ v:1, items:items });
-  snapshotBeforeWrite(payload);
-  let ok = false;
-  try{
-    window.localStorage.setItem(FAV_KEY, payload);
-    ok = (window.localStorage.getItem(FAV_KEY) === payload);
-  }catch(e){ ok = false; }
-  if(!ok){ toast("导入失败：当前环境无法写入本地存储"); return; }
+  /* 走同一条 commitFav：导入同样要过快照、条数校验与审计，
+     不能让「导入」成为绕过保护、直接写底层 key 的旁路。 */
+  const cr = commitFav(cur, "import");
+  if(!cr.ok){
+    if(cr.reason === "corrupt") toast("导入已中止：本地存档解析失败，为避免覆盖已停止写入（可用「恢复备份」找回）");
+    else if(cr.reason === "shrink") toast("导入已中止：本次会让收藏骤减，已拒绝写入");
+    else toast("导入失败：当前环境无法写入本地存储");
+    return;
+  }
   loadFav(); syncFavBadge(); refreshAllFavBtns(); renderFav();
   toast("已导入 " + add + " 条" + (skip ? "，跳过 " + skip + " 条已存在" : "") + (bad ? "，" + bad + " 条格式不符" : ""));
 }
@@ -2661,11 +2834,35 @@ function favImportText(text, source){
 }
 
 function favRestoreBackup(){
-  let raw = "";
-  try{ raw = window.localStorage.getItem(FAV_BAK) || ""; }catch(e){ raw = ""; }
-  if(!raw){ toast("没有可用的自动备份"); return; }
-  favImportText(raw, "备份");
+  /* 不再只认 .bak：环形槽里可能有更完整的一版（条数更多）。
+     favSnapshots 已按条数降序排好，取第一条即可。 */
+  const snaps = favSnapshots();
+  if(!snaps.length){ toast("没有可用的自动备份"); return; }
+  const best = snaps[0];
+  favImportText(best.raw, best.name + "（" + best.count + " 条）");
 }
+
+/* 现场取证入口：在浏览器控制台执行 __iaFavDiag()。
+   只回答三个问题，不导出任何收藏正文 —— 存档在不在（keys 里的字节数）、
+   能不能解析（main.ok）、历史被哪一步改过（audit 的条数变化）。 */
+window.__iaFavDiag = function(){
+  const out = { env:{}, keys:{}, main:null, snaps:[], audit:[] };
+  out.env = { writable:FAV.writable, memory:FAV.map.size, stored:FAV.storedCount,
+              drop:FAV.drop, corrupt:FAV.corrupt,
+              ua:(navigator.userAgent || "").slice(0, 90) };
+  try{
+    for(let i = 0; i < window.localStorage.length; i++){
+      const k = window.localStorage.key(i);
+      if(!k || k.indexOf("ia_favorites") !== 0) continue;
+      out.keys[k] = (window.localStorage.getItem(k) || "").length;
+    }
+  }catch(e){ out.keys.error = String((e && e.message) || e); }
+  const m = readStoredFavFull();
+  out.main = { ok:m.ok, bytes:m.raw.length, count:m.count };
+  out.snaps = favSnapshots().map(function(o){ return { name:o.name, count:o.count, ts:o.ts }; });
+  try{ out.audit = JSON.parse(window.localStorage.getItem(FAV_AUDIT) || "[]") || []; }catch(e){ out.audit = []; }
+  return out;
+};
 
 (function bindFavTools(){
   const exp = document.getElementById("favExport");
