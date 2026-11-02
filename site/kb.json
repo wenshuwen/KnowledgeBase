@@ -1,15 +1,15 @@
 {
- "contentHash": "ae3420df",
- "version": "kb-2026.10.26-ae3420df",
- "updatedAt": "2026-10-26",
- "generatedAt": "2026-10-26T22:04:04",
- "summary": "知识库共 39 条，覆盖 8 个分类",
+ "contentHash": "bc134d4c",
+ "version": "kb-2026.11.02-bc134d4c",
+ "updatedAt": "2026-11-02",
+ "generatedAt": "2026-11-02T21:53:02",
+ "summary": "知识库共 41 条，覆盖 8 个分类",
  "stats": {
-  "total": 39,
+  "total": 41,
   "byCat": {
    "theory": 4,
    "api-testing": 9,
-   "performance-testing": 2,
+   "performance-testing": 4,
    "automation-testing": 5,
    "security-testing": 9,
    "ai-testing": 2,
@@ -17,8 +17,8 @@
    "database-linux": 5
   },
   "byKind": {
-   "knowledge": 22,
-   "question": 10,
+   "knowledge": 23,
+   "question": 11,
    "skill": 7
   }
  },
@@ -36,7 +36,7 @@
   {
    "cat": "performance-testing",
    "label": "性能测试",
-   "count": 2
+   "count": 4
   },
   {
    "cat": "automation-testing",
@@ -149,7 +149,7 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-10-26",
+    "updated": "2026-11-02",
     "confidence": "high",
     "tags": [
      "interview",
@@ -164,6 +164,7 @@
      "假阴性漏测的六大来源",
      "大模型输出的非确定性与断言分层",
      "安全测试的分层策略与手段组合",
+     "容量规划与安全水位核定",
      "幂等的两种语义与并发验证",
      "接口断言的四个层次",
      "测试停止判据与残余风险披露",
@@ -171,9 +172,10 @@
      "移动端自动化稳定性的六层验证",
      "移动端自动化闭环的七阶段",
      "覆盖率口径与测过了的三层含义",
+     "队列积压的性质判定",
      "限流与防刷机制的测试"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（<strong>接口域 9 页</strong>、AI 域 5 页、安全域 9 页、自动化域 5 页、测试理论 4 页，最近 2026-10-26）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"测试停止判据与残余风险披露\">测试停止判据与残余风险披露</span></li>\n<li><span class=\"wl\" data-page=\"覆盖率口径与测过了的三层含义\">覆盖率口径与测过了的三层含义</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（<strong>接口域 9 页</strong>、AI 域 5 页、安全域 9 页、自动化域 5 页、测试理论 4 页、<strong>性能域 4 页</strong>，最近 2026-11-02）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"测试停止判据与残余风险披露\">测试停止判据与残余风险披露</span></li>\n<li><span class=\"wl\" data-page=\"覆盖率口径与测过了的三层含义\">覆盖率口径与测过了的三层含义</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -365,7 +367,7 @@
     "level": "中级",
     "question": "",
     "domain": "接口测试",
-    "updated": "2026-10-19",
+    "updated": "2026-11-02",
     "confidence": "high",
     "tags": [
      "api-testing",
@@ -377,6 +379,7 @@
      "HTTP协议要点与状态码",
      "Mock接口桩的设计模式",
      "Web安全测试地图",
+     "容量规划与安全水位核定",
      "幂等的两种语义与并发验证",
      "性能瓶颈定位的分层排查路径",
      "接口断言的四个层次",
@@ -385,7 +388,7 @@
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>接口测试的面试题几乎都落在四个问题上：<strong>协议怎么走、身份怎么验、依赖怎么替、异常怎么造</strong>。这四个问题对应四块知识，其余都是细节。</p>\n<h2 id=\"_2\">四块知识</h2>\n<table>\n<thead>\n<tr>\n<th>块</th>\n<th>回答的问题</th>\n<th>页面</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>协议</strong></td>\n<td>请求怎么发出去、状态码怎么判读</td>\n<td><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></td>\n</tr>\n<tr>\n<td><strong>传输安全</strong></td>\n<td>同样是请求，HTTPS 多做了什么</td>\n<td><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></td>\n</tr>\n<tr>\n<td><strong>身份</strong></td>\n<td>服务端凭什么相信这次请求是你</td>\n<td><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></td>\n</tr>\n<tr>\n<td><strong>依赖替代</strong></td>\n<td>下游没好、数据造不出来时怎么继续测</td>\n<td><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"2026-10-19\">两块被这张地图漏掉的核心（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——四块知识回答的是「怎么发请求、怎么替代依赖」，但真正决定用例有没有价值的另外两件事没在地图上：<strong>断得够不够</strong>、<strong>重复执行安不安全</strong>。</p>\n</blockquote>\n<table>\n<thead>\n<tr>\n<th>块</th>\n<th>回答的问题</th>\n<th>页面</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>断言</strong></td>\n<td>一个接口要检查到什么程度才算测过：协议 / 业务 / 数据 / 副作用四层</td>\n<td><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></td>\n</tr>\n<tr>\n<td><strong>幂等</strong></td>\n<td>同一个请求重复或并发到达时，副作用是否唯一、返回是否一致</td>\n<td><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></td>\n</tr>\n</tbody>\n</table>\n<p>这两块与四块知识的关系是<strong>乘法而非加法</strong>：协议、鉴权、Mock 决定用例能不能跑起来，断言与幂等决定跑完之后能不能发现问题。缺了断言，「跑通」等于没测；缺了幂等，重试与回调场景在测试环境里永远全绿。</p>\n<h2 id=\"_3\">三条贯穿接口测试的判断</h2>\n<p><strong>一、状态码只是线索，不是结论。</strong> 404 可能是真的没有，也可能是鉴权失败被伪装成 404；200 也不代表拿到了正确的数据——<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span> 的核心判据就是\"状态码 200 但内容其实是别人的\"。</p>\n<p><strong>二、鉴权方式决定测试重点。</strong> Cookie 体系下必测 CSRF 与 HttpOnly；Token 体系下必测签名篡改与过期策略。<strong>不清楚被测系统用哪种鉴权，用例设计就是盲的。</strong></p>\n<p><strong>三、Mock 的目的是隔离，不是省事。</strong> 用 Mock 跳过依赖能让用例跑起来，但<strong>\"Mock 通过\"不等于\"接口没问题\"</strong>——契约一旦偏离真实实现，Mock 会掩盖故障。</p>\n<h2 id=\"_4\">与其他领域的关系</h2>\n<ul>\n<li>接口的<strong>安全性</strong>（注入、越权、SSRF）见 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li>接口的<strong>性能</strong>（压测、拐点定位）见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li>接口<strong>自动化</strong>（pytest + requests 分层）见 <span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n</ul>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>接口测试的面试题几乎都落在四个问题上：<strong>协议怎么走、身份怎么验、依赖怎么替、异常怎么造</strong>。这四个问题对应四块知识，其余都是细节。</p>\n<h2 id=\"_2\">四块知识</h2>\n<table>\n<thead>\n<tr>\n<th>块</th>\n<th>回答的问题</th>\n<th>页面</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>协议</strong></td>\n<td>请求怎么发出去、状态码怎么判读</td>\n<td><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></td>\n</tr>\n<tr>\n<td><strong>传输安全</strong></td>\n<td>同样是请求，HTTPS 多做了什么</td>\n<td><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></td>\n</tr>\n<tr>\n<td><strong>身份</strong></td>\n<td>服务端凭什么相信这次请求是你</td>\n<td><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></td>\n</tr>\n<tr>\n<td><strong>依赖替代</strong></td>\n<td>下游没好、数据造不出来时怎么继续测</td>\n<td><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"2026-10-19\">两块被这张地图漏掉的核心（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——四块知识回答的是「怎么发请求、怎么替代依赖」，但真正决定用例有没有价值的另外两件事没在地图上：<strong>断得够不够</strong>、<strong>重复执行安不安全</strong>。</p>\n</blockquote>\n<table>\n<thead>\n<tr>\n<th>块</th>\n<th>回答的问题</th>\n<th>页面</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>断言</strong></td>\n<td>一个接口要检查到什么程度才算测过：协议 / 业务 / 数据 / 副作用四层</td>\n<td><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></td>\n</tr>\n<tr>\n<td><strong>幂等</strong></td>\n<td>同一个请求重复或并发到达时，副作用是否唯一、返回是否一致</td>\n<td><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></td>\n</tr>\n</tbody>\n</table>\n<p>这两块与四块知识的关系是<strong>乘法而非加法</strong>：协议、鉴权、Mock 决定用例能不能跑起来，断言与幂等决定跑完之后能不能发现问题。缺了断言，「跑通」等于没测；缺了幂等，重试与回调场景在测试环境里永远全绿。</p>\n<h2 id=\"_3\">三条贯穿接口测试的判断</h2>\n<p><strong>一、状态码只是线索，不是结论。</strong> 404 可能是真的没有，也可能是鉴权失败被伪装成 404；200 也不代表拿到了正确的数据——<span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span> 的核心判据就是\"状态码 200 但内容其实是别人的\"。</p>\n<p><strong>二、鉴权方式决定测试重点。</strong> Cookie 体系下必测 CSRF 与 HttpOnly；Token 体系下必测签名篡改与过期策略。<strong>不清楚被测系统用哪种鉴权，用例设计就是盲的。</strong></p>\n<p><strong>三、Mock 的目的是隔离，不是省事。</strong> 用 Mock 跳过依赖能让用例跑起来，但<strong>\"Mock 通过\"不等于\"接口没问题\"</strong>——契约一旦偏离真实实现，Mock 会掩盖故障。</p>\n<h2 id=\"_4\">与其他领域的关系</h2>\n<ul>\n<li>接口的<strong>安全性</strong>（注入、越权、SSRF）见 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li>接口的<strong>性能</strong>（压测、拐点定位）见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>，容量与安全水位见 <span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li>接口<strong>自动化</strong>（pytest + requests 分层）见 <span class=\"wl\" data-page=\"自动化测试分层架构与Fixture作用域\">自动化测试分层架构与Fixture作用域</span></li>\n</ul>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"HTTP协议要点与状态码\">HTTP协议要点与状态码</span></li>\n<li><span class=\"wl\" data-page=\"HTTP与HTTPS的核心差异\">HTTP与HTTPS的核心差异</span></li>\n<li><span class=\"wl\" data-page=\"接口鉴权机制-Token与Cookie与Session\">接口鉴权机制-Token与Cookie与Session</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/40-接口测试/接口测试知识地图.md"
    },
    {
@@ -417,6 +420,32 @@
     "source_path": "wiki/40-接口测试/接口鉴权机制-Token与Cookie与Session.md"
    },
    {
+    "id": "wiki/30-性能测试/容量规划与安全水位核定",
+    "title": "容量规划与安全水位核定",
+    "cat": "performance-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "性能测试",
+    "updated": "2026-11-02",
+    "confidence": "high",
+    "tags": [
+     "performance-testing",
+     "interview",
+     "metric",
+     "best-practice"
+    ],
+    "links": [
+     "性能瓶颈定位的分层排查路径",
+     "性能瓶颈的分层模型",
+     "队列积压的性质判定",
+     "限流与防刷机制的测试",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>容量规划的产出不是「一份压测报告」，而是三件能被决策直接使用的东西：<strong>容量曲线、当前冗余策略下的安全水位、带依据的扩容建议</strong>。裸百分比水位没有信息量——同一套系统换了冗余策略，水位就得跟着变。</p>\n<h2 id=\"_2\">安全水位是三个约束的交集</h2>\n<p>水位不是拍一个数字，而是取三个约束的下界：</p>\n<table>\n<thead>\n<tr>\n<th>因素</th>\n<th>含义</th>\n<th>对水位的影响</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>拐点位置</td>\n<td>延迟开始非线性上升的负载点</td>\n<td>水位必须明显低于拐点</td>\n</tr>\n<tr>\n<td>突发余量</td>\n<td>线上流量突发系数，常见 1.3~1.5</td>\n<td>保证突发时不越拐点</td>\n</tr>\n<tr>\n<td>故障冗余</td>\n<td>N+1 冗余下少一台时，剩余节点能否承接</td>\n<td>有效容量再降一档</td>\n</tr>\n</tbody>\n</table>\n<p>所以结论必须写成「在当前冗余策略下建议水位 X%，依据拐点 Y、突发系数 Z」。同一套系统单机无冗余可能只敢定 50%，多副本可到 70%——<strong>只报百分比的容量结论无法复核，也无法在架构变更后沿用</strong>。</p>\n<h2 id=\"_3\">三件交付</h2>\n<ol>\n<li><strong>容量曲线</strong>：阶梯加压（从 500 并发起，每 5 分钟加 500），直到 P99 破阈值或错误率破 1%，记录该负载点作为拐点；</li>\n<li><strong>安全水位</strong>：以拐点吞吐的一个折扣比例反推并发数与机器台数，并注明依据来自哪一轮压测、哪个版本的被测系统；</li>\n<li><strong>扩容建议</strong>：4 台与 8 台各压同一场景，比对<strong>单机有效 QPS</strong>。衰减超 15% 即判定存在共享瓶颈，并列出候选：数据库连接、缓存单分片、队列分区、网关转发。</li>\n</ol>\n<p><strong>扩容之后必须复测单机有效 QPS。</strong> 把「加机器等于翻倍」直接写进容量规划，是大促类事故最经典的起点——线性外推只在没有共享瓶颈时成立，而共享瓶颈恰恰是扩容时才会暴露的。</p>\n<h2 id=\"_4\">报告至少四条线</h2>\n<p>只写吞吐与平均耗时，会出现「报告显示吞吐 8000，实际其中 12% 是报错、队列还积压 30 万条」这种自相矛盾的结论。至少四条线一起给：</p>\n<table>\n<thead>\n<tr>\n<th>线</th>\n<th>口径要点</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>有效吞吐</td>\n<td>扣除断言失败的请求，不是总请求数</td>\n</tr>\n<tr>\n<td>错误率</td>\n<td>与吞吐同时段、同口径统计</td>\n</tr>\n<tr>\n<td>P95 与 P99</td>\n<td>分位数，不用平均值代替</td>\n</tr>\n<tr>\n<td>资源与队列水位</td>\n<td>积压单独给趋势图，不并进吞吐曲线</td>\n</tr>\n</tbody>\n</table>\n<p>积压为何会出现、属于哪一种性质，判法见 <span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span>。</p>\n<h2 id=\"_5\">与限流的关系</h2>\n<p><strong>限流阈值低于系统容量时，应用层扩容等于白做。</strong> 用户会先被网关拦住，压力根本到不了应用。所以容量结论必须与网关限流阈值一起看：只报应用层能扛多少，不报入口放行多少，这份容量规划就无法落地。限流侧的测试口径见 <span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span>。</p>\n<h2 id=\"_6\">待核实</h2>\n<ul>\n<li>70% 水位、15% 衰减线、1.3~1.5 突发系数、1% 错误率、每 5 分钟加 500 并发，均是源中的经验取值，<strong>不是行业标准</strong>，落地须按业务对延迟的敏感度与历史事故复盘重新标定；</li>\n<li>「拐点吞吐乘折扣」只是保守起点；有明确 SLA 的系统应按 SLA 反推可承受的延迟上限，再定水位；</li>\n<li>单机有效 QPS 的「有效」如何扣除失败请求，需与报告口径统一后再跨轮次比较。</li>\n</ul>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/30-性能测试/容量规划与安全水位核定.md"
+   },
+   {
     "id": "wiki/30-性能测试/性能瓶颈定位的分层排查路径",
     "title": "性能瓶颈定位的分层排查路径",
     "cat": "performance-testing",
@@ -424,7 +453,7 @@
     "level": "高级",
     "question": "线上反馈\"系统变慢了\"，你会按什么顺序排查？",
     "domain": "性能测试",
-    "updated": "2026-10-19",
+    "updated": "2026-11-02",
     "confidence": "high",
     "tags": [
      "performance-testing",
@@ -434,10 +463,12 @@
     ],
     "links": [
      "Redis缓存的五类经典问题",
+     "容量规划与安全水位核定",
      "性能瓶颈的分层模型",
+     "队列积压的性质判定",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">回答思路先摆出来</h2>\n<p><strong>先分层，再定序，最后才动手。</strong> 面试里最容易失分的答法是\"先看 CPU\"——因为 CPU 是表面上最好看的指标，但它经常只是受害者而不是元凶。正确的起点是 I/O，因为它最容易制造假象。</p>\n<h2 id=\"_2\">四步排查顺序</h2>\n<pre><code>收到&quot;系统慢了&quot;\n   ↓\n① 磁盘 I/O —— iostat -x 1\n   %util &gt; 80% 或 wa &gt; 10% ？ → 是：直接解决磁盘问题，结束\n   ↓ 否\n② 内存 —— free -h / vmstat\n   有 Swap 活动 / 内存不足？ → 是：解决内存问题，结束\n   ↓ 否\n③ CPU —— top\n   us 高 → 查 SQL 与算法热点\n   sy 高 → 查锁竞争与连接数\n   wa 高 → 回到第 ① 步（说明漏判了 I/O）\n   ↓ 否\n④ 网络 —— 带宽 / 重传 / 建连时间\n   打满或延迟高 → 优化拓扑、升级带宽、检查连接池\n</code></pre>\n<p><strong>为什么这个顺序</strong>：I/O 和内存的问题会以 CPU 指标的形式表现出来（<code>wa</code>、<code>sy</code> 偏高）。先排掉它们，后面的判断才干净。</p>\n<h2 id=\"_3\">每层的动作清单</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>第一步命令</th>\n<th>看什么</th>\n<th>常见误判</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>磁盘</td>\n<td><code>iostat -x 1</code></td>\n<td><code>%util</code>、<code>await</code></td>\n<td>把 <code>wa</code> 高当成 CPU 问题</td>\n</tr>\n<tr>\n<td>内存</td>\n<td><code>free -h</code>、<code>vmstat 1</code></td>\n<td>Swap 活动、<code>si/so</code></td>\n<td>忽略 GC 停顿，只看使用率</td>\n</tr>\n<tr>\n<td>CPU</td>\n<td><code>top</code>、<code>top -Hp PID</code></td>\n<td><code>us</code>/<code>sy</code>/<code>wa</code> 三者比例</td>\n<td>只用总利用率下结论</td>\n</tr>\n<tr>\n<td>网络</td>\n<td><code>mtr</code>、<code>tcpdump</code></td>\n<td>重传率、建连时间</td>\n<td>忘了检查连接池是否耗尽</td>\n</tr>\n<tr>\n<td>数据库</td>\n<td><code>EXPLAIN</code>、慢查询日志</td>\n<td><code>type</code>、<code>key</code></td>\n<td>索引失效（函数操作列、隐式类型转换、前导模糊匹配）</td>\n</tr>\n<tr>\n<td>应用</td>\n<td><code>jstack</code></td>\n<td>线程池队列、阻塞点</td>\n<td>只调线程池大小，不查阻塞源</td>\n</tr>\n<tr>\n<td>中间件</td>\n<td>Kafka Lag、<code>kubectl top pod</code></td>\n<td>Lag、CPU Throttling</td>\n<td>忽略容器 Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">优化策略：五个方向，按代价从低到高</h2>\n<table>\n<thead>\n<tr>\n<th>方向</th>\n<th>核心思路</th>\n<th>适用场景</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>减少需求</td>\n<td>缓存热点、减少重复计算、合并请求</td>\n<td>读多写少</td>\n</tr>\n<tr>\n<td>改善分布</td>\n<td>负载均衡、读写分离、分库分表</td>\n<td>单点过载</td>\n</tr>\n<tr>\n<td>减少同步</td>\n<td>异步化、消息队列解耦、无锁设计</td>\n<td>高并发竞争</td>\n</tr>\n<tr>\n<td>优化代码</td>\n<td>算法优化、批量处理、消除 N+1 查询</td>\n<td>应用层瓶颈</td>\n</tr>\n<tr>\n<td>增加资源</td>\n<td>扩容 CPU/内存、换 SSD</td>\n<td>确实的硬瓶颈</td>\n</tr>\n</tbody>\n</table>\n<p><strong>先测后优</strong>：没有基准测试的优化都是瞎猜。先压出瓶颈点，再针对性优化——反过来做，改了一堆地方却不知道哪个起了作用。</p>\n<h2 id=\"_5\">一个容易漏掉的环节</h2>\n<p><strong>先确认压测机自己不是瓶颈。</strong> 判断方法：线程/并发翻倍后 TPS 不成比例增长，且服务端资源水位不高——那大概率是压测机先到极限。解法是分布式压测，或先跑一次压测机空载基准。</p>\n<h2 id=\"2026-10-19\">压测结论与线上不符时，先怀疑压测本身（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——「压测过了线上还是扛不住」的归因清单，与上文「压测机瓶颈」是一条线，这里补齐其余四个结构性差异来源。</p>\n</blockquote>\n<p>排查顺序固定为<strong>压测机自身 → 入口 → 应用 → 依赖 → 数据量</strong>，前两项占一大半：</p>\n<table>\n<thead>\n<tr>\n<th>来源</th>\n<th>表现</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>压测机先饱和</td>\n<td>CPU 打满、端口耗尽（<code>TIME_WAIT</code>）、带宽不够</td>\n<td><strong>压测机与 TPS 同步饱和 → 本次结论作废</strong>，不是服务到顶</td>\n</tr>\n<tr>\n<td>数据量差异</td>\n<td>压测库小，同一条 SQL 在线上大表直接超时</td>\n<td>用线上同量级数据或按倍数做梯度；小数据量结论不可外推</td>\n</tr>\n<tr>\n<td>缓存状态不同</td>\n<td>压测是冷缓存或全热缓存，与线上稳态不一致</td>\n<td>明确本次是冷启还是稳态压测，两者结论不能混用</td>\n</tr>\n<tr>\n<td>依赖被 mock</td>\n<td>绕过了真实第三方耗时</td>\n<td>压测报告必须写明哪些依赖是桩，桩的结果不代表生产</td>\n</tr>\n<tr>\n<td>流量模型不同</td>\n<td>均匀流量 vs 尖峰加长尾</td>\n<td>补尖峰场景；平均 QPS 达标不代表峰值不雪崩</td>\n</tr>\n</tbody>\n</table>\n<p>一个判据：<strong>CPU 高而 TPS 不涨 = 忙等或锁竞争；CPU 低而 TPS 不涨 = 在等 I/O 或等依赖</strong>。这两句能把「应用层还是依赖层」先切开，再往下看全链路追踪里耗时落在哪个 span。</p>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"Redis缓存的五类经典问题\">Redis缓存的五类经典问题</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">回答思路先摆出来</h2>\n<p><strong>先分层，再定序，最后才动手。</strong> 面试里最容易失分的答法是\"先看 CPU\"——因为 CPU 是表面上最好看的指标，但它经常只是受害者而不是元凶。正确的起点是 I/O，因为它最容易制造假象。</p>\n<h2 id=\"_2\">四步排查顺序</h2>\n<pre><code>收到&quot;系统慢了&quot;\n   ↓\n① 磁盘 I/O —— iostat -x 1\n   %util &gt; 80% 或 wa &gt; 10% ？ → 是：直接解决磁盘问题，结束\n   ↓ 否\n② 内存 —— free -h / vmstat\n   有 Swap 活动 / 内存不足？ → 是：解决内存问题，结束\n   ↓ 否\n③ CPU —— top\n   us 高 → 查 SQL 与算法热点\n   sy 高 → 查锁竞争与连接数\n   wa 高 → 回到第 ① 步（说明漏判了 I/O）\n   ↓ 否\n④ 网络 —— 带宽 / 重传 / 建连时间\n   打满或延迟高 → 优化拓扑、升级带宽、检查连接池\n</code></pre>\n<p><strong>为什么这个顺序</strong>：I/O 和内存的问题会以 CPU 指标的形式表现出来（<code>wa</code>、<code>sy</code> 偏高）。先排掉它们，后面的判断才干净。</p>\n<h2 id=\"_3\">每层的动作清单</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>第一步命令</th>\n<th>看什么</th>\n<th>常见误判</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>磁盘</td>\n<td><code>iostat -x 1</code></td>\n<td><code>%util</code>、<code>await</code></td>\n<td>把 <code>wa</code> 高当成 CPU 问题</td>\n</tr>\n<tr>\n<td>内存</td>\n<td><code>free -h</code>、<code>vmstat 1</code></td>\n<td>Swap 活动、<code>si/so</code></td>\n<td>忽略 GC 停顿，只看使用率</td>\n</tr>\n<tr>\n<td>CPU</td>\n<td><code>top</code>、<code>top -Hp PID</code></td>\n<td><code>us</code>/<code>sy</code>/<code>wa</code> 三者比例</td>\n<td>只用总利用率下结论</td>\n</tr>\n<tr>\n<td>网络</td>\n<td><code>mtr</code>、<code>tcpdump</code></td>\n<td>重传率、建连时间</td>\n<td>忘了检查连接池是否耗尽</td>\n</tr>\n<tr>\n<td>数据库</td>\n<td><code>EXPLAIN</code>、慢查询日志</td>\n<td><code>type</code>、<code>key</code></td>\n<td>索引失效（函数操作列、隐式类型转换、前导模糊匹配）</td>\n</tr>\n<tr>\n<td>应用</td>\n<td><code>jstack</code></td>\n<td>线程池队列、阻塞点</td>\n<td>只调线程池大小，不查阻塞源</td>\n</tr>\n<tr>\n<td>中间件</td>\n<td>Kafka Lag、<code>kubectl top pod</code></td>\n<td>Lag、CPU Throttling</td>\n<td>忽略容器 Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">优化策略：五个方向，按代价从低到高</h2>\n<table>\n<thead>\n<tr>\n<th>方向</th>\n<th>核心思路</th>\n<th>适用场景</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>减少需求</td>\n<td>缓存热点、减少重复计算、合并请求</td>\n<td>读多写少</td>\n</tr>\n<tr>\n<td>改善分布</td>\n<td>负载均衡、读写分离、分库分表</td>\n<td>单点过载</td>\n</tr>\n<tr>\n<td>减少同步</td>\n<td>异步化、消息队列解耦、无锁设计</td>\n<td>高并发竞争</td>\n</tr>\n<tr>\n<td>优化代码</td>\n<td>算法优化、批量处理、消除 N+1 查询</td>\n<td>应用层瓶颈</td>\n</tr>\n<tr>\n<td>增加资源</td>\n<td>扩容 CPU/内存、换 SSD</td>\n<td>确实的硬瓶颈</td>\n</tr>\n</tbody>\n</table>\n<p><strong>先测后优</strong>：没有基准测试的优化都是瞎猜。先压出瓶颈点，再针对性优化——反过来做，改了一堆地方却不知道哪个起了作用。</p>\n<h2 id=\"_5\">一个容易漏掉的环节</h2>\n<p><strong>先确认压测机自己不是瓶颈。</strong> 判断方法：线程/并发翻倍后 TPS 不成比例增长，且服务端资源水位不高——那大概率是压测机先到极限。解法是分布式压测，或先跑一次压测机空载基准。</p>\n<h2 id=\"2026-10-19\">压测结论与线上不符时，先怀疑压测本身（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——「压测过了线上还是扛不住」的归因清单，与上文「压测机瓶颈」是一条线，这里补齐其余四个结构性差异来源。</p>\n</blockquote>\n<p>排查顺序固定为<strong>压测机自身 → 入口 → 应用 → 依赖 → 数据量</strong>，前两项占一大半：</p>\n<table>\n<thead>\n<tr>\n<th>来源</th>\n<th>表现</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>压测机先饱和</td>\n<td>CPU 打满、端口耗尽（<code>TIME_WAIT</code>）、带宽不够</td>\n<td><strong>压测机与 TPS 同步饱和 → 本次结论作废</strong>，不是服务到顶</td>\n</tr>\n<tr>\n<td>数据量差异</td>\n<td>压测库小，同一条 SQL 在线上大表直接超时</td>\n<td>用线上同量级数据或按倍数做梯度；小数据量结论不可外推</td>\n</tr>\n<tr>\n<td>缓存状态不同</td>\n<td>压测是冷缓存或全热缓存，与线上稳态不一致</td>\n<td>明确本次是冷启还是稳态压测，两者结论不能混用</td>\n</tr>\n<tr>\n<td>依赖被 mock</td>\n<td>绕过了真实第三方耗时</td>\n<td>压测报告必须写明哪些依赖是桩，桩的结果不代表生产</td>\n</tr>\n<tr>\n<td>流量模型不同</td>\n<td>均匀流量 vs 尖峰加长尾</td>\n<td>补尖峰场景；平均 QPS 达标不代表峰值不雪崩</td>\n</tr>\n</tbody>\n</table>\n<p>一个判据：<strong>CPU 高而 TPS 不涨 = 忙等或锁竞争；CPU 低而 TPS 不涨 = 在等 I/O 或等依赖</strong>。这两句能把「应用层还是依赖层」先切开，再往下看全链路追踪里耗时落在哪个 span。</p>\n<h2 id=\"2026-11-02\">积压与扩容：两个别急着动手的判断（2026-11-02 补）</h2>\n<blockquote>\n<p>更新：2026-11-02 源自 <code>raw/interview/2026-10-27.md</code>——上文中间件层只给了 Lag 阈值，这里补齐「Lag 涨了怎么定性」与「扩容后怎么复核」。</p>\n</blockquote>\n<ul>\n<li><strong>Lag 持续上涨不等于消费能力不足。</strong> 加消费者只对容量缺口有效；对「越追越慢」的消费劣化与毒消息重投，加消费者会把问题一起放大。定性判法见 <span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span>。</li>\n<li><strong>扩容必须复测单机有效 QPS。</strong> 4 台与 8 台压同一场景，单机有效 QPS 衰减超 15% 即说明存在共享瓶颈（数据库连接、缓存单分片、队列分区、网关转发）。水位折算与三件交付见 <span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span>。</li>\n</ul>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li><span class=\"wl\" data-page=\"Redis缓存的五类经典问题\">Redis缓存的五类经典问题</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/30-性能测试/性能瓶颈定位的分层排查路径.md"
    },
    {
@@ -448,7 +479,7 @@
     "level": "高级",
     "question": "",
     "domain": "性能测试",
-    "updated": "2026-09-10",
+    "updated": "2026-11-02",
     "confidence": "high",
     "tags": [
      "performance-testing",
@@ -456,11 +487,38 @@
      "metric"
     ],
     "links": [
+     "容量规划与安全水位核定",
      "性能瓶颈定位的分层排查路径",
+     "队列积压的性质判定",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>系统变慢从来不是\"整体慢\"，而是<strong>某一层先到拐点</strong>。把所有可能的瓶颈按调用链拆成七层，每层配一组可量化的健康阈值，排查才有落点。</p>\n<h2 id=\"_2\">七层与各自的风险阈值</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>关键指标</th>\n<th>风险阈值</th>\n<th>典型根因</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>CPU</strong></td>\n<td>利用率 / 上下文切换 / 运行队列</td>\n<td>us &gt; 85%；cs &gt; 3 万/s；r &gt; 核心数×2</td>\n<td>线程竞争、死循环、算法低效</td>\n</tr>\n<tr>\n<td><strong>内存</strong></td>\n<td>使用率 / Full GC 频次 / STW</td>\n<td>使用率 &gt; 95%；Full GC &gt; 5 次/分；STW &gt; 100ms</td>\n<td>内存泄漏、JVM 参数不当</td>\n</tr>\n<tr>\n<td><strong>磁盘 I/O</strong></td>\n<td>%util / await</td>\n<td>%util &gt; 80%；await &gt; 20ms</td>\n<td>同步 I/O 过多、日志过密</td>\n</tr>\n<tr>\n<td><strong>网络</strong></td>\n<td>TCP 重传率 / 带宽 / 建连时间</td>\n<td>重传 &gt; 2%；connecting &gt; 50ms</td>\n<td>拥塞丢包、带宽饱和、连接池耗尽</td>\n</tr>\n<tr>\n<td><strong>数据库</strong></td>\n<td>慢查询占比 / 连接池 / 锁等待</td>\n<td>慢查询 &gt; 5%；连接池 &gt; 80%；锁等待 &gt; 1s</td>\n<td>缺索引、事务过长、连接复用不足</td>\n</tr>\n<tr>\n<td><strong>应用/JVM</strong></td>\n<td>线程池队列 / TPS 波动 / 超时率</td>\n<td>队列持续增长；TPS 波动 &gt; 30%；超时率 &gt; 1%</td>\n<td>远程调用阻塞、慢 SQL、无降级</td>\n</tr>\n<tr>\n<td><strong>中间件</strong></td>\n<td>MQ Lag / 容器 Throttling</td>\n<td>Lag &gt; 分区数×1000；出现 CPU Throttling</td>\n<td>消费能力不足、CPU Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">为什么\"分层\"比\"凭经验猜\"更靠谱</h2>\n<p>单看一个指标几乎必错。三个坑：</p>\n<ol>\n<li><strong>指标之间会互相伪装。</strong> CPU 的 <code>wa</code>（I/O 等待）高，根因其实在磁盘；<code>sy</code>（系统态）高，根因常在锁与连接。只看 CPU 利用率会一路查到错误的层。</li>\n<li><strong>健康值必须用同类系统对比。</strong> \"CPU 60% 算不算高\"没有绝对答案，要看这台机器的基线。没有基线的阈值是装饰品。</li>\n<li><strong>拐点比绝对值重要。</strong> 真正要找的是\"再加一点压力，指标突然不成比例恶化\"的那个点——而不是某个静态数字。</li>\n</ol>\n<h2 id=\"_4\">与测试设计的关系</h2>\n<p>分层模型直接决定性能测试的<strong>监控埋点清单</strong>：哪一层没监控，那一层出问题时就只能靠猜。所以设计压测场景时，先按这七层列出观测项，再决定压什么。</p>\n<p>具体排查顺序和实操动作见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_5\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>系统变慢从来不是\"整体慢\"，而是<strong>某一层先到拐点</strong>。把所有可能的瓶颈按调用链拆成七层，每层配一组可量化的健康阈值，排查才有落点。</p>\n<h2 id=\"_2\">七层与各自的风险阈值</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>关键指标</th>\n<th>风险阈值</th>\n<th>典型根因</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>CPU</strong></td>\n<td>利用率 / 上下文切换 / 运行队列</td>\n<td>us &gt; 85%；cs &gt; 3 万/s；r &gt; 核心数×2</td>\n<td>线程竞争、死循环、算法低效</td>\n</tr>\n<tr>\n<td><strong>内存</strong></td>\n<td>使用率 / Full GC 频次 / STW</td>\n<td>使用率 &gt; 95%；Full GC &gt; 5 次/分；STW &gt; 100ms</td>\n<td>内存泄漏、JVM 参数不当</td>\n</tr>\n<tr>\n<td><strong>磁盘 I/O</strong></td>\n<td>%util / await</td>\n<td>%util &gt; 80%；await &gt; 20ms</td>\n<td>同步 I/O 过多、日志过密</td>\n</tr>\n<tr>\n<td><strong>网络</strong></td>\n<td>TCP 重传率 / 带宽 / 建连时间</td>\n<td>重传 &gt; 2%；connecting &gt; 50ms</td>\n<td>拥塞丢包、带宽饱和、连接池耗尽</td>\n</tr>\n<tr>\n<td><strong>数据库</strong></td>\n<td>慢查询占比 / 连接池 / 锁等待</td>\n<td>慢查询 &gt; 5%；连接池 &gt; 80%；锁等待 &gt; 1s</td>\n<td>缺索引、事务过长、连接复用不足</td>\n</tr>\n<tr>\n<td><strong>应用/JVM</strong></td>\n<td>线程池队列 / TPS 波动 / 超时率</td>\n<td>队列持续增长；TPS 波动 &gt; 30%；超时率 &gt; 1%</td>\n<td>远程调用阻塞、慢 SQL、无降级</td>\n</tr>\n<tr>\n<td><strong>中间件</strong></td>\n<td>MQ Lag / 容器 Throttling</td>\n<td>Lag &gt; 分区数×1000；出现 CPU Throttling</td>\n<td>消费能力不足、CPU Limit 过低</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_3\">为什么\"分层\"比\"凭经验猜\"更靠谱</h2>\n<p>单看一个指标几乎必错。三个坑：</p>\n<ol>\n<li><strong>指标之间会互相伪装。</strong> CPU 的 <code>wa</code>（I/O 等待）高，根因其实在磁盘；<code>sy</code>（系统态）高，根因常在锁与连接。只看 CPU 利用率会一路查到错误的层。</li>\n<li><strong>健康值必须用同类系统对比。</strong> \"CPU 60% 算不算高\"没有绝对答案，要看这台机器的基线。没有基线的阈值是装饰品。</li>\n<li><strong>拐点比绝对值重要。</strong> 真正要找的是\"再加一点压力，指标突然不成比例恶化\"的那个点——而不是某个静态数字。</li>\n</ol>\n<h2 id=\"_4\">拐点之后：从「哪一层慢」到「能扛多少」</h2>\n<p>本页回答的是「慢在哪一层」，不回答「能扛多少」。拐点找到后，如何把拐点吞吐折算成安全水位、台数与扩容建议，见 <span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span>。</p>\n<p>中间件层的 Lag 超过阈值只是「积压已经开始」的信号，不等于「消费能力不足」——先定性再动作，判法见 <span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span>。加消费者只对容量缺口有效，对消费劣化与毒消息会放大问题。</p>\n<h2 id=\"_5\">与测试设计的关系</h2>\n<p>分层模型直接决定性能测试的<strong>监控埋点清单</strong>：哪一层没监控，那一层出问题时就只能靠猜。所以设计压测场景时，先按这七层列出观测项，再决定压什么。</p>\n<p>具体排查顺序和实操动作见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_6\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/30-性能测试/性能瓶颈的分层模型.md"
+   },
+   {
+    "id": "wiki/30-性能测试/队列积压的性质判定",
+    "title": "队列积压的性质判定",
+    "cat": "performance-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "生产端稳定 3000 QPS、消费端只跑到 2400，积压从 2 万涨到 40 万——是消费端慢，还是流量本来就超了？",
+    "domain": "性能测试",
+    "updated": "2026-11-02",
+    "confidence": "high",
+    "tags": [
+     "performance-testing",
+     "interview",
+     "root-cause",
+     "metric"
+    ],
+    "links": [
+     "容量规划与安全水位核定",
+     "性能瓶颈定位的分层排查路径",
+     "性能瓶颈的分层模型",
+     "面试助手题库索引"
+    ],
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>积压只说明「进得比出得快」，它本身不是诊断结论。定性要两个数：<strong>稳态消费能力</strong>与<strong>积压斜率</strong>。斜率恒定等于容量缺口，斜率随时间变大等于消费劣化，同一批消息反复出现等于毒消息——三种病药完全不同，先定性再动手，否则「加消费者」会把劣化和毒消息一起放大。</p>\n<h2 id=\"_2\">判据一：稳态消费能力（先把生产端停掉）</h2>\n<p>生产与消费同时跑，看到的消费 TPS 是被生产压着的结果，不是能力上限。停掉生产端让消费者单独追积压，得到的才是真实吞吐。</p>\n<ul>\n<li>追得到 5000 而生产只有 3000 → 消费能力本来就有余量，积压来自历史残留或突发峰值，不是持续缺口；</li>\n<li>只追到 2400 且越追越慢 → 单条处理在退化，往下查三类原因：下游超时、重复重试、锁竞争。</li>\n</ul>\n<p>这一步的价值在于把「消费端慢不慢」从疑问变成数字，避免拿并发下的混合指标当结论。</p>\n<h2 id=\"_3\">判据二：积压斜率定性</h2>\n<p>斜率取「生产 TPS 减消费 TPS」：</p>\n<table>\n<thead>\n<tr>\n<th>斜率形态</th>\n<th>定性</th>\n<th>该做什么</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>稳定为正，且约等于两者差值</td>\n<td>纯容量缺口</td>\n<td>加消费者或提高单条处理吞吐</td>\n</tr>\n<tr>\n<td>随时间变大（越追越慢）</td>\n<td>消费劣化</td>\n<td>查下游与锁，加消费者只会更慢</td>\n</tr>\n<tr>\n<td>同一批消息反复出现</td>\n<td>毒消息</td>\n<td>查死信队列与重试次数</td>\n</tr>\n</tbody>\n</table>\n<p><strong>交叉判据</strong>：积压增长时消费 TPS 是否同步下滑——下滑即劣化，不下滑即产能不足。这一条比斜率更抗干扰，因为斜率会受流量抖动影响。</p>\n<h2 id=\"_4\">判据三：毒消息要单独识别</h2>\n<p>消费失败后重投，会让同一条消息反复进入队列。表面症状与容量不足完全一样（积压持续上涨），但本质是<strong>消费失败率在放大</strong>。识别方式是看死信队列长度与单条消息的重试次数：重试次数集中爆发而消费 TPS 平稳，就不是产能问题。此时加消费者等于把失败重投的吞吐也一起放大。</p>\n<h2 id=\"_5\">迁移到任何生产者—队列—消费者结构</h2>\n<p>消息队列、日志管道、异步任务、Agent 任务队列，判据同一套：<strong>先量化稳态消费能力，再看斜率，最后看积压增长时消费 TPS 的走势</strong>。三步顺序不能换——先看斜率会把「消费能力本来够、只是被生产压着」误判成缺口。</p>\n<p>积压作为「中间件层」的观测项，其阈值口径见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>；积压出现后具体查哪条命令、哪个组件，见 <span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span>。</p>\n<h2 id=\"_6\">待核实</h2>\n<ul>\n<li>本页数字（3000 / 2400 / 2 万 → 40 万）来自源案例，属示例规模，不是通用阈值；</li>\n<li>「停生产端追积压」在生产环境往往不可行，替代做法是缩容消费组或按分区隔离一组消费者做单组基准，具体可行性须按中间件能力确认；</li>\n<li>斜率观察窗口取多长（分钟级还是小时级）取决于业务峰谷周期，源未给出统一值。</li>\n</ul>\n<h2 id=\"_7\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈定位的分层排查路径\">性能瓶颈定位的分层排查路径</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/30-性能测试/队列积压的性质判定.md"
    },
    {
     "id": "wiki/90-实体/WebDriverAgent",
@@ -797,7 +855,7 @@
     "level": "高级",
     "question": "限流与防刷怎么测？只测「超过阈值返回 429」够不够？",
     "domain": "安全测试",
-    "updated": "2026-10-19",
+    "updated": "2026-11-02",
     "confidence": "high",
     "tags": [
      "security-testing",
@@ -806,13 +864,14 @@
     ],
     "links": [
      "Web安全测试地图",
+     "容量规划与安全水位核定",
      "幂等的两种语义与并发验证",
      "性能瓶颈的分层模型",
      "移动端App自动化的三条技术路线",
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>只验证「超过阈值返回 429」是典型的测了表面、没测机制——核心是验证<strong>拦得准不准、兜得住兜不住、被绕过时损失有多大</strong>，共五个层次。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>层次一：阈值准确性。</strong> 打到第 N 次、第 N+1 次看是否被拦，并额外验三件事：</p>\n<ul>\n<li><strong>计数窗口边界</strong>：固定窗口在切换瞬间可能放过 2 倍请求，滑动窗口不会——重要验证点；</li>\n<li><strong>计数维度</strong>：按用户 / 按 IP / 按接口 / 按用户+接口组合，配置了哪个维度就验哪个；</li>\n<li><strong>限流粒度优先级</strong>：单接口限流与全局限流同时命中时哪条先生效。</li>\n</ul>\n<p><strong>层次二：绕过尝试（最有安全价值）。</strong> 攻击者不会老老实实从一个 IP 一个账号发请求：</p>\n<ul>\n<li><strong>换 IP</strong>：只按 IP 限流 + 代理池即可绕过 → 高危发现；</li>\n<li><strong>换用户标识 / 不带登录态</strong>：未登录路径的限流最常被漏；</li>\n<li><strong>伪造头部</strong>：系统若信任客户端传的 <code>X-Forwarded-For</code>，攻击者可随便伪造 IP 绕过——非常经典的高危缺陷，必测；</li>\n<li><strong>换入口</strong>：同一业务能力有 H5 / APP / 小程序 / 开放接口 / 内部接口多个入口，往往只在主入口做了限流。</li>\n</ul>\n<p><strong>层次三：降级与体验。</strong> 正确行为是 429 + <code>Retry-After</code> 头 + 明确文案，而不是 500 或静默失败；还必须验<strong>正常用户会不会被误伤</strong>——按 IP 限流时同一出口 IP 下的公司/学校用户会互相拖累，这是上线后投诉的主要来源。</p>\n<p><strong>层次四：高并发下的准确性（真正难点）。</strong> 用 200 并发同时打，实际通过数是否接近阈值？远超阈值说明计数器有竞态（如 Redis get-then-set 非原子）——隐蔽但很常见。同时验<strong>限流器自己不能成为瓶颈或单点</strong>：它挂了应降级为放行而非阻断。这层已跨入性能域，排查思路见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>。</p>\n<p><strong>层次五：防刷的业务侧兜底（必测）。</strong></p>\n<ul>\n<li><strong>短信/验证码接口</strong>（被刷直接资损）：有效期、一次性使用、同号/同 IP 频率、图形验证码触发策略；</li>\n<li><strong>登录接口</strong>：失败锁定、锁定后能否改大小写/加空格绕过、<strong>锁定机制能否被用来恶意锁定他人账号（拒绝服务）</strong>；</li>\n<li><strong>下单/领券</strong>：并发下超卖或超领（并发+限流交叉场景，必须单独测）——注意<strong>限流不解决超卖</strong>：限流只降低到达速率，阈值内的并发仍会重复扣减，真正的防线是幂等与原子扣减，测法见 <span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span>；</li>\n<li><strong>接口枚举</strong>：遍历 ID 能否批量获取数据（绕过手法同 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>）。</li>\n</ul>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>工具选择：JMeter / k6 / Locust 做精确计数与并发验证，<strong>k6 的 constant-arrival-rate 执行器最适合「严格每秒 N 次」</strong>；Burp Intruder 做绕过试探；</li>\n<li>压测执行纪律：<strong>先小并发验证脚本与计数口径，再逐步加压</strong>；</li>\n<li>验收标准一句话：<strong>拦住攻击者的同时不误伤正常用户，并且被绕过时有第二道防线</strong>。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span> —— <strong>客户端侧</strong>的同一场对抗：服务端在这里判\"请求像不像机器\"，App 端判\"操作来没来自无障碍/调试通道\"，两者读的信号不同但目的一致</li>\n</ul>\n<blockquote>\n<p>更新：2026-10-05 相关段补入移动端自动化一条（客户端对抗视角），sources 追加本次会话要点。</p>\n</blockquote>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>只验证「超过阈值返回 429」是典型的测了表面、没测机制——核心是验证<strong>拦得准不准、兜得住兜不住、被绕过时损失有多大</strong>，共五个层次。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>层次一：阈值准确性。</strong> 打到第 N 次、第 N+1 次看是否被拦，并额外验三件事：</p>\n<ul>\n<li><strong>计数窗口边界</strong>：固定窗口在切换瞬间可能放过 2 倍请求，滑动窗口不会——重要验证点；</li>\n<li><strong>计数维度</strong>：按用户 / 按 IP / 按接口 / 按用户+接口组合，配置了哪个维度就验哪个；</li>\n<li><strong>限流粒度优先级</strong>：单接口限流与全局限流同时命中时哪条先生效。</li>\n</ul>\n<p><strong>层次二：绕过尝试（最有安全价值）。</strong> 攻击者不会老老实实从一个 IP 一个账号发请求：</p>\n<ul>\n<li><strong>换 IP</strong>：只按 IP 限流 + 代理池即可绕过 → 高危发现；</li>\n<li><strong>换用户标识 / 不带登录态</strong>：未登录路径的限流最常被漏；</li>\n<li><strong>伪造头部</strong>：系统若信任客户端传的 <code>X-Forwarded-For</code>，攻击者可随便伪造 IP 绕过——非常经典的高危缺陷，必测；</li>\n<li><strong>换入口</strong>：同一业务能力有 H5 / APP / 小程序 / 开放接口 / 内部接口多个入口，往往只在主入口做了限流。</li>\n</ul>\n<p><strong>层次三：降级与体验。</strong> 正确行为是 429 + <code>Retry-After</code> 头 + 明确文案，而不是 500 或静默失败；还必须验<strong>正常用户会不会被误伤</strong>——按 IP 限流时同一出口 IP 下的公司/学校用户会互相拖累，这是上线后投诉的主要来源。</p>\n<p><strong>层次四：高并发下的准确性（真正难点）。</strong> 用 200 并发同时打，实际通过数是否接近阈值？远超阈值说明计数器有竞态（如 Redis get-then-set 非原子）——隐蔽但很常见。同时验<strong>限流器自己不能成为瓶颈或单点</strong>：它挂了应降级为放行而非阻断。这层已跨入性能域，排查思路见 <span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span>。另有一条容量侧结论：<strong>限流阈值低于系统容量时，应用层扩容等于白做</strong>——用户会先被网关拦住、压力到不了应用，故容量结论必须与入口放行阈值一起看，见 <span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span>。</p>\n<p><strong>层次五：防刷的业务侧兜底（必测）。</strong></p>\n<ul>\n<li><strong>短信/验证码接口</strong>（被刷直接资损）：有效期、一次性使用、同号/同 IP 频率、图形验证码触发策略；</li>\n<li><strong>登录接口</strong>：失败锁定、锁定后能否改大小写/加空格绕过、<strong>锁定机制能否被用来恶意锁定他人账号（拒绝服务）</strong>；</li>\n<li><strong>下单/领券</strong>：并发下超卖或超领（并发+限流交叉场景，必须单独测）——注意<strong>限流不解决超卖</strong>：限流只降低到达速率，阈值内的并发仍会重复扣减，真正的防线是幂等与原子扣减，测法见 <span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span>；</li>\n<li><strong>接口枚举</strong>：遍历 ID 能否批量获取数据（绕过手法同 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>）。</li>\n</ul>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>工具选择：JMeter / k6 / Locust 做精确计数与并发验证，<strong>k6 的 constant-arrival-rate 执行器最适合「严格每秒 N 次」</strong>；Burp Intruder 做绕过试探；</li>\n<li>压测执行纪律：<strong>先小并发验证脚本与计数口径，再逐步加压</strong>；</li>\n<li>验收标准一句话：<strong>拦住攻击者的同时不误伤正常用户，并且被绕过时有第二道防线</strong>。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"性能瓶颈的分层模型\">性能瓶颈的分层模型</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span> —— <strong>客户端侧</strong>的同一场对抗：服务端在这里判\"请求像不像机器\"，App 端判\"操作来没来自无障碍/调试通道\"，两者读的信号不同但目的一致</li>\n</ul>\n<blockquote>\n<p>更新：2026-10-05 相关段补入移动端自动化一条（客户端对抗视角），sources 追加本次会话要点。</p>\n</blockquote>",
     "source_path": "wiki/45-安全测试/限流与防刷机制的测试.md"
    },
    {
