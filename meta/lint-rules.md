@@ -59,7 +59,8 @@
 - **A7 死链与孤页已做进构建脚本**（`build_kb.py`），每次构建都会报，不必等每周体检；死链会导致构建退出码为 1
 - **A10 `scenes` 形态**不在构建脚本里，每周体检必扫；每日任务若改动了归档，也应在写完后顺手扫一遍（见下）
   ```python
-  # 期望输出「仍缺说明 0 条」；非 0 说明该日包 scenes 退化成纯字符串，卡片会只剩标题
+  # 期望输出「仍缺说明 0 条」；非 0 说明该日包 scenes 退化成纯字符串或说明过简，卡片会只剩标题
+  # 判定须与 A 表一致：纯字符串 / 缺 b / b 短于 20 字 三种都算退化
   import json, glob
   tot = bad = 0
   for f in glob.glob("site/archive/*.json"):
@@ -70,8 +71,9 @@
               for s in (g.get("skills") or []):
                   for x in (s.get("scenes") or []):
                       tot += 1
-                      if isinstance(x, str) or not x.get("b"): bad += 1
+                      if isinstance(x, str) or len((x.get("b") or "").strip()) < 20: bad += 1
   print(f"场景 {tot} 条，仍缺说明 {bad} 条")
   ```
+  > 2026-11-02 修正：原片段只判 `not x.get("b")`，漏掉「`b` 短于 20 字」一类，会输出「0 条」的假绿（存量实有 3 条，在 `2026-09-14`）。
 - 单次 ingest 超过 10 个源后，建议手动补跑一次
 - 连续两周无新增内容时，报告以「数据缺口 + 建议投喂主题」为主，避免空转
