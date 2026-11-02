@@ -2813,7 +2813,11 @@ function favMergeItems(src, source){
     if(old && (old.ts || 0) >= (rec.ts || 0)){ skip++; return; }
     cur.set(id, rec); add++;
   });
-  if(!add){ toast("没有新增：" + source + "的 " + skip + " 条收藏已存在" + (bad ? "，" + bad + " 条格式不符" : "")); return; }
+  if(!add){
+    toast("没有新增：当前存档 " + cur.size + " 条，已包含" + source + "的全部 " + skip + " 条"
+      + (bad ? "，" + bad + " 条格式不符" : ""));
+    return;
+  }
   /* 走同一条 commitFav：导入同样要过快照、条数校验与审计，
      不能让「导入」成为绕过保护、直接写底层 key 的旁路。 */
   const cr = commitFav(cur, "import");
@@ -2834,12 +2838,47 @@ function favImportText(text, source){
 }
 
 function favRestoreBackup(){
-  /* 不再只认 .bak：环形槽里可能有更完整的一版（条数更多）。
-     favSnapshots 已按条数降序排好，取第一条即可。 */
+  /* 恢复的语义是「把备份里的东西拿回来」，不是「补几条」。
+     所以比通用导入多做两件事：
+       1) 当前那条存在但不可显示（favUsable 为假）、备份里那条可显示时，用备份顶替 ——
+          否则会出现「提示已存在、列表却还是空的」这种最让人绝望的情况；
+       2) 一条都没补进来时把三组数字摊开说，别用「没有新增」把人绕晕。
+     不再只认 .bak：环形槽里可能有更完整的一版，favSnapshots 已按条数降序排好。 */
   const snaps = favSnapshots();
   if(!snaps.length){ toast("没有可用的自动备份"); return; }
   const best = snaps[0];
-  favImportText(best.raw, best.name + "（" + best.count + " 条）");
+  const parsed = parseFavRaw(best.raw);
+  if(!parsed.ok || !parsed.count){ toast("备份内容无法解析，无法恢复"); return; }
+
+  const cur = readStoredFav();
+  let add = 0, newer = 0, replaced = 0;
+  parsed.map.forEach(function(rec, id){
+    const old = cur.get(id);
+    if(!old){ cur.set(id, rec); add++; return; }
+    if(!favUsable(old) && favUsable(rec)){ cur.set(id, rec); add++; replaced++; return; }
+    if((old.ts || 0) < (rec.ts || 0)){ cur.set(id, rec); add++; return; }
+    newer++;
+  });
+
+  if(!add){
+    let usableBest = 0;
+    parsed.map.forEach(function(r){ if(favUsable(r)) usableBest++; });
+    toast("当前存档 " + cur.size + " 条、可显示 " + FAV.map.size + " 条；快照 " + best.count
+      + " 条均已在存档中且不更旧，无需恢复。可点「导出」核对条数");
+    return;
+  }
+  /* 走 commitFav，和普通收藏同一条写入路径（快照、条数校验、审计都保留） */
+  const cr = commitFav(cur, "restore");
+  if(!cr.ok){
+    if(cr.reason === "corrupt") toast("恢复已中止：本地存档解析失败，已停止写入并原样留档");
+    else if(cr.reason === "shrink") toast("恢复已中止：本次会让收藏骤减，已拒绝写入");
+    else toast("恢复失败：当前环境无法写入本地存储");
+    return;
+  }
+  loadFav(); syncFavBadge(); refreshAllFavBtns(); renderFav();
+  toast("已从" + best.name + "恢复 " + add + " 条"
+    + (replaced ? "（其中 " + replaced + " 条替换了无法识别的旧记录）" : "")
+    + (newer ? "，" + newer + " 条已存在" : ""));
 }
 
 /* 现场取证入口：在浏览器控制台执行 __iaFavDiag()。
