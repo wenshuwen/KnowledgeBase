@@ -926,7 +926,9 @@
         <div class="daypicker-pop" id="favDayPickerPop" role="dialog" aria-label="按收藏日期筛选" hidden></div>
       </div>
       <span class="scope-hint" id="favScopeHint"></span>
+      <span class="scope-hint" id="favSyncState"></span>
       <span class="fav-acts">
+        <button type="button" class="btn btn-ghost btn-xs" id="favSync" title="查看同步码 / 用同步码恢复（换设备、清缓存后用）">同步码</button>
         <button type="button" class="btn btn-ghost btn-xs" id="favExport" title="把收藏导出成 JSON 文件，可换浏览器导入">导出</button>
         <button type="button" class="btn btn-ghost btn-xs" id="favImport" title="从导出的 JSON 文件合并回来（不会覆盖已有收藏）">导入</button>
         <button type="button" class="btn btn-ghost btn-xs" id="favRestore" title="把上一次写入前的自动备份合并回来" hidden>恢复备份</button>
@@ -2391,8 +2393,9 @@ function commitFav(merged, action){
     return { ok:false, reason:"corrupt" };
   }
   /* 保护二：一次写入让条数腰斩。正常操作只增删一条，导入也是并集不会骤降。
-     真骤降说明内存表是空快照 —— 典型是两个标签页各持旧表互相覆盖后的余波。 */
-  if(action !== "remove" && prevCount >= 4 && newCount * 2 < prevCount){
+     真骤降说明内存表是空快照 —— 典型是两个标签页各持旧表互相覆盖后的余波。
+     action 为 remove（取消一条）与 sync（云端并集，基底是完整读回，天然安全）时不套用。 */
+  if(action !== "remove" && action !== "sync" && prevCount >= 4 && newCount * 2 < prevCount){
     logFavAudit({ t:Date.now(), action:action, before:prevCount, after:newCount, ok:false, note:"shrink-guard" });
     return { ok:false, reason:"shrink" };
   }
@@ -2509,6 +2512,7 @@ function handleFavClick(btn){
   }
   syncFavBtns(id, r.on);
   syncFavBadge();
+  syncTouch(id, r.on);
   toast(r.on ? "★ 已加入收藏夹" : "已取消收藏");
   /* 在收藏夹里取消 → 卡片应当立即消失。整块重渲染最简单可靠，
      代价是滚动位置会跳，所以先记下再还原。 */
@@ -3502,14 +3506,240 @@ async function renderReview(kw){
 }
 
 /* =====================================================================
- *  初始化
+ *  云端同步：收藏不再「换入口就消失」
+ *
+ *  为什么需要它：
+ *    收藏原来只有 localStorage 一份，绑定在「origin + 浏览器 profile」上。
+ *    换入口（内置预览 / 直接开链接 / 手机）、换设备、浏览器清理存储，
+ *    主档与 .bak/.snap 会一起消失 —— 备份只防「写坏」，不防「换地方」。
+ *
+ *  现在的分工：
+ *    本地 —— 仍然是唯一的数据入口，点星标立即生效、离线可用；
+ *    云端 —— 每次变更异步推一行，打开页面时按「同步码」拉回来做并集合并。
+ *    云端不可用只影响「跨设备」，绝不影响本地收藏。
+ *
+ *  一行一条收藏（主键 code + fid），所以两台设备各收各的不会互相覆盖；
+ *  取消收藏写一行墓碑（deleted=true），不会把别的设备刚收的删掉。
  * ===================================================================== */
+const FAV_CODE_KEY = "ia_favorites_code";
+/* 与已发布应用的 publicConfig 一致；换应用/换域名时必须同步改这里 */
+const CLOUD_CFG = {
+  endpoint: "https://daily-learning-19108.app.workbuddy.host",
+  publishableKey: "wbpk_oumXi5KVgnasmu18SUSKDA_Y55RplcCvjuxN4Hze7kXW210BJQ8DnFY"
+};
+const CLOUD_SDK_URL = "https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js";
+const SYNC = { client:null, booting:false, ready:false, state:"idle",
+               code:"", err:"", pending:0, pulled:0 };
+
+/* 8 位同步码：去掉易混的 I/O/0/1，人工抄写不会错。 */
+function genFavCode(){
+  const A = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let s = "";
+  try{
+    const b = new Uint8Array(8);
+    (window.crypto || window.msCrypto).getRandomValues(b);
+    for(let i=0;i<8;i++) s += A.charAt(b[i] % A.length);
+  }catch(e){
+    for(let i=0;i<8;i++) s += A.charAt(Math.floor(Math.random()*A.length));
+  }
+  return s.slice(0,4) + "-" + s.slice(4);
+}
+function getFavCode(){
+  if(SYNC.code) return SYNC.code;
+  let c = "";
+  try{ c = store.get(FAV_CODE_KEY, "") || ""; }catch(e){ c = ""; }
+  if(!/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)){ c = genFavCode(); }
+  try{ store.set(FAV_CODE_KEY, c); }catch(e){}
+  SYNC.code = c;
+  return c;
+}
+function setFavCode(c){
+  const v = String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if(v.length !== 8) return false;
+  const code = v.slice(0,4) + "-" + v.slice(4);
+  SYNC.code = code;
+  try{ store.set(FAV_CODE_KEY, code); }catch(e){}
+  return true;
+}
+
+function renderSyncState(){
+  const el = document.getElementById("favSyncState");
+  if(el){
+    el.textContent = SYNC.ready
+      ? ("云端已同步 · " + getFavCode())
+      : (SYNC.state === "off" ? "仅本地保存（云端未连上）" : "");
+  }
+  const btn = document.getElementById("favSync");
+  if(btn) btn.title = "同步码 " + getFavCode() + "：换设备或清缓存后，用它在收藏夹里恢复";
+}
+
+function loadCloudSdk(){
+  return new Promise(function(res, rej){
+    if(window.WorkBuddyCloud && window.WorkBuddyCloud.createWorkBuddyCloud) return res(window.WorkBuddyCloud);
+    const old = document.getElementById("cloudSdkTag");
+    if(old){                                    /* 正在加载：挂到 load 上等它 */
+      old.addEventListener("load", function(){ res(window.WorkBuddyCloud); });
+      old.addEventListener("error", function(){ rej(new Error("sdk")); });
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "cloudSdkTag";
+    s.src = CLOUD_SDK_URL;
+    s.async = true;
+    s.onload = function(){
+      if(window.WorkBuddyCloud && window.WorkBuddyCloud.createWorkBuddyCloud) res(window.WorkBuddyCloud);
+      else rej(new Error("sdk-global"));
+    };
+    s.onerror = function(){ rej(new Error("sdk-net")); };
+    document.head.appendChild(s);
+  });
+}
+
+/* 远端行 → 本地：并集合并，同一条取 ts 更新的那个；墓碑优先删。 */
+function mergeRemoteFav(rows){
+  const base = readStoredFavFull().map;         /* 全量（含不可显示的），原样带回 */
+  let changed = false;
+  (rows || []).forEach(function(r){
+    const id = r && r.fid;
+    if(!id) return;
+    if(r.deleted){
+      if(base.has(id)){ base.delete(id); changed = true; }
+      return;
+    }
+    const cur = base.get(id);
+    if(!cur || (Number(r.ts) || 0) > (Number(cur.ts) || 0)){
+      base.set(id, { m:r.m || "", d:r.d || "", ts:Number(r.ts) || 0, it:r.it });
+      changed = true;
+    }
+  });
+  if(changed){
+    const before = readStoredFavFull().count;
+    commitFav(base, "sync");
+    SYNC.pulled += Math.max(0, readStoredFavFull().count - before);
+  }
+  return changed;
+}
+
+async function cloudPull(){
+  if(!SYNC.ready) return;
+  const code = getFavCode();
+  const { data, error } = await SYNC.client.database
+    .from("fav_items")
+    .select("fid,m,d,ts,it,deleted")
+    .eq("code", code);
+  if(error) throw error;
+  const rows = data || [];
+  const seen = new Set(rows.map(function(r){ return r.fid; }));
+  const changed = mergeRemoteFav(rows);
+  if(changed){ loadFav(); syncFavBadge(); refreshAllFavBtns(); renderFav(); }
+  /* 本地有、云端没有的，补传上去（首次接入即把历史收藏搬上云） */
+  const local = readStoredFavFull().map;
+  const todo = [];
+  local.forEach(function(rec, id){ if(!seen.has(id)) todo.push([id, rec]); });
+  for(let i=0;i<todo.length;i++){
+    await cloudPushRow(todo[i][0], todo[i][1], false);
+  }
+  renderSyncState();
+}
+
+async function cloudPushRow(id, rec, deleted){
+  if(!SYNC.ready) return false;
+  try{
+    const row = {
+      code: getFavCode(), fid: id,
+      m: (rec && rec.m) || "", d: (rec && rec.d) || "",
+      ts: (rec && rec.ts) || Date.now(),
+      it: (rec && rec.it) || null,
+      deleted: !!deleted
+    };
+    const { error } = await SYNC.client.database.from("fav_items").upsert(row);
+    if(error) throw error;
+    SYNC.err = "";
+    return true;
+  }catch(e){
+    SYNC.err = (e && e.message) || "network";
+    renderSyncState();
+    return false;
+  }
+}
+
+/* 点星标后调用：不阻塞 UI，失败只影响「别的设备能不能看到」 */
+function syncTouch(id, on){
+  if(!SYNC.ready) return;
+  const rec = on ? FAV.map.get(id) : (FAV_POOL.get(id) || null);
+  cloudPushRow(id, rec || {}, !on);
+}
+
+async function initCloud(){
+  if(SYNC.booting || SYNC.ready) return;
+  SYNC.booting = true;
+  try{
+    getFavCode();
+    const g = await loadCloudSdk();
+    SYNC.client = g.createWorkBuddyCloud({
+      endpoint: CLOUD_CFG.endpoint,
+      publishableKey: CLOUD_CFG.publishableKey
+    });
+    SYNC.ready = true;
+    SYNC.state = "on";
+    renderSyncState();
+    await cloudPull();
+    /* 第一次连上：把同步码明确告诉用户一次。
+       原因：本地被清空时同步码也会一起消失，用户得有一个「页外」的记录。 */
+    if(store.get("ia_sync_told", "") !== "1"){
+      try{ store.set("ia_sync_told", "1"); }catch(e){}
+      toast("已开启云端同步：同步码 " + getFavCode() + "，请记下（换设备/清缓存后用它恢复）");
+    }
+  }catch(e){
+    SYNC.state = "off";
+    SYNC.err = (e && e.message) || "init";
+    renderSyncState();
+  }finally{
+    SYNC.booting = false;
+  }
+}
+
+/* 「同步码」按钮：查看 / 换码恢复。
+   换码 = 把当前码换成旧码，再拉一次云端 —— 用在新设备或清缓存之后。 */
+function handleSyncCode(){
+  const cur = getFavCode();
+  const input = window.prompt(
+    "当前同步码：" + cur + "\n\n" +
+    "换设备或清了浏览器缓存后，在这里填旧同步码即可把收藏拉回来。\n" +
+    "直接点确定 = 保持不变。",
+    cur
+  );
+  if(input === null) return;
+  const v = String(input).trim();
+  if(v && v.toUpperCase().replace(/[^A-Z0-9]/g, "") === cur.replace("-", "")){
+    toast("同步码未变");
+    return;
+  }
+  if(!v){ toast("同步码不能为空"); return; }
+  if(!setFavCode(v)){ toast("同步码应为 8 位字母数字"); return; }
+  SYNC.ready = false;
+  SYNC.booting = false;
+  renderSyncState();
+  toast("正在用新同步码拉取…");
+  initCloud();
+}
+
+
 function init(){
   // ---------- 收藏夹：先读本地存档 ----------
   // 必须早于首屏渲染：卡片上的星标要根据 FAV.set 决定是否高亮，
   // 放在 loadArchive 之后会出现「先灰后亮」的闪动。
   safe(()=>{ loadFav(); });
   safe(()=>{ syncFavBadge(); });
+
+  // ---------- 云端同步（首屏之后再做，不挡渲染） ----------
+  // 本地优先：即使云端连不上，收藏照常读写；连上之后按同步码做并集合并。
+  safe(()=>{
+    const btn = document.getElementById("favSync");
+    if(btn) btn.addEventListener("click", handleSyncCode);
+    renderSyncState();
+    setTimeout(function(){ try{ initCloud(); }catch(e){} }, 800);
+  });
 
   // ---------- 微信 / QQ 内置浏览器兼容层 ----------
   safe(()=>{
