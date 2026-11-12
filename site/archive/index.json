@@ -1,7 +1,7 @@
 {
- "version": "2026-11-10",
- "updatedAt": "2026-11-10",
- "latest": "2026-11-10",
+ "version": "2026-11-12",
+ "updatedAt": "2026-11-12",
+ "latest": "2026-11-12",
  "days": [
   {
    "date": "2026-09-12",
@@ -652,15 +652,28 @@
     "exam": 30,
     "github": 40
    }
+  },
+  {
+   "date": "2026-11-12",
+   "file": "2026-11-12.json",
+   "groupCount": 3,
+   "counts": {
+    "questions": 36,
+    "knowledge": 18,
+    "skills": 15,
+    "pitfalls": 15,
+    "exam": 30,
+    "github": 40
+   }
   }
  ],
- "dayCount": 50,
+ "dayCount": 51,
  "totalCounts": {
-  "questions": 1839,
-  "knowledge": 920,
-  "skills": 751,
-  "pitfalls": 752,
-  "exam": 1512,
-  "github": 2000
+  "questions": 1875,
+  "knowledge": 938,
+  "skills": 766,
+  "pitfalls": 767,
+  "exam": 1542,
+  "github": 2040
  }
 }
