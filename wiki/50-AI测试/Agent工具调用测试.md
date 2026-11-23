@@ -3,8 +3,8 @@ title: Agent工具调用测试
 type: concept
 domain: AI测试
 created: 2026-09-14
-updated: 2026-10-12
-sources: [raw/interview/2026-09-14.md, raw/interview/2026-10-07.md]
+updated: 2026-11-23
+sources: [raw/interview/2026-09-14.md, raw/interview/2026-10-07.md, raw/interview/2026-11-23.md]
 tags: [ai-testing, interview, checklist]
 confidence: high
 status: active
@@ -32,6 +32,8 @@ interview:
 | ② 参数正确性 | 生成参数过 JSON schema 校验 | 重点测缺字段、类型错、枚举值越界 |
 | ③ 异常处理 | 工具超时、返回错误码、返回空结果时 Agent 的反应 | 是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数 |
 | ④ 组合调用 | 多步任务里工具的调用顺序与上下文传递 | 前一步的输出有没有正确进入下一步 |
+
+> 更新：2026-11-23 源自 `raw/interview/2026-11-23.md`——第 ④ 层在**多 Agent** 架构下会退化成「传递层」问题：单步都对、整体错，错在消息有没有丢、有没有重复、有没有乱序。四要素契约与三层测法见 [[多Agent消息契约的四要素]]。单 Agent 场景下第 ④ 层按本页口径测即可，不必引入序号与幂等键的完整机制。
 
 **死循环的三层防御**（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：
 
@@ -63,6 +65,8 @@ interview:
 - [[Agent任务成功率的分层口径]]（过程级正确性即本页四层测试法①②层的判定口径）
 - [[大模型输出的非确定性与断言分层]]
 - [[RAG系统的分层测试与故障定位]]
+- [[多Agent消息契约的四要素]]（多 Agent 链路上第 ④ 层的传递层判据）
+- [[Agent长期记忆的写入准入]]（工具返回值与记忆写入的边界：推测不该落库）
 - [[越权访问与IDOR]]
 - [[Harness工程]]
 - [[Web安全测试地图]]
