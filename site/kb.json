@@ -1,11 +1,11 @@
 {
- "contentHash": "75360ad6",
- "version": "kb-2026.11.16-75360ad6",
- "updatedAt": "2026-11-16",
- "generatedAt": "2026-11-16T22:34:27",
- "summary": "知识库共 43 条，覆盖 8 个分类",
+ "contentHash": "bdec8d26",
+ "version": "kb-2026.11.23-bdec8d26",
+ "updatedAt": "2026-11-23",
+ "generatedAt": "2026-11-23T23:59:45",
+ "summary": "知识库共 45 条，覆盖 8 个分类",
  "stats": {
-  "total": 43,
+  "total": 45,
   "byCat": {
    "theory": 4,
    "api-testing": 9,
@@ -13,12 +13,12 @@
    "automation-testing": 5,
    "security-testing": 9,
    "ai-testing": 2,
-   "ai-agent-testing": 3,
+   "ai-agent-testing": 5,
    "database-linux": 5
   },
   "byKind": {
-   "knowledge": 24,
-   "question": 12,
+   "knowledge": 25,
+   "question": 13,
    "skill": 7
   }
  },
@@ -56,7 +56,7 @@
   {
    "cat": "ai-agent-testing",
    "label": "AI Agent 测试",
-   "count": 3
+   "count": 5
   },
   {
    "cat": "database-linux",
@@ -149,7 +149,7 @@
     "level": "高级",
     "question": "",
     "domain": "面试助手",
-    "updated": "2026-11-16",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "interview",
@@ -158,12 +158,14 @@
     "links": [
      "Agent任务成功率的分层口径",
      "Agent工具调用测试",
+     "Agent长期记忆的写入准入",
      "Harness工程",
      "RAG系统的分层测试与故障定位",
      "WebDriverAgent",
      "假阴性漏测的六大来源",
      "压测数据形态与结论外推",
      "吞吐封顶与尾延迟的判读",
+     "多Agent消息契约的四要素",
      "大模型输出的非确定性与断言分层",
      "安全测试的分层策略与手段组合",
      "容量规划与安全水位核定",
@@ -177,7 +179,7 @@
      "队列积压的性质判定",
      "限流与防刷机制的测试"
     ],
-    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（<strong>接口域 9 页</strong>、AI 域 5 页、安全域 9 页、自动化域 5 页、测试理论 4 页、<strong>性能域 6 页</strong>，最近 2026-11-16）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"测试停止判据与残余风险披露\">测试停止判据与残余风险披露</span></li>\n<li><span class=\"wl\" data-page=\"覆盖率口径与测过了的三层含义\">覆盖率口径与测过了的三层含义</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li><span class=\"wl\" data-page=\"压测数据形态与结论外推\">压测数据形态与结论外推</span></li>\n<li><span class=\"wl\" data-page=\"吞吐封顶与尾延迟的判读\">吞吐封顶与尾延迟的判读</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
+    "body": "<blockquote>\n<p>本页是<strong>面试助手站点的入口页</strong>，也是知识库里面试内容的导航。\n站点渲染的数据来自 <code>wiki/</code> 下所有带 <code>interview</code> 块的页面，本页只负责说明结构与进度。</p>\n</blockquote>\n<h2 id=\"_1\">板块说明</h2>\n<p>面试内容按 <code>interview.cat</code> 分十二类，与每日复习轮换一致：</p>\n<p><code>theory</code> 测试理论 ｜ <code>api-testing</code> 接口测试 ｜ <code>performance-testing</code> 性能测试 ｜ <code>automation-testing</code> 自动化测试 ｜ <code>ai-testing</code> AI 测试 ｜ <code>ai-agent-testing</code> AI Agent 测试 ｜ <code>python</code> Python 基础 ｜ <code>ai-tools</code> AI 测试工具 ｜ <code>env-setup</code> 测试环境搭建 ｜ <code>database-linux</code> 数据库/Linux ｜ <code>scenario</code> 场景题 ｜ <code>cicd</code> CI/CD</p>\n<p>四种内容形态由 <code>interview.kind</code> 区分：<code>question</code> 面试题 ｜ <code>knowledge</code> 知识点 ｜ <code>skill</code> 技能 ｜ <code>pitfall</code> 坑点。</p>\n<h2 id=\"_2\">内容分布</h2>\n<p>面试内容页<strong>归档在各自领域目录</strong>，不集中堆在本目录（理由见 <code>WIKI-SCHEMA.md</code> 8.5）。因此本页不做手工清单，分布由构建脚本统计后输出到站点。</p>\n<h2 id=\"_3\">当前进度</h2>\n<table>\n<thead>\n<tr>\n<th>阶段</th>\n<th>状态</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>契约与模板就位</td>\n<td>✅ 2026-09-10</td>\n</tr>\n<tr>\n<td>旧库原料导入 <code>raw/legacy/</code></td>\n<td>✅ 67 篇</td>\n</tr>\n<tr>\n<td>逐批编译进 wiki</td>\n<td>进行中（<strong>接口域 9 页</strong>、AI 域 7 页、安全域 9 页、自动化域 5 页、测试理论 4 页、<strong>性能域 6 页</strong>，最近 2026-11-23）</td>\n</tr>\n<tr>\n<td>每日抓取流水</td>\n<td>✅ 每日 20:00 归档 + <code>raw/interview/</code> 精选沉淀；每周一编译进 wiki</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"测试停止判据与残余风险披露\">测试停止判据与残余风险披露</span></li>\n<li><span class=\"wl\" data-page=\"覆盖率口径与测过了的三层含义\">覆盖率口径与测过了的三层含义</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span></li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"安全测试的分层策略与手段组合\">安全测试的分层策略与手段组合</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"移动端App自动化的三条技术路线\">移动端App自动化的三条技术路线</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化闭环的七阶段\">移动端自动化闭环的七阶段</span></li>\n<li><span class=\"wl\" data-page=\"移动端自动化稳定性的六层验证\">移动端自动化稳定性的六层验证</span></li>\n<li><span class=\"wl\" data-page=\"WebDriverAgent\">WebDriverAgent</span></li>\n<li><span class=\"wl\" data-page=\"队列积压的性质判定\">队列积压的性质判定</span></li>\n<li><span class=\"wl\" data-page=\"容量规划与安全水位核定\">容量规划与安全水位核定</span></li>\n<li><span class=\"wl\" data-page=\"压测数据形态与结论外推\">压测数据形态与结论外推</span></li>\n<li><span class=\"wl\" data-page=\"吞吐封顶与尾延迟的判读\">吞吐封顶与尾延迟的判读</span></li>\n</ul>\n<blockquote>\n<p>早期曾链向「知识库搭建记录」与「llm-wiki 编译式知识库」两页，均为内部复盘页（publish: false，不上站），为消除站点「点进去为空」的空胶囊已移除；wiki 内可用 index.md 与 00-总览 目录到达。</p>\n</blockquote>",
     "source_path": "wiki/75-面试助手/面试助手题库索引.md"
    },
    {
@@ -316,7 +318,7 @@
     "level": "高级",
     "question": "接口幂等怎么测？串行重放几次就算测过了吗？",
     "domain": "接口测试",
-    "updated": "2026-10-19",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "api-testing",
@@ -327,12 +329,13 @@
     "links": [
      "Agent工具调用测试",
      "Mock接口桩的设计模式",
+     "多Agent消息契约的四要素",
      "接口断言的四个层次",
      "接口测试知识地图",
      "限流与防刷机制的测试",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>幂等有两种语义——<strong>不产生重复副作用</strong>、<strong>重复请求返回一致结果</strong>；多数系统只做到前者。验证必须在<strong>并发</strong>下做：串行重放测不出竞态，因为第一次请求早已完成落库与幂等键写入。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>两种语义要分开验收</strong>（只做前者是常见半成品）：</p>\n<table>\n<thead>\n<tr>\n<th>语义</th>\n<th>判据</th>\n<th>只做到这一层会怎样</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 副作用唯一</td>\n<td>订单一条、库存扣一次、券核销一次、消息一条</td>\n<td>数据没错，但客户端重试拿到 500 或空响应，继续重试；用户看到「失败」又点一次</td>\n</tr>\n<tr>\n<td>② 返回一致</td>\n<td>返回首次结果，或明确的「已处理」状态</td>\n<td>——</td>\n</tr>\n</tbody>\n</table>\n<p><strong>测法四步</strong>：</p>\n<ol>\n<li><strong>固定业务唯一键</strong>：订单号、客户端生成的 <code>requestId</code>、或服务端下发的幂等 token。没有唯一键就没有幂等可言，先确认键是什么、由谁生成。</li>\n<li><strong>并发发 5–20 次</strong>（<code>threading.Barrier</code>、<code>CountDownLatch</code>，或压测工具的同步启动）：串行重放无效——第一次已完成落库与幂等键写入，后面天然命中缓存，看起来永远通过。</li>\n<li><strong>核对副作用</strong>：直连数据库或对账接口查行数、库存流水、券状态、消息条数。<strong>判据是落库结果，不是接口返回</strong>——接口返回「成功」而实际落了两条，是更严重的缺陷。</li>\n<li><strong>核对返回</strong>：一致结果或明确「已处理」，而不是 500、不是新建一单、不是返回空。</li>\n</ol>\n<p><strong>四个边界必测</strong>：</p>\n<ul>\n<li><strong>幂等键过期后重试</strong>：应作为新请求处理或明确拒绝，两种口径都可接受，但必须与产品定义一致；不可接受的是「过期后静默重复执行」。</li>\n<li><strong>幂等键相同但参数不同</strong>：应拒绝（如 409 / 400），<strong>不能拿旧结果糊弄</strong>——否则改金额、改数量后重放会拿到旧单，等于绕过业务校验。</li>\n<li><strong>首次请求超时但实际成功</strong>：客户端必然重试，这是一切幂等设计的真实起点；用例要专门构造「下游成功、上游超时」，不能只测「首次成功后的重放」。</li>\n<li><strong>支付回调重复投递</strong>：第三方回调天然重发，处理不幂等就是重复发货或重复加余额；这一条在资金链路上属最高优先级。</li>\n</ul>\n<p><strong>实现方式决定了缺陷形态</strong>，测试要能分辨：唯一索引 / 去重表 / Redis <code>SETNX</code> / 状态机（只允许 <code>A→B</code> 一次）。靠数据库唯一键兜住的实现，在并发下常表现为<strong>报 500 但只落一条</strong>——数据是对的，但语义②不成立，仍应提缺陷；靠应用层「先查再写」兜住的，则可能在并发窗口内<strong>双写</strong>。</p>\n<p><strong>与断言的关系</strong>：幂等验证的落点几乎全在<strong>副作用层</strong>（见 <span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span> ④）；Mock 环境无状态，根本造不出并发与重复落库，所以在 Mock 上「幂等通过」没有任何证据价值。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>幂等用例必须进自动化，且用并发执行器</strong>：写成 <code>for</code> 循环调用等于没测，这是本源里最典型的形式主义。</li>\n<li><strong>断言副作用走独立通道</strong>：直连 DB / 对账接口，不复用被测接口的查询——查询接口可能同样有缓存或同样的权限 bug，用它验证等于自证。</li>\n<li><strong>用例隔离</strong>：每次用唯一业务键并做前置清理；否则唯一索引会把第二个用例「顺带变绿」，掩盖真实缺陷。</li>\n<li><strong>报告要写清失效形态</strong>：重复落库 / 返回 500 / 返回旧结果，三者定级不同（前者是资金与数据事故，后两者是一致性与体验问题）。</li>\n<li><strong>常见误用</strong>：拿查询类 GET 接口验幂等——它天然幂等，测不出任何东西；以及只测「首次成功之后的多次重放」，漏掉「首次超时但已成功」这个真正的战场。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>幂等有两种语义——<strong>不产生重复副作用</strong>、<strong>重复请求返回一致结果</strong>；多数系统只做到前者。验证必须在<strong>并发</strong>下做：串行重放测不出竞态，因为第一次请求早已完成落库与幂等键写入。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>两种语义要分开验收</strong>（只做前者是常见半成品）：</p>\n<table>\n<thead>\n<tr>\n<th>语义</th>\n<th>判据</th>\n<th>只做到这一层会怎样</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 副作用唯一</td>\n<td>订单一条、库存扣一次、券核销一次、消息一条</td>\n<td>数据没错，但客户端重试拿到 500 或空响应，继续重试；用户看到「失败」又点一次</td>\n</tr>\n<tr>\n<td>② 返回一致</td>\n<td>返回首次结果，或明确的「已处理」状态</td>\n<td>——</td>\n</tr>\n</tbody>\n</table>\n<p><strong>测法四步</strong>：</p>\n<ol>\n<li><strong>固定业务唯一键</strong>：订单号、客户端生成的 <code>requestId</code>、或服务端下发的幂等 token。没有唯一键就没有幂等可言，先确认键是什么、由谁生成。</li>\n<li><strong>并发发 5–20 次</strong>（<code>threading.Barrier</code>、<code>CountDownLatch</code>，或压测工具的同步启动）：串行重放无效——第一次已完成落库与幂等键写入，后面天然命中缓存，看起来永远通过。</li>\n<li><strong>核对副作用</strong>：直连数据库或对账接口查行数、库存流水、券状态、消息条数。<strong>判据是落库结果，不是接口返回</strong>——接口返回「成功」而实际落了两条，是更严重的缺陷。</li>\n<li><strong>核对返回</strong>：一致结果或明确「已处理」，而不是 500、不是新建一单、不是返回空。</li>\n</ol>\n<p><strong>四个边界必测</strong>：</p>\n<ul>\n<li><strong>幂等键过期后重试</strong>：应作为新请求处理或明确拒绝，两种口径都可接受，但必须与产品定义一致；不可接受的是「过期后静默重复执行」。</li>\n<li><strong>幂等键相同但参数不同</strong>：应拒绝（如 409 / 400），<strong>不能拿旧结果糊弄</strong>——否则改金额、改数量后重放会拿到旧单，等于绕过业务校验。</li>\n<li><strong>首次请求超时但实际成功</strong>：客户端必然重试，这是一切幂等设计的真实起点；用例要专门构造「下游成功、上游超时」，不能只测「首次成功后的重放」。</li>\n<li><strong>支付回调重复投递</strong>：第三方回调天然重发，处理不幂等就是重复发货或重复加余额；这一条在资金链路上属最高优先级。</li>\n</ul>\n<p><strong>实现方式决定了缺陷形态</strong>，测试要能分辨：唯一索引 / 去重表 / Redis <code>SETNX</code> / 状态机（只允许 <code>A→B</code> 一次）。靠数据库唯一键兜住的实现，在并发下常表现为<strong>报 500 但只落一条</strong>——数据是对的，但语义②不成立，仍应提缺陷；靠应用层「先查再写」兜住的，则可能在并发窗口内<strong>双写</strong>。</p>\n<p><strong>与断言的关系</strong>：幂等验证的落点几乎全在<strong>副作用层</strong>（见 <span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span> ④）；Mock 环境无状态，根本造不出并发与重复落库，所以在 Mock 上「幂等通过」没有任何证据价值。</p>\n<p><strong>跨域：幂等键在多 Agent 链路里的角色（2026-11-23 补）</strong>：同一条纪律在 Agent 系统上表现为<strong>消息的幂等键</strong>——一份消息被重投时，下游要能认出「这条处理过」。差别在于接口侧的幂等键通常由客户端生成、以请求头或业务号传递；Agent 链路里它要写在消息体上、与追溯 id、单调序号一起构成消息契约，判据也从「接口返回一致」变成「重发不产生第二条副作用 + 最终状态与单 Agent 直跑逐字段一致」。契约四要素见 <span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>幂等用例必须进自动化，且用并发执行器</strong>：写成 <code>for</code> 循环调用等于没测，这是本源里最典型的形式主义。</li>\n<li><strong>断言副作用走独立通道</strong>：直连 DB / 对账接口，不复用被测接口的查询——查询接口可能同样有缓存或同样的权限 bug，用它验证等于自证。</li>\n<li><strong>用例隔离</strong>：每次用唯一业务键并做前置清理；否则唯一索引会把第二个用例「顺带变绿」，掩盖真实缺陷。</li>\n<li><strong>报告要写清失效形态</strong>：重复落库 / 返回 500 / 返回旧结果，三者定级不同（前者是资金与数据事故，后两者是一致性与体验问题）。</li>\n<li><strong>常见误用</strong>：拿查询类 GET 接口验幂等——它天然幂等，测不出任何东西；以及只测「首次成功之后的多次重放」，漏掉「首次超时但已成功」这个真正的战场。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"Mock接口桩的设计模式\">Mock接口桩的设计模式</span></li>\n<li><span class=\"wl\" data-page=\"限流与防刷机制的测试\">限流与防刷机制的测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>（幂等键在消息层的延伸形态）</li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/40-接口测试/幂等的两种语义与并发验证.md"
    },
    {
@@ -944,7 +947,7 @@
     "level": "高级",
     "question": "RAG 系统上线前重点测哪几层？线上答错时怎么判断是检索还是生成的问题？",
     "domain": "AI测试",
-    "updated": "2026-10-12",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "ai-testing",
@@ -954,12 +957,13 @@
     ],
     "links": [
      "Agent工具调用测试",
+     "Agent长期记忆的写入准入",
      "大模型输出的非确定性与断言分层",
      "接口测试知识地图",
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"rag\">RAG 系统的分层测试与故障定位</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>RAG 要<strong>拆四层测</strong>（数据 / 检索 / 生成 / 端到端），各层指标完全不同；线上答错时靠「把召回的片段和最终回答一起打出来」这一步判断锅在哪一层。</p>\n<h2 id=\"_2\">展开</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>主要指标</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 数据层（入库）</td>\n<td>文档解析是否正确（表格、扫描件、多栏排版是重灾区）、切分是否切断完整语义、元数据（来源 / 版本 / 权限）是否带全</td>\n<td>解析正确率、切分完整率、元数据齐全率</td>\n</tr>\n<tr>\n<td>② 检索层</td>\n<td>多路召回融合后的排序是否合理</td>\n<td>Recall@K / Precision@K（用「标准问题 → 应召回文档」的标注集算）</td>\n</tr>\n<tr>\n<td>③ 生成层</td>\n<td>答案是否忠于召回内容（是否幻觉）、引用是否指向正确片段、格式是否合规</td>\n<td>忠实度、引用正确率、格式合法率</td>\n</tr>\n<tr>\n<td>④ 端到端</td>\n<td>用户视角能不能解决问题</td>\n<td>任务完成率 + 人工抽检</td>\n</tr>\n</tbody>\n</table>\n<p><strong>定位判据（把「答错了」拆成两种归因）</strong>：</p>\n<ul>\n<li>召回里<strong>本来有</strong>正确答案、生成却答错 → <strong>生成层</strong>问题（prompt 或模型）；</li>\n<li>召回里<strong>根本没有</strong>正确答案 → <strong>检索层或数据层</strong>问题（切分粒度、embedding、或权限过滤把正确内容滤掉了）。</li>\n</ul>\n<p>这一步是整页的关键：不做「召回片段 + 最终回答」联合打印，就只能在「模型不行」和「知识库没这条」之间猜。</p>\n<p><strong>最易漏的一层——权限过滤</strong>：不同角色的用户问同一个问题，召回范围必须不同。这类用例必须单独造，一次泄漏就是事故。</p>\n<p><strong>生成层怎么深入：幻觉的三种成因与对应手段</strong>。幻觉不可能被消灭，只能被圈定并持续监控。</p>\n<table>\n<thead>\n<tr>\n<th>成因</th>\n<th>抑制手段</th>\n<th>验证手段</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>知识缺失型（模型本来没有这块知识）</td>\n<td>接检索（RAG）+ 系统提示限制「只依据给定资料回答」</td>\n<td>忠实度评测：把答案拆成原子陈述，逐条判断是否被召回内容支持，算支持率</td>\n</tr>\n<tr>\n<td>上下文冲突型（召回资料互相矛盾或已过期）</td>\n<td>数据治理：资料带版本号与生效时间，检索时先过滤</td>\n<td>构造含新旧版本冲突的用例，断言模型采用现行版本</td>\n</tr>\n<tr>\n<td>指令泛化型（为回答完整而自行补全细节）</td>\n<td>输出约束：要求逐句引用来源，无依据时明确输出「不知道」</td>\n<td>拒答评测：造一批知识库无答案的问题，看是否老实说不知道</td>\n</tr>\n</tbody>\n</table>\n<p><strong>拒答率的双向含义</strong>：过高说明业务可用性差，过低说明幻觉风险大——<strong>两个方向都是问题</strong>，必须一起看，不能只盯一个方向调优。</p>\n<p><strong>长期观测</strong>：线上把「未命中知识库但仍给出确定性回答」的请求单独打标并人工抽检。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>断言方式接 <span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></strong>：结构合法性硬断言、内容正确性用比例判定。别写一条用例断言「模型必须回答 X」，单条通过就当整体合格。</li>\n<li><strong>权限类用例并入越权测试矩阵</strong>：检索层的召回必须按当前身份过滤，而不是在生成层用 prompt 约束——prompt 约束不是权限控制，见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>。</li>\n<li><strong>数据层回归要留旧版本文档样本</strong>：解析与切分的问题往往在「文档更新后」才暴露，只在最新语料上测会漏。</li>\n<li><strong>指标先定再选工具</strong>：想清楚要回答「涨了多少 / 降了多少 / 哪些用例回归了」，再决定用哪套评测工具。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"rag\">RAG 系统的分层测试与故障定位</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>RAG 要<strong>拆四层测</strong>（数据 / 检索 / 生成 / 端到端），各层指标完全不同；线上答错时靠「把召回的片段和最终回答一起打出来」这一步判断锅在哪一层。</p>\n<h2 id=\"_2\">展开</h2>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>主要指标</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 数据层（入库）</td>\n<td>文档解析是否正确（表格、扫描件、多栏排版是重灾区）、切分是否切断完整语义、元数据（来源 / 版本 / 权限）是否带全</td>\n<td>解析正确率、切分完整率、元数据齐全率</td>\n</tr>\n<tr>\n<td>② 检索层</td>\n<td>多路召回融合后的排序是否合理</td>\n<td>Recall@K / Precision@K（用「标准问题 → 应召回文档」的标注集算）</td>\n</tr>\n<tr>\n<td>③ 生成层</td>\n<td>答案是否忠于召回内容（是否幻觉）、引用是否指向正确片段、格式是否合规</td>\n<td>忠实度、引用正确率、格式合法率</td>\n</tr>\n<tr>\n<td>④ 端到端</td>\n<td>用户视角能不能解决问题</td>\n<td>任务完成率 + 人工抽检</td>\n</tr>\n</tbody>\n</table>\n<p><strong>定位判据（把「答错了」拆成两种归因）</strong>：</p>\n<ul>\n<li>召回里<strong>本来有</strong>正确答案、生成却答错 → <strong>生成层</strong>问题（prompt 或模型）；</li>\n<li>召回里<strong>根本没有</strong>正确答案 → <strong>检索层或数据层</strong>问题（切分粒度、embedding、或权限过滤把正确内容滤掉了）。</li>\n</ul>\n<p>这一步是整页的关键：不做「召回片段 + 最终回答」联合打印，就只能在「模型不行」和「知识库没这条」之间猜。</p>\n<p><strong>最易漏的一层——权限过滤</strong>：不同角色的用户问同一个问题，召回范围必须不同。这类用例必须单独造，一次泄漏就是事故。</p>\n<p><strong>生成层怎么深入：幻觉的三种成因与对应手段</strong>。幻觉不可能被消灭，只能被圈定并持续监控。</p>\n<table>\n<thead>\n<tr>\n<th>成因</th>\n<th>抑制手段</th>\n<th>验证手段</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>知识缺失型（模型本来没有这块知识）</td>\n<td>接检索（RAG）+ 系统提示限制「只依据给定资料回答」</td>\n<td>忠实度评测：把答案拆成原子陈述，逐条判断是否被召回内容支持，算支持率</td>\n</tr>\n<tr>\n<td>上下文冲突型（召回资料互相矛盾或已过期）</td>\n<td>数据治理：资料带版本号与生效时间，检索时先过滤</td>\n<td>构造含新旧版本冲突的用例，断言模型采用现行版本</td>\n</tr>\n<tr>\n<td>指令泛化型（为回答完整而自行补全细节）</td>\n<td>输出约束：要求逐句引用来源，无依据时明确输出「不知道」</td>\n<td>拒答评测：造一批知识库无答案的问题，看是否老实说不知道</td>\n</tr>\n</tbody>\n</table>\n<p><strong>拒答率的双向含义</strong>：过高说明业务可用性差，过低说明幻觉风险大——<strong>两个方向都是问题</strong>，必须一起看，不能只盯一个方向调优。</p>\n<p><strong>长期观测</strong>：线上把「未命中知识库但仍给出确定性回答」的请求单独打标并人工抽检。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>断言方式接 <span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></strong>：结构合法性硬断言、内容正确性用比例判定。别写一条用例断言「模型必须回答 X」，单条通过就当整体合格。</li>\n<li><strong>权限类用例并入越权测试矩阵</strong>：检索层的召回必须按当前身份过滤，而不是在生成层用 prompt 约束——prompt 约束不是权限控制，见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>。</li>\n<li><strong>数据层回归要留旧版本文档样本</strong>：解析与切分的问题往往在「文档更新后」才暴露，只在最新语料上测会漏。</li>\n<li><strong>指标先定再选工具</strong>：想清楚要回答「涨了多少 / 降了多少 / 哪些用例回归了」，再决定用哪套评测工具。</li>\n</ul>\n<h2 id=\"2026-11-23\">与「长期记忆」的分界（2026-11-23 补）</h2>\n<blockquote>\n<p>更新：2026-11-23 源自 <code>raw/interview/2026-11-23.md</code>——「带着错前提往下走」这个现象，RAG 与长期记忆都会造成，但病根在<strong>读</strong>还是在<strong>写</strong>完全不同，定位手段也不同。</p>\n</blockquote>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>本页（RAG）</th>\n<th>长期记忆</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>管哪一侧</td>\n<td><strong>读</strong>：召回什么进上下文</td>\n<td><strong>写</strong>：什么被固化下来</td>\n</tr>\n<tr>\n<td>错内容从哪来</td>\n<td>语料本身有错 / 切分切断语义 / 权限过滤漏了</td>\n<td>中途的临时结论、推测被当成事实落库</td>\n</tr>\n<tr>\n<td>怎么定位</td>\n<td>把「召回片段 + 最终回答」一起打出来，判锅在哪一层</td>\n<td>把记忆条目 dump 出来，看每条能否追到来源消息</td>\n</tr>\n<tr>\n<td>修在哪</td>\n<td>数据层与检索层</td>\n<td>写入准入（规则与拒写）</td>\n</tr>\n</tbody>\n</table>\n<p>判错层的代价很实在：明明是记忆里躺着一条错前提，却去改 prompt 或重建索引，改完症状照旧。</p>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span>（写侧的同族问题，定位方式与本页不同）</li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/RAG系统的分层测试与故障定位.md"
    },
    {
@@ -970,7 +974,7 @@
     "level": "高级",
     "question": "同一个问题问三遍得到三份不同答案，这种非确定性怎么设计断言？",
     "domain": "AI测试",
-    "updated": "2026-10-19",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "ai-testing",
@@ -981,12 +985,13 @@
     "links": [
      "Agent任务成功率的分层口径",
      "Agent工具调用测试",
+     "Agent长期记忆的写入准入",
      "假阴性漏测的六大来源",
      "接口断言的四个层次",
      "接口测试知识地图",
      "面试助手题库索引"
     ],
-    "body": "<h2 id=\"_1\">一句话</h2>\n<p>大模型应用不能断言「输出等于什么」，只能断言「输出必须满足什么约束」——按成本从低到高分四层；且<strong>评测用的那把尺子本身也会漂移</strong>，必须与模型一起锁版本。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>先分清三个来源</strong>（来源不同对策就不同，不能笼统归成「模型不稳定」）：</p>\n<table>\n<thead>\n<tr>\n<th>来源</th>\n<th>表现</th>\n<th>对策</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>采样随机性（temperature / top_p）</td>\n<td>输入完全相同，输出仍不同</td>\n<td>固定参数 + 多次采样 + 比例判定（N 次中达标次数不低于阈值）</td>\n</tr>\n<tr>\n<td>上下文变化</td>\n<td>历史消息、召回片段、系统时间、工具返回值都会变</td>\n<td>把上下文当输入的一部分固化——用例存完整消息数组，而不是一句话</td>\n</tr>\n<tr>\n<td>上游模型升级</td>\n<td>供应商静默更新或主动切版本，输出分布整体漂移</td>\n<td>固定模型版本号 + 建立回归基线，每次切版本跑全量评测集对比涨跌</td>\n</tr>\n</tbody>\n</table>\n<p><strong>断言四层</strong>，从便宜到贵——能早失败就不要拖到语义层：</p>\n<ol>\n<li><strong>硬约束断言</strong>：长度范围、能否解析、字段是否齐全、枚举值是否在允许集合内、有无敏感词。这些是确定性的，直接断言。</li>\n<li><strong>结构化断言</strong>：要求输出 JSON 时用 schema 校验，不合规即判失败，必要时触发自动重试。</li>\n<li><strong>语义断言</strong>：用向量相似度或另一路模型做裁判，判「是否覆盖要点」而非「字面是否一致」。</li>\n<li><strong>多次采样 + 比例判定</strong>：参数固定、跑 N 次，以「达标率不低于阈值」作为通过条件，同时把每次输出留档，便于对比版本漂移。</li>\n</ol>\n<p><strong>为什么必须把「结构合法性」与「内容正确性」分开断言</strong>：结构（JSON 可解析、字段齐全）是确定性的，可以硬断言、能让用例尽早失败，省下后面昂贵的语义判定成本；只有内容正确性才是概率性的、才需要统计口径。两者混在一起，失败时既不知道是格式坏了还是答错了。</p>\n<p><strong>最容易漏的一条——裁判自身也会漂移</strong>：评测模型必须锁版本、锁 prompt，并定期用人工标注的小样本校准判准。否则等于用一把会伸缩的尺子去量另一个不稳定的对象，两次评测的分数根本不可比。</p>\n<h2 id=\"2026-10-19\">与接口断言四层不是同一个维度（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——两处都叫「断言分层」，容易混成同一套东西，这里把维度区分写清，避免后续引用时张冠李戴。</p>\n</blockquote>\n<table>\n<thead>\n<tr>\n<th>分层</th>\n<th>依据</th>\n<th>层与层的关系</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>本页的四层</td>\n<td><strong>约束强度</strong>（硬约束 → 结构化 → 语义 → 比例判定）</td>\n<td>递进：越往后越贵、越不确定，能早失败就不要往后走</td>\n</tr>\n<tr>\n<td><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></td>\n<td><strong>检查对象</strong>（协议 → 业务 → 数据 → 副作用）</td>\n<td>并列：同一层可能同时有硬约束断言与语义断言</td>\n</tr>\n</tbody>\n</table>\n<p>两者<strong>正交，可叠加</strong>：一个接口的数据层字段精度是硬约束（本页第 1 层），而它对下游状态的核对属于副作用层（接口页第 ④ 层）；大模型应用里「返回 JSON 可解析」是协议/结构化层，「回答有没有覆盖要点」才落到语义层。混用的代价是判定口径说不清——评审时会争「这算哪一层没过」，最后只能靠感觉。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>用例资产的形态变了</strong>：从「一句话 + 期望输出」改成「完整消息数组 + 约束断言 + 采样次数」。上下文不固化，结论就不可复现。</li>\n<li><strong>把模型调用当接口测</strong>，分两层：契约层（返回结构、超时、限流与失败异常路径）硬断言、失败即拦；质量层（格式合法率、要点命中率、拒答正确率）用通过率加样本量表达。分层参照 <span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span>。</li>\n<li><strong>阈值必须与产品一起白纸黑字写进验收标准</strong>。数据不好看时应反馈给产品调预期，而不是自己在断言上不断放宽——放宽断言正是 <span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span> 里第 6 条的 AI 变体。</li>\n<li><strong>多轮判定接 trace 与多次统计</strong>：与 <span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span> 同一口径纪律——报告「N 次运行中的成功率」，禁止用单次最好成绩汇报。</li>\n<li><strong>常见误用</strong>：把「两次答案不同」直接提成缺陷。先区分<strong>非确定性</strong>（采样带来的合理差异）与<strong>错误</strong>（不满足业务约束）：前者改断言口径，后者才是缺陷。曾经出现过测试与开发在这件事上来回扯皮、缺陷被挂起、评测进度也停摆的情况。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h2 id=\"_1\">一句话</h2>\n<p>大模型应用不能断言「输出等于什么」，只能断言「输出必须满足什么约束」——按成本从低到高分四层；且<strong>评测用的那把尺子本身也会漂移</strong>，必须与模型一起锁版本。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>先分清三个来源</strong>（来源不同对策就不同，不能笼统归成「模型不稳定」）：</p>\n<table>\n<thead>\n<tr>\n<th>来源</th>\n<th>表现</th>\n<th>对策</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>采样随机性（temperature / top_p）</td>\n<td>输入完全相同，输出仍不同</td>\n<td>固定参数 + 多次采样 + 比例判定（N 次中达标次数不低于阈值）</td>\n</tr>\n<tr>\n<td>上下文变化</td>\n<td>历史消息、召回片段、系统时间、工具返回值都会变</td>\n<td>把上下文当输入的一部分固化——用例存完整消息数组，而不是一句话</td>\n</tr>\n<tr>\n<td>上游模型升级</td>\n<td>供应商静默更新或主动切版本，输出分布整体漂移</td>\n<td>固定模型版本号 + 建立回归基线，每次切版本跑全量评测集对比涨跌</td>\n</tr>\n</tbody>\n</table>\n<p><strong>断言四层</strong>，从便宜到贵——能早失败就不要拖到语义层：</p>\n<ol>\n<li><strong>硬约束断言</strong>：长度范围、能否解析、字段是否齐全、枚举值是否在允许集合内、有无敏感词。这些是确定性的，直接断言。</li>\n<li><strong>结构化断言</strong>：要求输出 JSON 时用 schema 校验，不合规即判失败，必要时触发自动重试。</li>\n<li><strong>语义断言</strong>：用向量相似度或另一路模型做裁判，判「是否覆盖要点」而非「字面是否一致」。</li>\n<li><strong>多次采样 + 比例判定</strong>：参数固定、跑 N 次，以「达标率不低于阈值」作为通过条件，同时把每次输出留档，便于对比版本漂移。</li>\n</ol>\n<p><strong>为什么必须把「结构合法性」与「内容正确性」分开断言</strong>：结构（JSON 可解析、字段齐全）是确定性的，可以硬断言、能让用例尽早失败，省下后面昂贵的语义判定成本；只有内容正确性才是概率性的、才需要统计口径。两者混在一起，失败时既不知道是格式坏了还是答错了。</p>\n<p><strong>最容易漏的一条——裁判自身也会漂移</strong>：评测模型必须锁版本、锁 prompt，并定期用人工标注的小样本校准判准。否则等于用一把会伸缩的尺子去量另一个不稳定的对象，两次评测的分数根本不可比。</p>\n<h2 id=\"2026-11-23\">评测集这把握尺子本身准不准（2026-11-23 补）</h2>\n<blockquote>\n<p>更新：2026-11-23 源自 <code>raw/interview/2026-11-23.md</code>——上文说的是「裁判模型会漂移」，本节说的是更前置的一层：<strong>标注者之间就对不齐</strong>。尺子没校准，模型分数再高也只是拟合了某个人的偏好。</p>\n</blockquote>\n<p><strong>先用 Kappa 量口径一致性</strong>：多人独立标同一批样本，两人算 Cohen's Kappa、多人算 Fleiss' Kappa。<strong>低于 0.6 说明口径本身有分歧</strong>，此时该做的事是统一判定标准重标，而不是调模型。</p>\n<p><strong>再查四项数据体检</strong>：类别比例是否与线上一致、有无重复样本、与训练集是否重叠、难易分桶是否均衡。任何一项失守，<strong>先修数据再谈模型</strong>。</p>\n<p><strong>比分数要用配对检验</strong>：同一批样本上比两个模型，用配对的差异（B 对 A 错 vs A 对 B 错）而不是两个独立的准确率相减。举例：两个模型在 1000 条上 82% 与 85%，配对后「B 对 A 错」38 条、「A 对 B 错」8 条，才够得出显著结论；若只看 3 个点的差值，很可能只是噪声。</p>\n<p><strong>分数必须配三样才可解释</strong>：标注一致性（Kappa）、类别比例与线上的偏差、分桶后的分数。上线决策看<strong>高风险类目</strong>的分数，不是总分——「总分 90%」在线上 60% 是评测集里几乎没有的多轮追问时，没有预测力。</p>\n<h2 id=\"2026-10-19\">与接口断言四层不是同一个维度（2026-10-19 补）</h2>\n<blockquote>\n<p>更新：2026-10-19 源自 <code>raw/interview/2026-10-18.md</code>——两处都叫「断言分层」，容易混成同一套东西，这里把维度区分写清，避免后续引用时张冠李戴。</p>\n</blockquote>\n<table>\n<thead>\n<tr>\n<th>分层</th>\n<th>依据</th>\n<th>层与层的关系</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>本页的四层</td>\n<td><strong>约束强度</strong>（硬约束 → 结构化 → 语义 → 比例判定）</td>\n<td>递进：越往后越贵、越不确定，能早失败就不要往后走</td>\n</tr>\n<tr>\n<td><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></td>\n<td><strong>检查对象</strong>（协议 → 业务 → 数据 → 副作用）</td>\n<td>并列：同一层可能同时有硬约束断言与语义断言</td>\n</tr>\n</tbody>\n</table>\n<p>两者<strong>正交，可叠加</strong>：一个接口的数据层字段精度是硬约束（本页第 1 层），而它对下游状态的核对属于副作用层（接口页第 ④ 层）；大模型应用里「返回 JSON 可解析」是协议/结构化层，「回答有没有覆盖要点」才落到语义层。混用的代价是判定口径说不清——评审时会争「这算哪一层没过」，最后只能靠感觉。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>用例资产的形态变了</strong>：从「一句话 + 期望输出」改成「完整消息数组 + 约束断言 + 采样次数」。上下文不固化，结论就不可复现。</li>\n<li><strong>把模型调用当接口测</strong>，分两层：契约层（返回结构、超时、限流与失败异常路径）硬断言、失败即拦；质量层（格式合法率、要点命中率、拒答正确率）用通过率加样本量表达。分层参照 <span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span>。</li>\n<li><strong>阈值必须与产品一起白纸黑字写进验收标准</strong>。数据不好看时应反馈给产品调预期，而不是自己在断言上不断放宽——放宽断言正是 <span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span> 里第 6 条的 AI 变体。</li>\n<li><strong>多轮判定接 trace 与多次统计</strong>：与 <span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span> 同一口径纪律——报告「N 次运行中的成功率」，禁止用单次最好成绩汇报。</li>\n<li><strong>常见误用</strong>：把「两次答案不同」直接提成缺陷。先区分<strong>非确定性</strong>（采样带来的合理差异）与<strong>错误</strong>（不满足业务约束）：前者改断言口径，后者才是缺陷。曾经出现过测试与开发在这件事上来回扯皮、缺陷被挂起、评测进度也停摆的情况。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"假阴性漏测的六大来源\">假阴性漏测的六大来源</span></li>\n<li><span class=\"wl\" data-page=\"接口测试知识地图\">接口测试知识地图</span></li>\n<li><span class=\"wl\" data-page=\"接口断言的四个层次\">接口断言的四个层次</span></li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/大模型输出的非确定性与断言分层.md"
    },
    {
@@ -997,7 +1002,7 @@
     "level": "高级",
     "question": "Agent 的任务成功率怎么定义和统计？中间步骤做对了但最终结果不对，算成功吗？",
     "domain": "AI测试",
-    "updated": "2026-10-26",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "ai-testing",
@@ -1007,11 +1012,13 @@
     ],
     "links": [
      "Agent工具调用测试",
+     "Agent长期记忆的写入准入",
      "Harness工程",
+     "多Agent消息契约的四要素",
      "大模型输出的非确定性与断言分层",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"agent\">Agent 任务成功率的分层口径</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>只报一个「成功率」数字没有信息量——必须<strong>分四层统计</strong>，且立场明确：<strong>中间步骤再漂亮，最终目标没达成就是失败</strong>。</p>\n<h2 id=\"_2\">展开</h2>\n<p>四层口径，从产品视角到工程视角逐层收窄：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>口径</th>\n<th>用途</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 任务级成功率</td>\n<td>用户目标是否达成</td>\n<td><strong>唯一对外汇报的口径</strong></td>\n</tr>\n<tr>\n<td>② 过程级正确性</td>\n<td>工具选择是否正确、参数抽取是否准确、步骤是否多余或缺失</td>\n<td><strong>只用于定位失败的环节</strong>，不用于判定成败</td>\n</tr>\n<tr>\n<td>③ 失败归因分类</td>\n<td>规划错误 / 工具错误 / 参数错误 / 知识缺失 / 幻觉 / 超限（步数、token、超时）</td>\n<td>没有归因的成功率只是一条曲线，有归因才能指导优化</td>\n</tr>\n<tr>\n<td>④ 效率与成本口径</td>\n<td>平均步数、工具调用次数、token、端到端 P95</td>\n<td>「成功但用了 40 步、花了 8 毛钱」在很多场景等于不可用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>必须单独统计的一类：「编造的成功」比「诚实的失败」危害大得多</strong>——Agent 没调工具、凭记忆编了个看起来对的答案，被计入成功率后，换一个输入必然失败。要从成功率里挑出来单列。</p>\n<p><strong>成功率还要按副作用分级（2026-10-26 补）</strong>：四类分开统计——什么都没做（识别做不到即停）/ 做一半留中间态 / 做错且产生副作用 / <strong>假报成功</strong>。第四类最危险：它终结了人工兜底的机会，用户以为完成了，事后才发现什么都没发生。单一成功率会把严重性完全抹平（85% 的成功率若含 5% 假报成功，实际风险远大于数字给人的感觉）；后两类的容忍阈值应接近零，且<strong>对每个声称完成的任务回查目标系统实际状态</strong>——这是识别假报成功的唯一办法，不能看模型自己怎么说。来源见 <code>raw/interview/2026-10-25.md</code>。</p>\n<p><strong>统计纪律</strong>：\n- 评测集必须带<strong>标准答案与标准步骤</strong>，否则过程级判定无从谈起；\n- Agent 有随机性，<strong>同一任务跑多次、报告「N 次里的成功次数」</strong>，而不是挑最好一次；\n- 每次运行的步骤序列、工具入参出参、耗时、token 必须<strong>落库（trace）</strong>，否则无法归因也无法复现。</p>\n<p>与 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span> 的衔接：过程级正确性正是其「四层测试法」中①②层的判定结果；「编造的成功」对应其异常处理层的「诚实性」检查——两者是同一套 trace 在「判定口径」与「测试方法」两个视角的展开。</p>\n<p><strong>为什么「跑多次、报比例」不是权宜之计</strong>：随机性有三个来源（采样参数、上下文变化、上游模型版本），都不在测试的控制面上。来源与对策的系统展开见 <span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span>——参数与模型版本不固定，成功率这个数字本身也不可比。</p>\n<blockquote>\n<p>更新：2026-10-12 补入「比例判定」口径的来源页链接；sources 追加 <code>raw/interview/2026-10-07.md</code>。</p>\n</blockquote>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>评测脚本按四层分别出数：任务成功率对外、归因分布对内、效率成本做容量与选型依据；</li>\n<li>过程判定接 trace 落库：把实际步骤序列与标准步骤比对，识别「侥幸成功」（结果对但工具用错/参数错/凭记忆作答）并纳入归因分类；</li>\n<li>报告口径固定为「N 次运行中的成功率 + 归因分布 + 成本」，禁止用单次最好成绩汇报；</li>\n<li>把「编造的成功」做成独立指标：抽查「未调用任何工具却给出答案」的样本，验证诚实性。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"agent\">Agent 任务成功率的分层口径</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>只报一个「成功率」数字没有信息量——必须<strong>分四层统计</strong>，且立场明确：<strong>中间步骤再漂亮，最终目标没达成就是失败</strong>。</p>\n<h2 id=\"_2\">展开</h2>\n<p>四层口径，从产品视角到工程视角逐层收窄：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>口径</th>\n<th>用途</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 任务级成功率</td>\n<td>用户目标是否达成</td>\n<td><strong>唯一对外汇报的口径</strong></td>\n</tr>\n<tr>\n<td>② 过程级正确性</td>\n<td>工具选择是否正确、参数抽取是否准确、步骤是否多余或缺失</td>\n<td><strong>只用于定位失败的环节</strong>，不用于判定成败</td>\n</tr>\n<tr>\n<td>③ 失败归因分类</td>\n<td>规划错误 / 工具错误 / 参数错误 / 知识缺失 / 幻觉 / 超限（步数、token、超时）</td>\n<td>没有归因的成功率只是一条曲线，有归因才能指导优化</td>\n</tr>\n<tr>\n<td>④ 效率与成本口径</td>\n<td>平均步数、工具调用次数、token、端到端 P95</td>\n<td>「成功但用了 40 步、花了 8 毛钱」在很多场景等于不可用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>必须单独统计的一类：「编造的成功」比「诚实的失败」危害大得多</strong>——Agent 没调工具、凭记忆编了个看起来对的答案，被计入成功率后，换一个输入必然失败。要从成功率里挑出来单列。</p>\n<p><strong>成功率还要按副作用分级（2026-10-26 补）</strong>：四类分开统计——什么都没做（识别做不到即停）/ 做一半留中间态 / 做错且产生副作用 / <strong>假报成功</strong>。第四类最危险：它终结了人工兜底的机会，用户以为完成了，事后才发现什么都没发生。单一成功率会把严重性完全抹平（85% 的成功率若含 5% 假报成功，实际风险远大于数字给人的感觉）；后两类的容忍阈值应接近零，且<strong>对每个声称完成的任务回查目标系统实际状态</strong>——这是识别假报成功的唯一办法，不能看模型自己怎么说。来源见 <code>raw/interview/2026-10-25.md</code>。</p>\n<p><strong>统计纪律</strong>：\n- 评测集必须带<strong>标准答案与标准步骤</strong>，否则过程级判定无从谈起；\n- Agent 有随机性，<strong>同一任务跑多次、报告「N 次里的成功次数」</strong>，而不是挑最好一次；\n- 每次运行的步骤序列、工具入参出参、耗时、token 必须<strong>落库（trace）</strong>，否则无法归因也无法复现。</p>\n<p>与 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span> 的衔接：过程级正确性正是其「四层测试法」中①②层的判定结果；「编造的成功」对应其异常处理层的「诚实性」检查——两者是同一套 trace 在「判定口径」与「测试方法」两个视角的展开。</p>\n<p><strong>为什么「跑多次、报比例」不是权宜之计</strong>：随机性有三个来源（采样参数、上下文变化、上游模型版本），都不在测试的控制面上。来源与对策的系统展开见 <span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span>——参数与模型版本不固定，成功率这个数字本身也不可比。</p>\n<blockquote>\n<p>更新：2026-10-12 补入「比例判定」口径的来源页链接；sources 追加 <code>raw/interview/2026-10-07.md</code>。</p>\n</blockquote>\n<h2 id=\"2026-11-23\">完成度判定：把「做完了」变成证据（2026-11-23 补）</h2>\n<blockquote>\n<p>更新：2026-11-23 源自 <code>raw/interview/2026-11-23.md</code>——上文说的「假报成功」是<strong>结果侧</strong>的口径；同一个问题还有<strong>过程侧</strong>的解法：把「完成」从模型的一句话，变成一组可核对的证据。</p>\n</blockquote>\n<p>做法是给每类任务定义<strong>验收条目</strong>，要求 Agent 结束时输出「做了哪些动作 + 每条验收对应的证据」（文件路径、接口返回、测试结果摘要）；测试侧<strong>只认证据，不认声明</strong>。</p>\n<p>两个方向的用例就够定性：</p>\n<ul>\n<li><strong>少做一步</strong>：故意只生成代码不跑测试 → 期望它自报未完成，或证据缺失被外层拦下；</li>\n<li><strong>假成功返回</strong>：给一个 HTTP 200 但 body 是错误码的返回 → 期望它识别成失败，而不是当成功继续。</li>\n</ul>\n<p>判据是一个比例：20 个任务里「声称完成但证据不全」的占比应为 0。这个数比问它「你觉得完成了吗」可靠得多——后者测的是自我评估能力，不是完成度。</p>\n<p>与上文四层口径的关系：<strong>任务级成功率</strong>回答「成没成」，本节回答「凭什么说成了」。两者叠加后，「假报成功」不再依赖人工抽查，而能被证据链自动筛出来。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>评测脚本按四层分别出数：任务成功率对外、归因分布对内、效率成本做容量与选型依据；</li>\n<li>过程判定接 trace 落库：把实际步骤序列与标准步骤比对，识别「侥幸成功」（结果对但工具用错/参数错/凭记忆作答）并纳入归因分类；</li>\n<li>报告口径固定为「N 次运行中的成功率 + 归因分布 + 成本」，禁止用单次最好成绩汇报；</li>\n<li>把「编造的成功」做成独立指标：抽查「未调用任何工具却给出答案」的样本，验证诚实性。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>（trace 落库是两页共同的前提）</li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span>（「只认证据不认声明」在记忆侧的同一条纪律）</li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/Agent任务成功率的分层口径.md"
    },
    {
@@ -1022,7 +1029,7 @@
     "level": "高级",
     "question": "怎么测试 Agent 的工具调用（Function Calling）？工具调用死循环了，兜底机制怎么设计？",
     "domain": "AI测试",
-    "updated": "2026-10-12",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "ai-testing",
@@ -1031,15 +1038,44 @@
     ],
     "links": [
      "Agent任务成功率的分层口径",
+     "Agent长期记忆的写入准入",
      "Harness工程",
      "RAG系统的分层测试与故障定位",
      "Web安全测试地图",
+     "多Agent消息契约的四要素",
      "大模型输出的非确定性与断言分层",
      "越权访问与IDOR",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"agent\">Agent 工具调用测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>把 Agent 的工具调用拆成<strong>四层</strong>分别验证——选对工具、参数合法、失败有兜底、组合调用有序；死循环防线是三层防御设计，测试要专门构造持续故障来验证熔断真的生效。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>四层测试法</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 工具选择准确性</td>\n<td>构造需要不同工具的任务集，看 Agent 选没选对</td>\n<td><strong>选错率是核心指标</strong>，不看单次对错看分布</td>\n</tr>\n<tr>\n<td>② 参数正确性</td>\n<td>生成参数过 JSON schema 校验</td>\n<td>重点测缺字段、类型错、枚举值越界</td>\n</tr>\n<tr>\n<td>③ 异常处理</td>\n<td>工具超时、返回错误码、返回空结果时 Agent 的反应</td>\n<td>是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数</td>\n</tr>\n<tr>\n<td>④ 组合调用</td>\n<td>多步任务里工具的调用顺序与上下文传递</td>\n<td>前一步的输出有没有正确进入下一步</td>\n</tr>\n</tbody>\n</table>\n<p><strong>死循环的三层防御</strong>（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：</p>\n<ol>\n<li><strong>工具层硬隔离</strong>：每个外部工具调用都包 try-catch，且不能只吞异常——要返回结构化错误给 LLM，例如 <code>{\"status\":\"failed\",\"error_type\":\"Timeout\",\"retry_after\":5}</code>，让模型知道失败了、该等多久、能不能重试；</li>\n<li><strong>推理层熔断</strong>：同一工具连续失败 3 次或检测到循环调用，强制中断——必须实现 Max Iteration 上限和 Loop Detection；</li>\n<li><strong>规划层自我修正</strong>：更高级的做法是让 Agent 反思\"刚才哪里做错了、要不要换个工具\"，即 Reflection 模式。</li>\n</ol>\n<p><strong>跨域风险——参数注入</strong>：用户输入直接拼进工具参数时，可能被用来执行越权操作。这是注入类攻击在 AI 系统上的延伸，测试要与安全测试联动（思路同 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span> 的输入注入类）。</p>\n<h2 id=\"2026-10-12\">有副作用的工具怎么测（2026-10-12 补）</h2>\n<blockquote>\n<p>更新：2026-10-12 源自 <code>raw/interview/2026-10-07.md</code>——工具调用里「查订单、发短信、退款」这类<strong>有副作用</strong>的调用，测法与只读工具不同：断言重点从「有没有真的执行」转为「有没有以正确参数、在正确时机发起调用」。</p>\n</blockquote>\n<ol>\n<li><strong>环境隔离</strong>：测试环境下游全部指向沙箱或 mock；做不到时至少让下游能识别测试标记并走干跑分支。</li>\n<li><strong>工具层打桩 + 断言调用意图</strong>：桩记录「被调用的工具与参数」，断言参数正确性与调用时机，而不是真实副作用。</li>\n<li><strong>幂等与并发验证</strong>：Agent 有重试机制，最易出的事故是重复执行——必须验证「重试、超时、并发下会不会重复发短信、重复退款」，<strong>判据是幂等键与落库流水，不是工具返回成功</strong>。</li>\n<li><strong>两类必须单独测的越界</strong>：<strong>金额越界</strong>（100 算成 1000、部分退款执行成全款）与<strong>权限越界</strong>（Agent 以服务身份调用，天然高权限，一次提示词注入就可能变成任意工具调用）。建议给高风险动作配「动作确认网关」（资金、外发消息、删除数据），并专门验证网关拦得住。</li>\n</ol>\n<p>与本页四层测试法的关系：第 ①② 层管「工具选对了没、参数对不对」，本段管「副作用本身会不会被触发两次或超出范围」；第 ③ 层的诚实性检查对应 <span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span> 里的「编造的成功」。权限越界的授权侧整改见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>为每一层各准备一组用例：任务集断言工具选择、schema 校验断言参数、故障注入断言异常行为、长链路断言组合顺序</li>\n<li><strong>验证熔断必须用持续故障</strong>：专门构造\"工具持续超时\"\"返回格式异常\"的用例，确认 Max Iteration 与 Loop Detection 真的触发，而不是只看代码有没有写</li>\n<li>异常处理断言里加\"诚实性\"检查：任务无法完成时，Agent 是编造结果还是明确交代失败</li>\n<li>对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span>（过程级正确性即本页四层测试法①②层的判定口径）</li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"agent\">Agent 工具调用测试</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>把 Agent 的工具调用拆成<strong>四层</strong>分别验证——选对工具、参数合法、失败有兜底、组合调用有序；死循环防线是三层防御设计，测试要专门构造持续故障来验证熔断真的生效。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>四层测试法</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>层</th>\n<th>测什么</th>\n<th>判据</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>① 工具选择准确性</td>\n<td>构造需要不同工具的任务集，看 Agent 选没选对</td>\n<td><strong>选错率是核心指标</strong>，不看单次对错看分布</td>\n</tr>\n<tr>\n<td>② 参数正确性</td>\n<td>生成参数过 JSON schema 校验</td>\n<td>重点测缺字段、类型错、枚举值越界</td>\n</tr>\n<tr>\n<td>③ 异常处理</td>\n<td>工具超时、返回错误码、返回空结果时 Agent 的反应</td>\n<td>是重试、换工具，还是诚实汇报失败？死循环防护必须设最大迭代次数</td>\n</tr>\n<tr>\n<td>④ 组合调用</td>\n<td>多步任务里工具的调用顺序与上下文传递</td>\n<td>前一步的输出有没有正确进入下一步</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p>更新：2026-11-23 源自 <code>raw/interview/2026-11-23.md</code>——第 ④ 层在<strong>多 Agent</strong> 架构下会退化成「传递层」问题：单步都对、整体错，错在消息有没有丢、有没有重复、有没有乱序。四要素契约与三层测法见 <span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>。单 Agent 场景下第 ④ 层按本页口径测即可，不必引入序号与幂等键的完整机制。</p>\n</blockquote>\n<p><strong>死循环的三层防御</strong>（大厂高频考题：Agent 调用三个工具后就死循环了，兜底机制怎么设计）：</p>\n<ol>\n<li><strong>工具层硬隔离</strong>：每个外部工具调用都包 try-catch，且不能只吞异常——要返回结构化错误给 LLM，例如 <code>{\"status\":\"failed\",\"error_type\":\"Timeout\",\"retry_after\":5}</code>，让模型知道失败了、该等多久、能不能重试；</li>\n<li><strong>推理层熔断</strong>：同一工具连续失败 3 次或检测到循环调用，强制中断——必须实现 Max Iteration 上限和 Loop Detection；</li>\n<li><strong>规划层自我修正</strong>：更高级的做法是让 Agent 反思\"刚才哪里做错了、要不要换个工具\"，即 Reflection 模式。</li>\n</ol>\n<p><strong>跨域风险——参数注入</strong>：用户输入直接拼进工具参数时，可能被用来执行越权操作。这是注入类攻击在 AI 系统上的延伸，测试要与安全测试联动（思路同 <span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span> 的输入注入类）。</p>\n<h2 id=\"2026-10-12\">有副作用的工具怎么测（2026-10-12 补）</h2>\n<blockquote>\n<p>更新：2026-10-12 源自 <code>raw/interview/2026-10-07.md</code>——工具调用里「查订单、发短信、退款」这类<strong>有副作用</strong>的调用，测法与只读工具不同：断言重点从「有没有真的执行」转为「有没有以正确参数、在正确时机发起调用」。</p>\n</blockquote>\n<ol>\n<li><strong>环境隔离</strong>：测试环境下游全部指向沙箱或 mock；做不到时至少让下游能识别测试标记并走干跑分支。</li>\n<li><strong>工具层打桩 + 断言调用意图</strong>：桩记录「被调用的工具与参数」，断言参数正确性与调用时机，而不是真实副作用。</li>\n<li><strong>幂等与并发验证</strong>：Agent 有重试机制，最易出的事故是重复执行——必须验证「重试、超时、并发下会不会重复发短信、重复退款」，<strong>判据是幂等键与落库流水，不是工具返回成功</strong>。</li>\n<li><strong>两类必须单独测的越界</strong>：<strong>金额越界</strong>（100 算成 1000、部分退款执行成全款）与<strong>权限越界</strong>（Agent 以服务身份调用，天然高权限，一次提示词注入就可能变成任意工具调用）。建议给高风险动作配「动作确认网关」（资金、外发消息、删除数据），并专门验证网关拦得住。</li>\n</ol>\n<p>与本页四层测试法的关系：第 ①② 层管「工具选对了没、参数对不对」，本段管「副作用本身会不会被触发两次或超出范围」；第 ③ 层的诚实性检查对应 <span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span> 里的「编造的成功」。权限越界的授权侧整改见 <span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span>。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>为每一层各准备一组用例：任务集断言工具选择、schema 校验断言参数、故障注入断言异常行为、长链路断言组合顺序</li>\n<li><strong>验证熔断必须用持续故障</strong>：专门构造\"工具持续超时\"\"返回格式异常\"的用例，确认 Max Iteration 与 Loop Detection 真的触发，而不是只看代码有没有写</li>\n<li>异常处理断言里加\"诚实性\"检查：任务无法完成时，Agent 是编造结果还是明确交代失败</li>\n<li>对接安全测试：对工具参数做注入类用例（越权指令、特殊字符），确认参数构造环节不会把用户输入当成指令执行</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span>（过程级正确性即本页四层测试法①②层的判定口径）</li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span></li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span></li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>（多 Agent 链路上第 ④ 层的传递层判据）</li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span>（工具返回值与记忆写入的边界：推测不该落库）</li>\n<li><span class=\"wl\" data-page=\"越权访问与IDOR\">越权访问与IDOR</span></li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/Agent工具调用测试.md"
+   },
+   {
+    "id": "wiki/50-AI测试/Agent长期记忆的写入准入",
+    "title": "Agent长期记忆的写入准入",
+    "cat": "ai-agent-testing",
+    "kind": "question",
+    "level": "高级",
+    "question": "Agent 有长期记忆，它把中途的临时结论也写进去了，后面几轮都带着这个错前提往下走，怎么测？",
+    "domain": "AI测试",
+    "updated": "2026-11-23",
+    "confidence": "high",
+    "tags": [
+     "ai-testing",
+     "interview",
+     "pitfall",
+     "checklist"
+    ],
+    "links": [
+     "Agent任务成功率的分层口径",
+     "Harness工程",
+     "RAG系统的分层测试与故障定位",
+     "多Agent消息契约的四要素",
+     "大模型输出的非确定性与断言分层",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"agent\">Agent 长期记忆的写入准入</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>长期记忆的缺陷不是「记错了」，而是<strong>没有准入</strong>——发生过就记住，于是临时结论、推测、被推翻的旧值都会沉淀成后续轮次的前提。正确口径是「写入时就得满足条件」，而不是「先记下来再想办法清理」；对应的判据必须落在<strong>dump 出来的记忆条目</strong>上，不能只看当轮回答。</p>\n<h2 id=\"_2\">展开</h2>\n<p><strong>为什么必须前移到写入侧</strong>：记忆一旦落库，后续每一轮都以它为上下文。事后清理的代价极高——你不知道它不是从哪条记忆推出来的，也很难判断删掉它会不会带走别的推论。写入侧拒绝，成本是一行逻辑；事后纠正，成本是一整轮对话的理解重建。</p>\n<p><strong>四条准入规则</strong>（最小集，缺哪条就对应一类可测缺陷）：</p>\n<table>\n<thead>\n<tr>\n<th>规则</th>\n<th>具体口径</th>\n<th>缺了它的表现</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>只写已确认事实</td>\n<td>用户明确确认的才写；推测与中间态不落库</td>\n<td>「按月统计」被临时改成「按周」的试探也写进去</td>\n</tr>\n<tr>\n<td>每条带来源</td>\n<td>消息 id 或工具调用 id + 时间戳，能追溯也能撤回</td>\n<td>要回溯为什么它记住了错误前提，无从下手</td>\n</tr>\n<tr>\n<td>冲突以最新覆盖</td>\n<td>旧值保留为历史而非删除</td>\n<td>改口径后两套前提并存，行为随机</td>\n</tr>\n<tr>\n<td>写入有配额与去重</td>\n<td>同一结论不反复写入</td>\n<td>上下文被同义条目挤满，真正重要的被挤出去</td>\n</tr>\n</tbody>\n</table>\n<p><strong>用例怎么造</strong>（两条就够定性，不需要几十条）：</p>\n<ol>\n<li><strong>前提变更用例</strong>：先说「按月统计」，第三轮改「按周」→ 期望只留「按周」作为生效前提，且旧值可查到是谁、在第几轮改的。</li>\n<li><strong>编造落库用例</strong>：让它给出一个工具从未返回过的结论 → 期望不落库；若落库，说明「来源」字段没有被强制。</li>\n</ol>\n<p><strong>判据落在 dump 上，不落在对话上</strong>：跑 10 轮后把记忆条目导出，断言三件事——条目数不超过预期、没有「推测」类标记的条目、每一条都能追到具体来源消息。<strong>只测第一轮回答准确率是测不出这个问题的</strong>，因为错前提的破坏力要到第 3~5 轮才显现，而当轮回答往往看起来完全正常。</p>\n<p><strong>可追溯率做成指标</strong>：有来源的条目 ÷ 总条目。低于阈值即视为缺陷，而不是「记忆质量欠佳」这种无法验收的描述。配套的工程要求是<strong>写入路径强制带来源字段，缺失就拒写</strong>——不是先写进去、事后补一个来源。</p>\n<p><strong>与 RAG 的分工别混</strong>：RAG 管的是<strong>读</strong>——检索召回的片段进上下文；记忆管的是<strong>写</strong>——哪些东西被固化下来。二者都可能造成「带着错前提往下走」，但定位方式完全不同：RAG 看召回片段里有没有错内容，记忆看库里有没有不该存在的条目。判错层会白改一轮 prompt。</p>\n<p><strong>与「完成度判定」是一对</strong>：记忆错误的危害是<strong>前提错</strong>，完成度造假的危害是<strong>结论错</strong>。两者共用同一条纪律——<strong>只认证据，不认模型的声明</strong>；记忆要能追到来源消息，完成度要能追到验收条目的证据。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>把 dump 接口列为可测需求</strong>：不能导出记忆条目的系统，这一块属不可测，先在需求侧提出来，而不是测不了就算了。</li>\n<li><strong>用例设计走「前提变更」而不是「知识问答」</strong>：问它「记住什么了」得到的是模型的自我描述，不是库里的真实内容。</li>\n<li><strong>回归要跨轮次</strong>：单轮用例集覆盖不到记忆缺陷，必须有一条「多轮 + 中途变更设定 + 末尾核对结论」的长用例。</li>\n<li><strong>常见误用</strong>：把「它答对了」当成记忆没问题。答案对可能是当轮上下文里就有正确信息，记忆库里那条错的还躺着。</li>\n<li><strong>常见缺口</strong>：只测写入、不测删除与撤回。用户说「忘掉刚才那条」之后，条目是否真的不可再被检索到，同样要验。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span>（同一条纪律：只认证据不认声明，完成度与记忆都按此判）</li>\n<li><span class=\"wl\" data-page=\"RAG系统的分层测试与故障定位\">RAG系统的分层测试与故障定位</span>（那边管读、本页管写，定位方式不同）</li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>（记忆是单 Agent 内的状态固化，消息契约是 Agent 间的状态传递）</li>\n<li><span class=\"wl\" data-page=\"大模型输出的非确定性与断言分层\">大模型输出的非确定性与断言分层</span>（记忆条目的断言属硬约束层，可确定性验证）</li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/50-AI测试/Agent长期记忆的写入准入.md"
    },
    {
     "id": "wiki/50-AI测试/Harness工程",
@@ -1049,19 +1085,48 @@
     "level": "高级",
     "question": "",
     "domain": "AI测试",
-    "updated": "2026-09-14",
+    "updated": "2026-11-23",
     "confidence": "high",
     "tags": [
      "ai-testing",
      "interview"
     ],
     "links": [
+     "Agent任务成功率的分层口径",
      "Agent工具调用测试",
+     "Agent长期记忆的写入准入",
      "Web安全测试地图",
+     "多Agent消息契约的四要素",
      "面试助手题库索引"
     ],
-    "body": "<h1 id=\"harness\">Harness 工程</h1>\n<h2 id=\"_1\">一句话</h2>\n<p><strong>Agent = Model + Harness</strong>。Harness 是模型之外让 Agent\"能做事、做得对、出问题能被发现\"的整套工程外壳，而测试新手最容易犯的错，就是只盯着模型不看 Harness。</p>\n<h2 id=\"_2\">展开</h2>\n<p>Harness 直译\"驾驭装置\"。模型负责\"想\"和\"生成\"，Harness 负责其余的一切工程能力，包括：</p>\n<ul>\n<li><strong>工具封装</strong>——把外部 API 包成模型可调用的工具，含参数校验与结构化错误返回</li>\n<li><strong>上下文管理</strong>——历史消息的窗口、截断与传递策略</li>\n<li><strong>权限控制</strong>——模型能调哪些工具、以什么身份调</li>\n<li><strong>重试熔断</strong>——失败重试策略、最大迭代上限、循环检测</li>\n<li><strong>日志监控与回滚</strong>——全链路可观测，出问题能退回</li>\n</ul>\n<p><strong>和测试的关系特别直接</strong>：一个测试用例 Agent 越跑越不稳定，问题往往<strong>不在模型，而在模型之外的 Harness</strong>——比如上下文无限增长、工具权限没收敛、没有失败兜底。所以测 Agent 不能只盯着 prompt 和回答质量，要把 Harness 当被测对象：工具调用链路、状态管理、失败恢复，都得有验证手段（具体测法见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>）。</p>\n<p><strong>延伸——Agent 自进化的新风险</strong>：当 Agent 被允许修改自己的提示词或配置时，会出现三类新问题——行为漂移（几十轮自修改后行为不可预测，说不清是哪次改动引起的）、依赖污染（自主安装的插件可能带恶意代码）、回滚失败（修改链一长，反向操作不完备）。应对思路是版本快照、关键操作熔断、全链路可观测，把每次自修改记录成可审计的变更。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>拿到不稳定的 Agent 用例时，<strong>先查 Harness 再怀疑模型</strong>：上下文有没有膨胀、权限有没有收敛、失败有没有兜底</li>\n<li>测试范围里显式加入 Harness 组件：工具调用的结构化错误返回、迭代上限触发、上下文截断后关键信息是否丢失</li>\n<li>对自进化型 Agent，验证版本快照可恢复、自修改有审计记录、关键操作有熔断</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "body": "<h1 id=\"harness\">Harness 工程</h1>\n<h2 id=\"_1\">一句话</h2>\n<p><strong>Agent = Model + Harness</strong>。Harness 是模型之外让 Agent\"能做事、做得对、出问题能被发现\"的整套工程外壳，而测试新手最容易犯的错，就是只盯着模型不看 Harness。</p>\n<h2 id=\"_2\">展开</h2>\n<p>Harness 直译\"驾驭装置\"。模型负责\"想\"和\"生成\"，Harness 负责其余的一切工程能力，包括：</p>\n<ul>\n<li><strong>工具封装</strong>——把外部 API 包成模型可调用的工具，含参数校验与结构化错误返回</li>\n<li><strong>上下文管理</strong>——历史消息的窗口、截断与传递策略</li>\n<li><strong>权限控制</strong>——模型能调哪些工具、以什么身份调</li>\n<li><strong>重试熔断</strong>——失败重试策略、最大迭代上限、循环检测</li>\n<li><strong>日志监控与回滚</strong>——全链路可观测，出问题能退回</li>\n</ul>\n<p><strong>和测试的关系特别直接</strong>：一个测试用例 Agent 越跑越不稳定，问题往往<strong>不在模型，而在模型之外的 Harness</strong>——比如上下文无限增长、工具权限没收敛、没有失败兜底。所以测 Agent 不能只盯着 prompt 和回答质量，要把 Harness 当被测对象：工具调用链路、状态管理、失败恢复，都得有验证手段（具体测法见 <span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>）。</p>\n<p><strong>延伸——Agent 自进化的新风险</strong>：当 Agent 被允许修改自己的提示词或配置时，会出现三类新问题——行为漂移（几十轮自修改后行为不可预测，说不清是哪次改动引起的）、依赖污染（自主安装的插件可能带恶意代码）、回滚失败（修改链一长，反向操作不完备）。应对思路是版本快照、关键操作熔断、全链路可观测，把每次自修改记录成可审计的变更。</p>\n<p><strong>Harness 的两个「状态」职责（2026-11-23 补）</strong>：上面列的「上下文管理」与「日志监控」，在 Agent 同时具备<strong>多跳</strong>与<strong>长期记忆</strong>之后会各自硬化成一套独立机制，都必须作为被测对象而不是背景设施——</p>\n<ul>\n<li><strong>跨 Agent 的那一段</strong>由消息契约承担：追溯 id、单调序号、幂等键、状态机约束，四者缺一就是「查不出、判不出、去不掉重、说不清」。见 <span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>。</li>\n<li><strong>跨轮次的那一段</strong>由记忆写入准入承担：只写已确认事实、每条带来源、冲突以最新覆盖、写入有配额与去重；缺了就是带着错前提一路往下走。见 <span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span>。</li>\n</ul>\n<p>这两处的共同点是<strong>错在 Harness、报在模型</strong>：链路丢消息表现为「模型答得莫名其妙」，记忆里躺了错前提表现为「模型理解能力下降」，按本页第一条纪律先查 Harness 再怀疑模型。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li>拿到不稳定的 Agent 用例时，<strong>先查 Harness 再怀疑模型</strong>：上下文有没有膨胀、权限有没有收敛、失败有没有兜底</li>\n<li>测试范围里显式加入 Harness 组件：工具调用的结构化错误返回、迭代上限触发、上下文截断后关键信息是否丢失</li>\n<li>对自进化型 Agent，验证版本快照可恢复、自修改有审计记录、关键操作有熔断</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span></li>\n<li><span class=\"wl\" data-page=\"多Agent消息契约的四要素\">多Agent消息契约的四要素</span>（跨 Agent 的状态传递由 Harness 承担）</li>\n<li><span class=\"wl\" data-page=\"Agent长期记忆的写入准入\">Agent长期记忆的写入准入</span>（跨轮次的状态固化由 Harness 承担）</li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span></li>\n<li><span class=\"wl\" data-page=\"Web安全测试地图\">Web安全测试地图</span></li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
     "source_path": "wiki/50-AI测试/Harness工程.md"
+   },
+   {
+    "id": "wiki/50-AI测试/多Agent消息契约的四要素",
+    "title": "多Agent消息契约的四要素",
+    "cat": "ai-agent-testing",
+    "kind": "knowledge",
+    "level": "高级",
+    "question": "",
+    "domain": "AI测试",
+    "updated": "2026-11-23",
+    "confidence": "high",
+    "tags": [
+     "ai-testing",
+     "interview",
+     "checklist",
+     "best-practice"
+    ],
+    "links": [
+     "Agent任务成功率的分层口径",
+     "Agent工具调用测试",
+     "Harness工程",
+     "幂等的两种语义与并发验证",
+     "面试助手题库索引"
+    ],
+    "body": "<h1 id=\"agent\">多 Agent 消息契约的四要素</h1>\n<h2 id=\"_1\">一句话</h2>\n<p>多个 Agent 串起来「单点都对、整体错」，病灶几乎都在<strong>传递层</strong>：消息丢了没人发现、重发了没人拦、乱序了拿旧结果下判断。治法是先把消息契约钉死成四要素（追溯 id、单调序号、幂等键、状态机约束），再按单跳、多跳、缺失重复三层去测。</p>\n<h2 id=\"_2\">展开</h2>\n<p>单 Agent 的失败看得见——它答错了。多 Agent 的失败看不见——每一步都返回了合理结果，错在把哪一步的结果交给了下一步。所以测试对象不是「最终答案看起来对不对」，而是<strong>消息本身是否可追溯、可判定、可去重、可限序</strong>。</p>\n<p>四要素各自封掉一种失败模式：</p>\n<table>\n<thead>\n<tr>\n<th>要素</th>\n<th>定义</th>\n<th>缺了它的失败模式</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>追溯 id</td>\n<td>贯穿全链路的 trace id，跨进程、跨语言都能串上</td>\n<td><strong>查不出</strong>：出问题不知道是哪一跳断的</td>\n</tr>\n<tr>\n<td>单调序号</td>\n<td>同一会话内递增，缺号即缺口</td>\n<td><strong>判不出</strong>：序号倒挂时下游拿旧结果当新结果</td>\n</tr>\n<tr>\n<td>幂等键</td>\n<td>由业务语义生成，重投时下游能认出「这条处理过」</td>\n<td><strong>去不掉重</strong>：重发产生第二条副作用</td>\n</tr>\n<tr>\n<td>状态机约束</td>\n<td>显式定义哪一步允许重放、哪一步只允许前进不能回退</td>\n<td><strong>说不清</strong>：重放一个已完成步骤，语义未定义</td>\n</tr>\n</tbody>\n</table>\n<p><strong>为什么进度不能靠时间戳判</strong>：分布式节点时钟会漂，同一毫秒内的两条消息、跨机房的 NTP 回拨，都会让「按时间排序」得出错误顺序。单调序号是逻辑时钟，不依赖物理时钟——这是本页最容易被跳过、也最容易在联调后期返工的一条。</p>\n<p><strong>三层测法</strong>（顺序从内到外，先保证单跳契约成立，再谈多跳）：</p>\n<table>\n<thead>\n<tr>\n<th>层次</th>\n<th>做法</th>\n<th>期望</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>单跳契约</td>\n<td>畸形载荷打一遍：缺字段、类型错、枚举越界</td>\n<td>明确拒绝，<strong>不静默降级</strong>成默认值</td>\n</tr>\n<tr>\n<td>多跳顺序</td>\n<td>混沌层把某一步延迟 0.5~3 秒、复制 5% 消息</td>\n<td>校验方识别序号倒挂并等待，不用旧结果下判断</td>\n</tr>\n<tr>\n<td>缺失与重复</td>\n<td>丢 1 条、重发 1 条</td>\n<td>靠序号发现缺口并重放；重发不产生第二条副作用</td>\n</tr>\n</tbody>\n</table>\n<p><strong>判据三条</strong>，缺一条都只能算「跑通了」：① 凭 trace id 能拼出完整链路；② 重发不产生第二条副作用；③ 最终状态与该任务单 Agent 直跑的结果<strong>逐字段一致</strong>。第 ③ 条是口径锚点——没有它，「多 Agent 更好」这句话无法验证，也无法证伪。</p>\n<p><strong>混沌注入必须可控可复现</strong>：固定 seed、固定丢包比例、固定延迟区间。否则一次「没复现」既不能证明没问题，也不能证明有问题，只是浪费一轮。</p>\n<p><strong>工具定位（不是本页重点，只标位置）</strong>：链路埋点与上下文传播用 OpenTelemetry；Agent 调用链与中间步留痕用 LangSmith / Langfuse；分布式追踪查询用 Jaeger。三者是「先让它可见」的手段，可见之后再谈断言。</p>\n<p><strong>与单 Agent 工具调用测试的边界</strong>：那边测的是「工具选对没、参数对不对、失败有兜底」，被测对象是<strong>一次调用</strong>；本页测的是<strong>调用之间那一段</strong>——上下文有没有正确、完整、按序地传过去。边界上重叠的一块是第 ④ 层组合调用（前一步输出是否进入下一步），本页把它拆成了可判定的四要素。</p>\n<h2 id=\"_3\">落地到测试动作</h2>\n<ul>\n<li><strong>把契约写成接口文档级的产物</strong>，四要素逐条落字段名与取值规则，再据此生成畸形载荷用例；口头约定等于没有契约。</li>\n<li><strong>混沌用例进流水线</strong>：延迟、复制、丢包三组参数固定成用例集，每次回归都跑，不靠临时手工注入。</li>\n<li><strong>对账口径固定</strong>：同一任务分别用「单 Agent 直跑」与「多 Agent 链路」各跑 N 次，最终状态逐字段比对；差异要先归因到某一跳（靠 trace 与序号），而不是笼统记「多 Agent 不稳定」。</li>\n<li><strong>常见误用</strong>：拿最终答案的文本相似度当链路正确性判据。答案对不代表链路对——链路错但被模型「圆」回来的情况，正是本页要抓的那类缺陷。</li>\n<li><strong>常见缺口</strong>：只测正常链路，不测「序号倒挂」与「重投」。这两个才是线上真实故障形态，而它们在 happy path 上永远不出现。</li>\n</ul>\n<h2 id=\"_4\">相关</h2>\n<ul>\n<li><span class=\"wl\" data-page=\"Agent工具调用测试\">Agent工具调用测试</span>（被测对象是一次调用；本页测调用之间的传递层）</li>\n<li><span class=\"wl\" data-page=\"幂等的两种语义与并发验证\">幂等的两种语义与并发验证</span>（幂等键的语义与并发验证在接口侧的完整展开）</li>\n<li><span class=\"wl\" data-page=\"Harness工程\">Harness工程</span>（消息契约属于 Harness 的上下文管理与可观测部分）</li>\n<li><span class=\"wl\" data-page=\"Agent任务成功率的分层口径\">Agent任务成功率的分层口径</span>（trace 落库是那页归因的前提，也是本页判据 ① 的前提）</li>\n<li><span class=\"wl\" data-page=\"面试助手题库索引\">面试助手题库索引</span></li>\n</ul>",
+    "source_path": "wiki/50-AI测试/多Agent消息契约的四要素.md"
    },
    {
     "id": "wiki/60-环境与工具/Linux系统监控-CPU",
